@@ -40,4 +40,3 @@ class String #:nodoc:
 end
 
 CalendarDateSelect.format = :american
-  
