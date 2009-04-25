@@ -4,7 +4,9 @@ class Creditcard < ActiveRecord::Base
   belongs_to :address
   has_many :creditcard_payments
   before_validation :prepare
-    
+
+  accepts_nested_attributes_for :address
+      
   include ActiveMerchant::Billing::CreditCardMethods
 
   class ExpiryDate #:nodoc:
@@ -100,8 +102,8 @@ class Creditcard < ActiveRecord::Base
     self.display_number = ActiveMerchant::Billing::CreditCard.mask(number)
     self.cc_type.downcase! if cc_type.respond_to?(:downcase)
     self.cc_type = self.class.type?(number) if cc_type.blank?    
-    self.first_name = address.firstname
-    self.last_name = address.lastname
+    self.first_name = address.firstname if address
+    self.last_name = address.lastname if address
   end
   
   def validate_card_number #:nodoc:
