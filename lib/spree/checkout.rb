@@ -12,7 +12,7 @@ module Spree::Checkout
 
     # additional default values needed for checkout
     @order.bill_address ||= Address.new(:country => @default_country)
-    @order.ship_address ||= Address.new(:country => @default_country)
+    @order.ship_address ||= Address.new(:country => @default_country) 
     if @order.creditcards.empty?
       @order.creditcards.build(:month => Date.today.month, :year => Date.today.year)
     end

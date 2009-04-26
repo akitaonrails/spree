@@ -16,7 +16,10 @@ $(function() {
         continue_section(e.data);
       }
     });
-  }                           
+  }                          
+  //disable submit
+  $(':submit').attr('disabled', 'disbled');
+      
   // hookup the radio buttons for registration
   $('#choose_register').click(function() { $('div#new_user').show(); $('div#guest_user, div#existing_user').hide(); }).attr('checked', true);
   $('#choose_existing').click(function() { $('div#existing_user').show(); $('div#guest_user, div#new_user').hide(); });
@@ -150,12 +153,13 @@ var shift_to_region = function(active) {
       if(active == regions[i]) {
         $('div#' + regions[i] + ' h2').unbind('click').css('cursor', 'default');
         $('div#' + regions[i] + ' div.inner').show('fast');
-        $('div#' + regions[i]).removeClass('checkout_disabled');
+        $('div#' + regions[i]).removeClass('checkout_disabled').removeClass('disabled');
         found = 1;
       }
       else {
         $('div#' + regions[i] + ' h2').unbind('click').css('cursor', 'pointer').click(function() {shift_to_region($(this).parent().attr('id'));});
         $('div#' + regions[i] + ' div.inner').hide('fast');
+        $('div#' + regions[i]).addClass('disabled').addClass('completed');
       }
     } else {
       $('div#' + regions[i] + ' h2').unbind('click').css('cursor', 'default');

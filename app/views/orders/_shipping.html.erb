@@ -47,6 +47,8 @@
   		<label for="<%= t("phone") %>"><%= t("phone") %></label>
   		<%= ship_form.text_field :phone, :class => 'required' -%><span class="req">*</span>
   	</p>
-  	<p><input id="continue_shipping" type="button" value="<%=t("continue")%>"/></p>
+  	<div class="form-buttons">
+  	  <input id="continue_shipping" type="button" class="button primary" value="<%=t("continue")%>"/>
+  	</div>
   </div>
 <% end %>
