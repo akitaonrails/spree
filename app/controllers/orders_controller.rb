@@ -1,9 +1,8 @@
 class OrdersController < Spree::BaseController     
-  include ActionView::Helpers::NumberHelper # Needed for JS usable rate information
-  
+  prepend_before_filter :reject_unknown_object
   before_filter :prevent_editing_complete_order, :only => [:edit, :update, :checkout]            
 
-  ssl_required :show, :checkout
+  ssl_required :show
 
   resource_controller
   actions :all, :except => :index
@@ -42,19 +41,26 @@ class OrdersController < Spree::BaseController
     wants.html {redirect_to edit_order_url(object)}
   end  
 
+  update.after do 
+    @order.update_totals!
+  end
+
   #override r_c default b/c we don't want to actually destroy, we just want to clear line items
   def destroy
+    flash[:notice] = I18n.t(:basket_successfully_cleared)
     @order.line_items.clear
-    respond_to do |format| 
-      format.html { redirect_to(edit_object_url) } 
-    end
-  end  
+    @order.update_totals!
+    after :destroy
+    set_flash :destroy
+    response_for :destroy
+  end
 
-  # feel free to override this library in your own extension
-  include Spree::Checkout
+  destroy.response do |wants|
+    wants.html { redirect_to(edit_object_url) } 
+  end
   
   def can_access?
-    order = load_object    
+    return true unless order = load_object    
     session[:order_token] ||= params[:order_token]
     order.grant_access?(session[:order_token])
   end
@@ -73,18 +79,4 @@ class OrdersController < Spree::BaseController
     load_object
     redirect_to object_url if @order.checkout_complete
   end         
-  
-  def load_data     
-    @default_country = Country.find Spree::Config[:default_country_id]
-    @countries = Country.find(:all).sort  
-    @shipping_countries = @order.shipping_countries.sort  
-    @states = @default_country.states.sort
-  end 
-  
-  def rate_hash       
-    shipment = @order.shipments.last
-    @order.shipping_methods.collect { |ship_method| {:id => ship_method.id, 
-                                                     :name => ship_method.name, 
-                                                     :rate => number_to_currency(ship_method.calculate_shipping(shipment)) } }    
-  end 
 end

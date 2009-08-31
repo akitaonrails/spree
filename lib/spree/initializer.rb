@@ -6,6 +6,15 @@
 require 'initializer'
 require 'spree/extension_loader'
 
+# Small hack to make sure metal stuff inside Spree gem is also loaded
+Rails::Initializer.class_eval do
+  alias :initialize_metal_old :initialize_metal
+  def initialize_metal
+    Rails::Rack::Metal.metal_paths += ["#{SPREE_ROOT}/app/metal"]
+    initialize_metal_old
+  end
+end
+
 module Spree
 
   class Configuration < Rails::Configuration
@@ -52,9 +61,11 @@ module Spree
         # Followed by the standard includes.
         paths.concat %w(
           app
+          app/metal
           app/models
           app/controllers
           app/helpers
+          app/services
           config
           lib
           vendor
@@ -119,6 +130,7 @@ module Spree
 
     def after_initialize
       extension_loader.activate_extensions unless $rails_gem_installer
+      extension_loader.run_initializers #? conds?
       super
     end
 =begin
@@ -148,7 +160,7 @@ module Spree
     def initialize_i18n
       extension_loader.add_locale_paths
       spree_locale_paths = Dir[File.join(SPREE_ROOT, 'config', 'locales', '*.{rb,yml}')]
-      extension_loader.configuration.i18n.load_path.concat(spree_locale_paths)
+      extension_loader.configuration.i18n.load_path = spree_locale_paths + extension_loader.configuration.i18n.load_path
       super
     end
 

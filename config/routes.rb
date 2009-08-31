@@ -24,7 +24,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.root :controller => "products", :action => "index"
 
-  map.resource :user_session
+  map.resource :user_session, :member => {:login_bar => :get}
   map.resource :account, :controller => "users"
   map.resources :password_resets
   
@@ -39,8 +39,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :states, :only => :index
   map.resources :users
   map.resources :products, :member => {:change_image => :post}
-  map.resources :addresses
-  map.resources :orders, :member => {:address_info => :get, :checkout => :any}, :has_many => [:line_items, :creditcards, :creditcard_payments]
+  map.resources :orders, :member => {:address_info => :get}, :has_many => [:line_items, :creditcards, :creditcard_payments], :has_one => :checkout
   map.resources :orders, :member => {:fatal_shipping => :get} do |order|
     order.resources :shipments, :member => {:shipping_method => :get}
   end
@@ -54,18 +53,19 @@ ActionController::Routing::Routes.draw do |map|
   #this route maybe removed in the near future (no longer used by core)
   map.resources :taxons
   
-  map.namespace :admin do |admin|
+  map.namespace :admin do |admin|          
+    admin.resources :coupons
     admin.resources :zones
     admin.resources :users
     admin.resources :countries, :has_many => :states
     admin.resources :states
     admin.resources :tax_categories
     admin.resources :configurations
-    admin.resources :products, :has_many => [:variants, :images, :product_properties] do |product|
+    admin.resources :products, :has_many => [:product_properties, :images] do |product|
+			product.resources :variants 
       product.resources :option_types, :member => {:select => :get, :remove => :get}, :collection => {:available => :get, :selected => :get}
       product.resources :taxons, :member => {:select => :post, :remove => :post}, :collection => {:available => :post, :selected => :get}
     end
-    admin.resources :images
     admin.resources :option_types
     admin.resources :properties, :collection => {:filtered => :get}
     admin.resources :prototypes, :member => {:select => :post}, :collection => {:available => :get}
@@ -85,7 +85,11 @@ ActionController::Routing::Routes.draw do |map|
 
     admin.resources :shipments
     admin.resources :shipping_methods
-    admin.resources :shipping_categories  
+    admin.resources :shipping_categories
+    admin.resources :shipping_rates
+    admin.resources :tax_rates
+    admin.resource  :tax_settings    
+    admin.resources :calculators
   end                   
 
   

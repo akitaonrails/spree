@@ -46,10 +46,8 @@ pt-BR:
         ip_address: "Endereço IP"
         item_total: "Item Total"
         number: Número
-        ship_amount: "Quantidade a entregar"
         special_instructions: "Instruções especiais"
         state: Estado
-        tax_amount: "Imposto"
         total: Total
       product: 
         available_on: "Disponível em"
@@ -58,6 +56,7 @@ pt-BR:
         name: Nome
         on_hand: "Em mãos"
         shipping_category: "Categoria de Entrega"
+        tax_category: "Categoria de Imposto"
       property: 
         name: Nome
         presentation: Apresentação
@@ -68,6 +67,11 @@ pt-BR:
       state: 
         abbr: Abreviação
         name: Nome
+      tax_category: 
+        description: Description
+        name: Name
+      tax_rate: 
+        amount: Taxa        
       taxon: 
         name: Nome
         permalink: Link Permanente
@@ -132,6 +136,12 @@ pt-BR:
       state: 
         one: Estado
         other: Estados
+      tax_category: 
+        one: "Categoria de Imposto"
+        other: "Categorias de Imposto"
+      tax_rate: 
+        one: "Taxa de Imposto"
+        other: "Taxa de Impostos"        
       taxon: 
         one: Grupo de Taxonomia
         other: Grupos de Taxonomia
@@ -161,10 +171,13 @@ pt-BR:
   address_information: "Informação de Endereço"
   adjustment: Ajuste
   administration: Administração
+  all: "All"
   allow_backorders: "Permitir Devoluções"
   allow_ssl_to_be_used_when_in_developement_and_test_modes: Permitir uso de SSL quando no modo de desenvolvimento e teste
   allow_ssl_to_be_used_when_in_production_mode: Permitir uso de SSL quando em modo de produção
+  allowed_ssl_in_production_mode: "SSL {{not}} será usado em produção"
   already_registered: Já Registrado?
+  alternative_phone: Telefone alternativo
   amount: Valor
   are_you_sure: "Tem certeza?"
   are_you_sure_category: "Tem certeza que quer apagar esta categoria?"
@@ -180,34 +193,47 @@ pt-BR:
   available_taxons: "Grupo de Taxonomias Disponíveis"
   back: Voltar
   back_to_store: "Voltar à Loja"
+  backordering_is_allowed: "Devolução {{not}} permitida"
   bill_address: "Endereço da Conta"
   billing_address: "Endereço de Cobrança"
+  calculator: Calculator
+  calculator_settings_warning: "Se estiver mudando o tipo de calculador, você deve primeiro salvar antes de poder editar as configuração de calculador"
   cancel: Cancelar
   canceled: Cancelado
   capture: capturar
   card_code: "Código do Cartão"
   card_number: "Número do Cartão"
+  card_type_is: Tipo do cartão é
   cart: Carrinho
   categories: Categorias
   category: Categoria
   change: Mudar
   change_language: "Mudar Língua"
+  charge_total: Total a cobrar
   charged: Cobrado
   checkout: Finalizar
   city: Cidade
+  code: Code
+  combine: Combine
   comp_order: "Computar Pedido"
   comp_order_confirmation: "O cliente não será cobrado. Tem certeza que quer computar este pedido?"
+  complete: completo
   complete_list: "Lista Completa"
   configuration: Configuração
   configuration_options: "Opções de Configuração"
   configurations: Configurações
   confirm: Confirme
+  confirm_delete: "Confirmação de Deleção"
   confirm_password: "Confirmação de Senha"
   continue: Continue
   continue_shopping: "Continue sua compra"
   copy_all_mails_to: Copiar todos os emails para
   country: País
   country_based: "Baseado em País"
+  coupon: Cupom
+  coupon_code: Código do Cupom
+  coupons: Cupons
+  coupons_description: Gerenciar cupons
   create: Criar
   create_a_new_account: "Crie uma nova conta"
   create_user_account: Criar Conta do Usuário
@@ -215,6 +241,7 @@ pt-BR:
   credit_card: "Cartão de Crédito"
   credit_card_capture_complete: "Cartão de Crédito foi Capturado"
   credit_card_payment: "Pagamento de Cartão de Crédito"
+  credit_total: Credit Total
   creditcard: Cartão de Crédito
   current: Atual
   customer: Cliente
@@ -226,6 +253,7 @@ pt-BR:
   display: Mostrar
   edit: Editar
   editing_category: "Editando Categoria"
+  editing_coupon: Editando Cupom
   editing_option_type: "Editando Tipo de Opção"
   editing_option_types: "Editando Tipos de Opção"
   editing_product: "Editando Produto"
@@ -233,8 +261,10 @@ pt-BR:
   editing_prototype: "Editando Protótipo"
   editing_shipping_category: "Editando Categoria de Entrega"
   editing_shipping_method: "Editando Método de Entrega"
+  editing_shipping_rate: Editando Taxas de Entrega
   editing_state: "Editando Estado"
   editing_tax_category: "Editando Categoria de Taxa"
+  editing_tax_rate: "Editando Taxas de Imposto"
   editing_user: "Editando Usuário"
   editing_zone: "Editando Zona"
   email: Email
@@ -242,6 +272,8 @@ pt-BR:
   email_server_settings_description: "Ajustar as configurações do servidor de email."
   empty_cart: "Esvaziar Carrinho"
   enable_mail_delivery: Habilitar Entrega de Email
+  enable_mail_queue: "Habilitar fila de Email"
+  enter_exactly_as_shown_on_card: "Por favor, entre os dados exatamente como está no cartão"
   error: erro
   event: Evento
   existing_customer: "Cliente Existente"
@@ -253,8 +285,15 @@ pt-BR:
   filename: "Nome do arquivo"
   final_confirmation: "Confirmação Final"
   first_name: "Primeiro Nome"
+  flat_percent: Porcentagem Plana
+  flat_rate_amount: Amount
+  flat_rate_per_item: "Taxa Plana (por ítem)"
+  flat_rate_per_order: "Taxa Plana (por pedido)"
+  flexible_rate: "Taxa Flexível"
   forgot_password: "Esqueceu a senha"
+  full_name: "Nome Completo"
   gateway: Gateway
+  gateway_configuration: "Configuração de Gateway"
   gateway_error: "Erro de Gateway"
   gateway_setting_description: "Selecionar um gateway de pagamento e ajustar suas configurações."
   general: "Geral"
@@ -263,7 +302,7 @@ pt-BR:
   google_analytics: "Google Analytics"
   google_analytics_active: "Ativo"
   google_analytics_create: "Criar nova conta de Google Analytics"
-  google_analytics_id: "Analytics ID"
+  google_analytics_id: "ID do Analytics"
   google_analytics_new: "Nova Conta Google Analytics"
   google_analytics_setting_description: "Gerencie ID do Google Analytics" 
   guest_user_account: Finalizar como um Convidado
@@ -271,15 +310,18 @@ pt-BR:
   hello_user: "Olá Usuário"
   history: História
   home: "Página Inicial"
+  icons_by: "Ícones por"
   image: Imagem
   images: Imagens
+  images_for: "Images for"
   in_progress: "Em progresso"
   invalid_search: "Critério inválido de pesquisa."
   inventory: Inventário
   inventory_adjustment: "Ajuste de Inventário"
   inventory_setting_description: "Configuração de Inventário, Devoluções, Mostrador de Estoque Zero"
   inventory_settings: "Configurações de Inventário"
-  item: Item
+  issue_number: Número do Problema
+  item: Ítem
   item_description: "Descrição de Item"
   item_total: "Total de Item"
   last_name: "Último Nome"
@@ -290,16 +332,21 @@ pt-BR:
   listing_reports: "Listando Relatórios"
   listing_tax_categories: "Listando Categorias de Impostos"
   listing_users: "Listando Usuários"
+  loading: Loading
   locale_changed: "Localização Modificada"
   log_in: Entre
   logged_in_as: "Logado como"
   logged_in_succesfully: "Logado com sucesso."
   logged_out: "Você foi desconectado." 
+  login_as_existing: "Log In as Existing Customer" 
   login_failed: "Autenticação de Login Falhou."      
   login_name: Login
   logout: Sair
+  maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "Envio de Email está habilitado"
   mail_delivery_not_enabled: "Envio de Email não está habilitado"
+  mail_queue_enabled: "Fila de Email está habilitado"
+  mail_queue_not_enabled: "Fila de Email não está habilitado (emails serão entregues imediatamente)"
   mail_server_preferences: Preferências de Servidor de Email
   mail_server_settings: "Configuração do Servidor de Email"
   mark_shipped: "Marcado como Enviado"
@@ -313,6 +360,7 @@ pt-BR:
   name: Nome
   new: Novo
   new_category: "Nova categoria"
+  new_coupon: Novo Cupom
   new_credit_card_payment: "Novo Pagamento de Cartão de Crédito"
   new_customer: "Novo Cliente"
   new_image: "Nova Imagem"
@@ -324,19 +372,23 @@ pt-BR:
   new_shipment: "Novo Envio"
   new_shipping_category: "Nova Categoria de Entrega"
   new_shipping_method: "Novo Método de Entrega"
+  new_shipping_rate: Nova Taxa de Entrega
   new_state: "Novo Estado"
   new_tax_category: "Nova Categoria de Imposto"
   new_tax_rate: "Nova Taxa de Imposto"
+  new_taxon: "Nova Taxon"
   new_taxonomy: "Nova Taxonomia"
   new_user: "Novo Usuário"
   new_variant: "Nova Variante"
   new_zone: "Nova Zona"
   next: Próximo
+  no: "No"
   no_items_in_cart: "Nr. de itens no carrinho"
   no_match_found: "Nada encontrado"
   no_user_found: "Nenhum usuário encontrado com esse endereço de email"
   none: Nenhum
   none_available: "Nenhum Disponível"
+  not: não
   on_hand: "Na Mão"
   operation: Operação
   option_Values: "Opção de Valores"
@@ -349,9 +401,11 @@ pt-BR:
   order_date: "Data do Pedido"
   order_details: "Detalhes do Pedido"
   order_email_resent: "Email de Pedido Re-enviado"
+  order_not_in_system: Este número de pedido não é válido neste site
   order_number: "Nr. Pedido"
   order_operation_authorize: Autorizar
   order_processed_successfully: "Seu pedido foi processado com sucesso."
+  order_summary: Resumo do Pedido
   order_total: "Total do Pedido"
   order_total_message: "O valor total cobrado no seu cartão será de"
   order_updated: "Pedido Atualizado"
@@ -373,6 +427,8 @@ pt-BR:
   payments: Pagamentos
   phone: Telefone
   place_order: Coloque o Pedido
+  please_create_user: "Por favor, crie uma conta de usuário"
+  powered_by: "Powered by"
   presentation: Apresentação
   previous: anterior
   price: Preço
@@ -383,8 +439,10 @@ pt-BR:
   process: Processar
   product: Produto
   product_details: "Detalhes do Produto"
+  product_has_no_description: Produto não tem descrição
   product_properties: "Propriedades do Produto"
   products: Produtos
+  products_with_zero_inventory_display: "Produtos com zero inventório {{not}} serão mostrados"
   properties: Propriedades
   property: Propriedade
   prototype: Protótipo
@@ -397,6 +455,7 @@ pt-BR:
   remember_me: "Lembre-se de mim"
   remove: Remover
   reports: Relatórios
+  required_for_solo_and_maestro: Requerido por cartões Solo e Maestro.
   resend: Reenviar
   reset_password: "Reiniciar minha senha"
   response_code: "Código de Resposta"
@@ -405,6 +464,7 @@ pt-BR:
   return: retornar
   returned: Retornado
   roles: Papéis
+  sales_tax: "Taxa de Venda"
   sales_total: "Total de Venda"
   sales_total_for_all_orders: "Total de Vendas para todos os pedidos"
   sales_totals: "Total de Vendas"
@@ -419,6 +479,8 @@ pt-BR:
   send_copy_of_orders_mails_to: Enviar Cópia de Emails de Pedidos Para
   send_mails_as: Enviar Emails como
   send_order_mails_as: Enviar Emails de Pedidos como
+  server_error: "O servidor retornou um erro"
+  settings: Configurações
   ship: entregar
   ship_address: "Endereço da Entrega"
   shipment: Entrega
@@ -426,14 +488,17 @@ pt-BR:
   shipped: Entregue
   shipping: Entregando
   shipping_address: "Endereço de Entrega"
-  shipping_calculator: Calculadora
   shipping_categories: "Categorias de Entrega"
   shipping_categories_description: "Gerencia categorias de entrega para identificar quais produtos podem ser enviados por qual método"
+  shipping_category: Categoria de Entrega
   shipping_cost: Custo
   shipping_error: "Erro de Entrega"
+  shipping_instructions: "Instruções de Entrega"
   shipping_method: Método
   shipping_methods: "Métodos de Entrega"
   shipping_methods_description: "Gerenciar Métodos de Entrega"
+  shipping_rates: "Taxas de Entrega"
+  shipping_rates_description: "Gerenciar taxas de entrega"
   shipping_total: "Total de Entrega"
   shop_by_taxonomy: "Comprar por {{taxonomy}}"
   shopping_cart: "Carrinho de Compra"
@@ -441,6 +506,7 @@ pt-BR:
   show_incomplete_orders: "Mostrar Pedidos Incompletos"
   show_only_complete_orders: "Apenas mostre pedidos completos"
   show_out_of_stock_products: "Mostre produtos sem estoque"
+  show_price_inc_vat: "Mostrar preço incluindo VAT"
   sign_up: Cadastrar
   site_name: "Nome do Site"
   site_url: "URL do Site"
@@ -451,11 +517,20 @@ pt-BR:
   smtp_mail_host: Servidor SMTP 
   smtp_password: Senha SMTP
   smtp_port: Porta SMTP      
+  smtp_send_all_emails_as_from_following_address: "Mandar todos os emails como se fosse o endereço seguinte."
+  smtp_send_copy_of_orders_to_this_addresses: "Enviar uma cópia de todos os e-mails de pedidos a este endereço. Para múltiplos endereços, separar com vírgula."
+  smtp_send_copy_to_this_addresses: "Envia uma cópia de todos os e-mails enviados por este endereço. Para múltiplos endereços, separar com vírgula."
+  smtp_send_order_mails_as_from_following_address: "Enviar e-mails de pedidos como se fosse o endereço seguinte."
   smtp_username: Usuário de SMTP
   spree:
     date: Data
     time: Horário                                               
+  ssl_will_be_used_in_development_and_test_modes: "SSL será usado em modo de desenvolvimento e teste se necessário."
+  ssl_will_be_used_in_production_mode: "SSL será usado em modo de produção"
+  ssl_will_not_be_used_in_development_and_test_modes: "SSL não será usado em modo de desenvolvimento e teste se necessário."
+  ssl_will_not_be_used_in_production_mode: "SSL não será usado em modo de produção"
   start: Início
+  start_date: Válido a partir de
   state: Estado
   state_based: "Baseado no Estado"
   state_setting_description: "Administrar a lista de estados/províncias associados a cada país."
@@ -471,28 +546,40 @@ pt-BR:
   tax: Imposto
   tax_categories: "Categorias de Imposto"
   tax_categories_setting_description: "Ajustar as categorias de impostos para identificar quais produtos devem ser taxados."
-  tax_category: "Categoria de Imposto"
+  tax_category: "Categoria de Imposto" 
+  tax_rates: "Taxas de Imposto"
+  tax_rates_description: Configuração de Taxas de Impostos.
+  tax_settings: "Configurações de Imposto"
+  tax_settings_description: Configurações básicas de imposto.
   tax_total: "Imposto Total"
   tax_type: "Tipo de Imposto"
   taxon: Grupo de Taxonomia
   taxonomies: Taxonomias
   taxonomies_setting_description: "Criar e gerenciar taxonomias"
+  taxonomy_edit: "Editar taxonomia"
+  taxonomy_tree_error: "A mudança requisitada não foi aceita e a árvore retornou a seu estado anterior, por favor, tente novamente."
+  taxonomy_tree_instruction: "* Clique com botão direito em um filho da árvore para acessar o menu para adicionar, deletar ou ordenar um filho."
   taxons: Grupos de Taxonomias
   thank_you_for_your_order: "Obrigado por sua compra. Por favor, imprima uma cópia desta página de confirmação para seu controle."
   this_file_language: "Português (Brasil)"
+  thumbnail: "Thumbnail"
   to_add_variants_you_must_first_define: "Para adicionar variantes, primeiro você deve definir"
   total: Total
-  tracking: Tracking
+  tracking: Rastreamento
   transaction: Transação
   tree: Árvore
   try_again: "Tente novamente"
   type: Tipo
+  unable_ship_method: "Não foi possível gerar métodos de entrega devido a um erro no servidor."
   unable_to_authorize_credit_card: "Não foi possível Autorizar o Cartão de Crédito"
   unable_to_capture_credit_card: "Não foi possível Capturar o Cartão de Crédito"
   unable_to_save_order: "Não foi Possível gravar Pedido"
+  unrecognized_card_type: Tipo de cartão não reconhecido
   update: Atualizar
   update_password: "Atualizar minha senha e fazer meu login"
   updated_successfully: "Atualizado com Sucesso"
+  updating: Atualizando
+  usage_limit: Limite de Uso
   use_as_shipping_address: Use como Endereço de Entrega
   use_billing_address: Use como Endereço de Cobrança
   use_different_shipping_address: "Use um Endereço de Entrega Diferente"
@@ -502,6 +589,7 @@ pt-BR:
   users: Usuários
   value: Valor
   variants: Variantes
+  vat: "VAT"           
   version: Versão
   website: Website
   weight: Peso
@@ -511,6 +599,7 @@ pt-BR:
   whats_this: "O que é isso?"
   width: Comprimento
   year: "Ano"
+  yes: "Sim"
   you_have_been_logged_out: "Você foi desconectado."
   your_cart_is_empty: "Seu carrinho está vazio"
   zip: Cep

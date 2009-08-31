@@ -46,10 +46,8 @@ nb-NO:
         ip_address: "IP-nummer"
         item_total: "Sum varer"
         number: Nummer
-        ship_amount: "Frakt"
         special_instructions: "Annen informasjon"
         state: "Status"
-        tax_amount: "Moms"
         total: Totalt
       product: 
         available_on: "Tilgjengelig"
@@ -58,6 +56,7 @@ nb-NO:
         name: Navn
         on_hand: "På lager"
         shipping_category: "Fraktkategori"
+        tax_category: "Momskategori"
       property: 
         name: Navn
         presentation: "Presentasjon"
@@ -67,7 +66,12 @@ nb-NO:
         name: Navn
       state: 
         abbr: Forkortelse
+        name: Navn 
+      tax_category: 
+        description: Beskrivelse
         name: Navn
+      tax_rate: 
+        amount: Momsnivå        
       taxon: 
         name: Navn
         permalink: Permalink
@@ -132,6 +136,12 @@ nb-NO:
       state: 
         one: "Stat"
         other: "Stater"
+      tax_category: 
+        one: "Momskategori"
+        other: "Momskategorier"
+      tax_rate: 
+        one: "Momsnivå"
+        other: "Momsnivå"
       taxon: 
         one: Klasse
         other: Klasser
@@ -161,10 +171,13 @@ nb-NO:
   address_information: "Adresseinformasjon"
   adjustment: Justering
   administration: Administrasjon
+  all: "All"
   allow_backorders: "Tillat restordre"
   allow_ssl_to_be_used_when_in_developement_and_test_modes: Tillat at SSL brukes i utviklings- og testmodus.
   allow_ssl_to_be_used_when_in_production_mode: Tillat at SSL brukes i produksjonsmodus.
+  allowed_ssl_in_production_mode: "SSL will {{not}} be used in production"
   already_registered: Already Registered?
+  alternative_phone: Alternative Phone
   amount: Beløp
   are_you_sure: "Er du sikker"
   are_you_sure_category: "Er du sikker på at du vil slette denne kategorien?"
@@ -180,34 +193,47 @@ nb-NO:
   available_taxons: "Tilgjengelige klasser"
   back: Tilbake
   back_to_store: "Tilbake til butikken"
+  backordering_is_allowed: "Backordering {{not}} allowed"
   bill_address: "Fakturaadresse"
   billing_address: "Fakturaadresse"
+  calculator: Calculator
+  calculator_settings_warning: "If you are changing the calculator type, you must save first before you can edit the calculator settings"
   cancel: Avbryt
   canceled: Avbrutt
   capture: capture
   card_code: "CVV-kode"
   card_number: "Kortnummer"
+  card_type_is: Card type is
   cart: Handlekurv
   categories: Kategorier
   category: Kategori
   change: Endre
   change_language: "Endre språk"
+  charge_total: Charge Total
   charged: "Belastet"
   checkout: "Til kassen"
   city: Sted
+  code: Code
+  combine: Combine
   comp_order: "Kanseller ordre"
   comp_order_confirmation: "Kunden vil ikke bli belastet. Er du sikker på at du vil kansellere ordren?"
+  complete: complete
   complete_list: "Complete List"
   configuration: Konfigurasjon
   configuration_options: "Konfigurasjonsvalg"
   configurations: Konfigurasjoner
   confirm: Bekreft
+  confirm_delete: "Confirm Deletion"
   confirm_password: "Bekreft passord"
   continue: Fortsett
   continue_shopping: "Fortsett å handle"
   copy_all_mails_to: Kopier alle eposter til
   country: Land
   country_based: "Land"
+  coupon: Coupon                                                                             
+  coupon_code: Coupon Code
+  coupons: Coupons
+  coupons_description: Manage coupons
   create: Opprett
   create_a_new_account: "Opprett ny konto"
   create_user_account: Create User Account
@@ -215,6 +241,7 @@ nb-NO:
   credit_card: "Kredittkort"
   credit_card_capture_complete: "Kortopplysninger har blitt lagret"
   credit_card_payment: "Betaling med kort"
+  credit_total: Credit Total
   creditcard: Kredittkort
   current: "Nå"
   customer: Kunde
@@ -226,6 +253,7 @@ nb-NO:
   display: Vis
   edit: Endre
   editing_category: "Endre kategori"
+  editing_coupon: Editing Coupon
   editing_option_type: "Endre variasjonstype"
   editing_option_types: "Endre variasjonstyper"
   editing_product: "Endre produkt"
@@ -233,8 +261,10 @@ nb-NO:
   editing_prototype: "Endre prototype"
   editing_shipping_category: Endre fraktkategori
   editing_shipping_method: "Endre leveransemåte"
+  editing_shipping_rate: Editing Shipping Rate 
   editing_state: "Endre stat"
   editing_tax_category: "Endre momskategori"
+  editing_tax_rate: "Editing Tax Rate"
   editing_user: "Endre bruker"   
   editing_zone: "Endre sone"
   email: Epost
@@ -242,6 +272,8 @@ nb-NO:
   email_server_settings_description: "Konfigurer epostserver."
   empty_cart: "Tøm handlekurv"
   enable_mail_delivery: "Skru på sending av epost"
+  enable_mail_queue: "Enable Mail Queue"
+  enter_exactly_as_shown_on_card: Please enter exactly as shown on the card
   error: feil
   event: Hendelse
   existing_customer: "Eksisterende kunde"
@@ -253,8 +285,15 @@ nb-NO:
   filename: Filnavn
   final_confirmation: "Endelig bekreftelse"
   first_name: "Fornavn"
+  flat_percent: Flat Percent
+  flat_rate_amount: Amount
+  flat_rate_per_item: "Flat Rate (per item)"
+  flat_rate_per_order: "Flat Rate (per order)"
+  flexible_rate: "Flexible Rate"
   forgot_password: "Forgot Password"
+  full_name: "Full Name"
   gateway: "Tjeneste"
+  gateway_configuration: "Gateway configuration"
   gateway_error: "Feil oppstått i tjeneste"
   gateway_setting_description: "Velg en betalingstjeneste og konfigurer den."
   general: "General"
@@ -271,14 +310,17 @@ nb-NO:
   hello_user: "Hallo, bruker"
   history: History
   home: "Home"
+  icons_by: "Icons by"
   image: Bilde
   images: Bilder
+  images_for: "Images for"
   in_progress: "Pågår"
   invalid_search: "Ugyldig søkekriterie."
   inventory: Varelager
   inventory_adjustment: "Justering av varelager"
   inventory_setting_description: "Konfigurer varelager og restordre."
   inventory_settings: "Varelagerinnstillinger"
+  issue_number: Issue Number
   item: Artikkel
   item_description: "Beskrivelse"
   item_total: "Solgte varer"
@@ -290,16 +332,21 @@ nb-NO:
   listing_reports: "Rapporter"
   listing_tax_categories: "Momskategorier"
   listing_users: "Brukere"
+  loading: Loading
   locale_changed: "Endret språk"
   log_in: "Logg inn"
   logged_in_as: "Innlogget som"
   logged_in_succesfully: "Logged in successfully"
   logged_out: "You have been logged out." 
+  login_as_existing: "Log In as Existing Customer" 
   login_failed: "Login authentication failed."      
   login_name: Brukernavn
   logout: "Logg ut"
+  maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "Sending av epost er skrudd på"
   mail_delivery_not_enabled: "Sending av epost er ikke skrudd på"
+  mail_queue_enabled: "Mail queue is enabled"
+  mail_queue_not_enabled: "Mail queue is not enabled (emails are delivered immediately)"
   mail_server_preferences: "Preferanser for epostserver"
   mail_server_settings: "Innstillinger for epostserver"
   mark_shipped: "Merk som levert"
@@ -313,6 +360,7 @@ nb-NO:
   name: Navn
   new: Ny
   new_category: "Ny kategori"
+  new_coupon: New Coupon
   new_credit_card_payment: "Ny kortbetaling"
   new_customer: "Ny kunde"
   new_image: "Nytt bilde"
@@ -324,19 +372,23 @@ nb-NO:
   new_shipment: "Ny leveranse"
   new_shipping_category: "Ny fraktkategori"
   new_shipping_method: "Ny leveransemåte"
+  new_shipping_rate: New Shipping Rate
   new_state: "Ny stat"
   new_tax_category: "Ny momskategori"
   new_tax_rate: "Nytt momsnivå"
+  new_taxon: "New Taxon"
   new_taxonomy: "Ny klassifikasjon"
   new_user: "Ny bruker"
   new_variant: "Ny variant"
   new_zone: "Ny sone"
   next: Neste
+  no: "No"
   no_items_in_cart: "Ingen artikler i handlekurven"
   no_match_found: "Ingen treff"
   no_user_found: "No user was found with that email address"
   none: Ingen
   none_available: "Ingen tilgjengelig"
+  not: not
   on_hand: "Tilgjengelig"
   operation: Operasjon
   option_Values: "Variasjonsverdier"
@@ -349,9 +401,11 @@ nb-NO:
   order_date: "Ordredato"
   order_details: "Ordredetaljer"
   order_email_resent: "Ordre-epost sent på nytt"
+  order_not_in_system: That order number is not valid on this site.
   order_number: Ordrenummer
   order_operation_authorize: Autoriser
   order_processed_successfully: "Din ordre har blitt behandlet"
+  order_summary: Order Summary
   order_total: "Ordresum"
   order_total_message: "Beløpet som vil bli belastet ditt kort er"
   order_updated: "Ordre oppdatert"
@@ -373,6 +427,8 @@ nb-NO:
   payments: Betalinger
   phone: Telefon
   place_order: "Bekreft ordre"
+  please_create_user: "Please create a user account"     
+  powered_by: "Powered by"
   presentation: Presentasjon
   previous: Forrige
   price: Pris
@@ -383,8 +439,10 @@ nb-NO:
   process: Prosess
   product: Produkt
   product_details: "Produktdetaljer"
+  product_has_no_description: Product has not description
   product_properties: "Produktegenskaper"
   products: Produkter
+  products_with_zero_inventory_display: "Products with a zero inventory will {{not}} be displayed"
   properties: Egenskaper
   property: Egenskap
   prototype: Prototype
@@ -397,6 +455,7 @@ nb-NO:
   remember_me: "Husk meg"
   remove: Fjern
   reports: Rapporter
+  required_for_solo_and_maestro: Required for Solo and Maestro cards.
   resend: "Send på nytt"
   reset_password: "Reset my password"
   response_code: "Responskode"  
@@ -405,6 +464,7 @@ nb-NO:
   return: returner
   returned: Returnert
   roles: Roller
+  sales_tax: "Sales Tax"
   sales_total: "Brutto omsetning"
   sales_total_for_all_orders: "Totale salg for alle ordrer"
   sales_totals: "Omsetning"
@@ -419,6 +479,8 @@ nb-NO:
   send_copy_of_orders_mails_to: "Send kopi av alle ordre-eposter til"
   send_mails_as: "Send epost som"
   send_order_mails_as: "Send ordre-epost som"
+  server_error: "The server returned an error"
+  settings: Settings
   ship: send
   ship_address: "Leveringsadresse"
   shipment: Leveranse
@@ -426,14 +488,17 @@ nb-NO:
   shipped: Sendt
   shipping: Frakt
   shipping_address: "Leveringsadresse"
-  shipping_calculator: Kalkulator
   shipping_categories: "Fraktkategorier"
   shipping_categories_description: "Konfigurer fraktkategorier for å styre hvilke produkter som kan bruke de ulike leveransemåtene."
+  shipping_category: Shipping Category
   shipping_cost: Kostnad
   shipping_error: "Feil i forbindelse med leveranse"
+  shipping_instructions: "Shipping Instructions"
   shipping_method: Leveransemåte
   shipping_methods: "Leveransemåter"
   shipping_methods_description: "Konfigurer leveransemåter."
+  shipping_rates: "Shipping Rates"
+  shipping_rates_description: "Manage shipping rates"
   shipping_total: "Fraktkostnader"
   shop_by_taxonomy: "Shop by {{taxonomy}}"
   shopping_cart: "Handlekurv"
@@ -441,6 +506,7 @@ nb-NO:
   show_incomplete_orders: "Vis ufullstendige ordrer"
   show_only_complete_orders: "Vis bare ferdige ordrer"
   show_out_of_stock_products: "Vis produkter som ikke er på lager"
+  show_price_inc_vat: "Show price including VAT"
   sign_up: "Meld meg på"
   site_name: "Site Name"
   site_url: "Site URL"
@@ -451,11 +517,20 @@ nb-NO:
   smtp_mail_host: "SMTP server"
   smtp_password: "SMTP passord"
   smtp_port: "SMTP portnummer"
+  smtp_send_all_emails_as_from_following_address: "Send all mails as from the following address."
+  smtp_send_copy_of_orders_to_this_addresses: "Sends a copy of all order's mails to this address. For multiple addresses, separate with commas."
+  smtp_send_copy_to_this_addresses: "Sends a copy of all outgoing mails to this address. For multiple addresses, separate with commas." 
+  smtp_send_order_mails_as_from_following_address: "Send orders mails as from the following address."
   smtp_username: "SMTP brukernavn"
   spree:
     date: Dato
     time: Tid                                               
+  ssl_will_be_used_in_development_and_test_modes: "SSL will be used in development and test mode if necessary."
+  ssl_will_be_used_in_production_mode: "SSL will be used in production mode"
+  ssl_will_not_be_used_in_development_and_test_modes: "SSL will not be used in development and test mode if necessary."
+  ssl_will_not_be_used_in_production_mode: "SSL will not be used in production mode"
   start: Start
+  start_date: Valid from
   state: Stat
   state_based: "Stater"
   state_setting_description: "Konfigurer listen over stater/provinser assosiert med hvert land."
@@ -472,14 +547,22 @@ nb-NO:
   tax_categories: "Momskategorier"
   tax_categories_setting_description: "Sett opp momskategorier for å identifisere hvilke produkter som er momsbelagt."
   tax_category: "Momskategori"
+  tax_rates: "Momsnivå"
+  tax_rates_description: "Konfigurer momsnivå."
+  tax_settings: "Tax Settings"
+  tax_settings_description: Basic tax settings.
   tax_total: "Moms"
   tax_type: "Momstype"
   taxon: Klasse
   taxonomies: Klassifikasjoner
   taxonomies_setting_description: "Konfigurer klassifikasjoner."
+  taxonomy_edit: "Edit taxonomy"
+  taxonomy_tree_error: "The requested change has not been accepted and the tree has been returned to its previous state, please try again."
+  taxonomy_tree_instruction: "* Right click a child in the tree to access the menu for adding, deleting or sorting a child."
   taxons: Klasser
   thank_you_for_your_order: "Takk for bestillingen. Vennligst skriv ut og ta vare på denne bekreftelsen."
   this_file_language: "Norsk"
+  thumbnail: "Thumbnail"
   to_add_variants_you_must_first_define: "To add variants, you must first define"
   total: Total
   tracking: Sporing
@@ -487,12 +570,16 @@ nb-NO:
   tree: Tre
   try_again: "Forsøk på nytt"
   type: Type
+  unable_ship_method: "Unable to generate shipping methods due to a server error."
   unable_to_authorize_credit_card: "Kunne ikke autorisere kredittkortet"
   unable_to_capture_credit_card: "Kunne ikke lagre kortopplysningene"
   unable_to_save_order: "Kunne ikke lagre ordren"
+  unrecognized_card_type: Unrecognized card type
   update: Oppdater
   update_password: "Update my password and log me in"                    
   updated_successfully: "Oppdatert"  
+  updating: Updating
+  usage_limit: Usage Limit
   use_as_shipping_address: "Bruk som leveringsadresse"
   use_billing_address: "Bruk fakturaadressen"
   use_different_shipping_address: "Bruk en annen leveringsadresse"
@@ -502,6 +589,7 @@ nb-NO:
   users: Brukere
   value: Verdi
   variants: Varianter
+  vat: "VAT"           
   version: Versjon
   website: Nettsted
   weight: Vekt
@@ -511,6 +599,7 @@ nb-NO:
   whats_this: "Hva er dette?"
   width: Bredde
   year: "Year"
+  yes: "Yes"
   you_have_been_logged_out: "Du har nå logget ut."
   your_cart_is_empty: "Din handlekurv er tom"
   zip: Postnummer

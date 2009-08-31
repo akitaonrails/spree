@@ -13,15 +13,15 @@
   <thead>
     <th><%= t("name") %></th>
     <th><%= t("zone") %></th>
-    <th><%= t("shipping_calculator") %></th>
+    <th><%= t("calculator") %></th>
     <th><%= t("action") %></th>
   </thead>
   <tbody>
     <% @shipping_methods.each do |shipping_method|%>
-    <tr>
+    <tr id="<%= dom_id shipping_method %>">
       <td width="100px"><%= shipping_method.name %></td>
       <td width="100px"><%= shipping_method.zone.name %></td>
-      <td width="100px"><%= shipping_method.shipping_calculator %></td>      
+      <td width="100px"><%= shipping_method.calculator.to_s %></td>      
       <td>
       	<%= link_to_edit shipping_method %> &nbsp;
       	<%= link_to_delete shipping_method %>

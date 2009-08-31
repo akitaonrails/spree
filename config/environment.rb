@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-SPREE_GEM_VERSION = '0.7.99' unless defined? SPREE_GEM_VERSION
+SPREE_GEM_VERSION = '0.8.99' unless defined? SPREE_GEM_VERSION
           
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -26,15 +26,21 @@ Spree::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
 
-  config.gem "highline", :version => '1.4.0'
-  config.gem 'authlogic', :version => '2.0.5'
-  config.gem "activemerchant", :lib => "active_merchant", :version => '1.4.1'
+  config.gem "highline", :version => '>=1.4.0'
+  config.gem 'authlogic', :version => '>=2.0.11'
+  config.gem "activemerchant", :lib => "active_merchant", :version => '>=1.4.1'
   config.gem "tlsmail", :version => '0.0.1'
-  config.gem 'activerecord-tableless', :lib => 'tableless', :version => '0.1.0'
-  config.gem 'haml', :version => "2.1.0"
-  config.gem 'chriseppstein-compass', :lib => 'compass', :source => "http://gems.github.com", :version => '0.6.1'
+  config.gem 'activerecord-tableless', :lib => 'tableless', :version => '>=0.1.0'
+  config.gem 'haml-edge', :lib=> 'haml', :version => ">=2.1.37"
+  config.gem 'chriseppstein-compass', :lib => 'compass', :source => "http://gems.github.com", :version => '0.6.15'
   config.gem 'calendar_date_select', :version => '1.15'    
-  config.gem 'searchlogic', :version => '1.6.6'                           
+  config.gem 'rsl-stringex', :lib => 'stringex', :source => "http://gems.github.com"
+  config.gem 'chronic' #required for whenever
+  config.gem 'javan-whenever', :lib => false, :source => 'http://gems.github.com'
+  config.gem 'searchlogic', :version => '2.1.13'
+  config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
+        :source => 'http://gems.github.com'
+
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -66,10 +72,12 @@ Spree::Initializer.run do |config|
   # All files from config/locales/*.rb,yml are added automatically.
   #config.i18n.load_path << Dir[File.join(RAILS_ROOT, 'my', 'locales', '*.{rb,yml}')]
   config.i18n.default_locale = :'en-US'    
-    
+
+  config.active_record.observers = :order_observer
 end
 
 Time::DATE_FORMATS[:date_time24] = "%Y-%m-%d %H:%M"
+Time::DATE_FORMATS[:short_date] = "%Y-%m-%d"
 
 # Add new inflection rules using the following format 
 # (all these examples are active by default):

@@ -1,6 +1,8 @@
 class ProductsController < Spree::BaseController
+  prepend_before_filter :reject_unknown_object
+
   resource_controller
-  helper :taxons
+  helper :taxons  
   before_filter :load_data, :only => :show
   actions :show, :index
 
@@ -17,28 +19,33 @@ class ProductsController < Spree::BaseController
   end
 
   private
-  def load_data
-    
+  def load_data  
+    load_object  
+    @selected_variant = @product.variants.detect { |v| v.in_stock || Spree::Config[:allow_backorders] }
+		
     return unless permalink = params[:taxon_path]
-    @taxon = Taxon.find_by_permalink(params[:taxon_path].join("/") + "/")
+    @taxon = Taxon.find_by_permalink(params[:taxon_path].join("/") + "/")	 
   end
   
   def collection
-    if params[:taxon]
-      @taxon = Taxon.find(params[:taxon])
-      
-      @search = Product.active.scoped(:conditions =>
-                                        ["products.id in (select product_id from products_taxons where taxon_id in (" +
-                                          @taxon.descendents.inject( @taxon.id.to_s) { |clause, t| clause += ', ' + t.id.to_s} + "))"
-                                        ]).new_search(params[:search])
-    else
-      @search = Product.active.new_search(params[:search])
+    base_scope = Product.active
+
+    if !params[:taxon].blank? && (@taxon = Taxon.find_by_id(params[:taxon]))
+      base_scope = base_scope.taxons_id_in_tree(@taxon)
     end
+                
+    @search = base_scope.search(params[:search])
+    # might want to add .scoped(:select => "distinct on (products.id) products.*") here
+    # in case some filter goes astray with its joins
 
-    @search.per_page = Spree::Config[:products_per_page]
-    @search.include = :images
+    # this can now be set on a model basis 
+    # Product.per_page ||= Spree::Config[:products_per_page]
 
-    @product_cols = 3
-    @products ||= @search.all
+    ## defunct?
+    @product_cols = 3 
+
+    @products ||= @search.paginate(:include  => [:images, {:variants => :images}],
+                                   :per_page => params[:per_page] || Spree::Config[:products_per_page],
+                                   :page     => params[:page])
   end
 end

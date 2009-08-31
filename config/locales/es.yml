@@ -46,10 +46,8 @@ es:
         ip_address: "Direccion IP"
         item_total: "Total articulos"
         number: Numero
-        ship_amount: "Coste de envio"
         special_instructions: "Instrucciones especiales"
         state: Provincia
-        tax_amount: "Total impuestos"
         total: Total
       product: 
         available_on: "Disponible en"
@@ -58,6 +56,7 @@ es:
         name: Nombre
         on_hand: "En mano"
         shipping_category: "Categoria de envio"
+        tax_category: "Tax Category"
       property: 
         name: Nombre
         presentation: Presentacion
@@ -68,6 +67,11 @@ es:
       state: 
         abbr: Abreviatura
         name: Nombre
+      tax_category: 
+        description: Description
+        name: Name
+      tax_rate: 
+        amount: Rate        
       taxon: 
         name: Nombre
         permalink: Enlace permanente
@@ -132,6 +136,12 @@ es:
       state: 
         one: Provincia
         other: Provincias
+      tax_category: 
+        one: "Tax Category"
+        other: "Tax Categories"
+      tax_rate: 
+        one: "Tax Rate"
+        other: "Tax Rates"        
       taxon: 
         one: Taxon
         other: Taxons
@@ -161,10 +171,13 @@ es:
   address_information: "Información de la Dirección"
   adjustment: Ajuste
   administration: Administración
+  all: "All"
   allow_backorders: "Permitir devoluciones"
   allow_ssl_to_be_used_when_in_developement_and_test_modes: Permitir el uso de SSL en los modos de desarrollo y prueba
   allow_ssl_to_be_used_when_in_production_mode: Permitir el uso de SSL en produccion        
+  allowed_ssl_in_production_mode: "SSL will {{not}} be used in production"
   already_registered: Already Registered?
+  alternative_phone: Alternative Phone
   amount: Cuantía
   are_you_sure: "¿Está seguro?"
   are_you_sure_category: "¿Está seguro de que quiere eliminar esta categoría?"
@@ -180,34 +193,47 @@ es:
   available_taxons: "Taxons disponibles"
   back: Atrás
   back_to_store: "Volver a la tienda"
+  backordering_is_allowed: "Backordering {{not}} allowed"
   bill_address: "Dirección de facturación"
   billing_address: "Dirección de facturación"
+  calculator: Calculator
+  calculator_settings_warning: "If you are changing the calculator type, you must save first before you can edit the calculator settings"
   cancel: Cancelar
   canceled: Cancelado
   capture: captura
   card_code: "Código de la tarjeta"
   card_number: "Número de tarjeta"
+  card_type_is: Card type is
   cart: Cesta
   categories: Categorías
   category: Categoría
   change: Cambiar
   change_language: "Cambiar Idioma"
+  charge_total: Charge Total
   charged: Cargado
   checkout: Pagar
   city: Ciudad
+  code: Code
+  combine: Combine
   comp_order: "Pedido completado"
   comp_order_confirmation: "Confirmacion de pedido completado"
+  complete: complete
   complete_list: "Complete List"
   configuration: Configuracion
   configuration_options: "Opciones de configuracion"
   configurations: Configuraciones
   confirm: Confirmar
+  confirm_delete: "Confirm Deletion"
   confirm_password: "Confirme la contraseña"
   continue: Continuar
   continue_shopping: "Seguir comprando"
   copy_all_mails_to: Copiar todos los correos a
   country: País
   country_based: "Pais base"
+  coupon: Coupon                                                                             
+  coupon_code: Coupon Code
+  coupons: Coupons
+  coupons_description: Manage coupons
   create: Crear
   create_a_new_account: "Crear una nueva cuenta"
   create_user_account: Create User Account
@@ -215,6 +241,7 @@ es:
   credit_card: "Tarjeta de credito"
   credit_card_capture_complete: "La tarjeta de credito ha sido registrada"
   credit_card_payment: "Pago con tarjeta de credito"
+  credit_total: Credit Total
   creditcard: "Tarjeta de credito"
   current: Actual
   customer: Cliente
@@ -226,6 +253,7 @@ es:
   display: Mostrar
   edit: Editar
   editing_category: "Editando categoría"
+  editing_coupon: Editing Coupon
   editing_option_type: "Editando tipo de opción"
   editing_option_types: "Editando tipos de opción"
   editing_product: "Editando Producto"
@@ -233,8 +261,10 @@ es:
   editing_prototype: "Editando Prototipo"
   editing_shipping_category: "Editando Categoria de envío"
   editing_shipping_method: "Editando metodo de envío"
+  editing_shipping_rate: Editing Shipping Rate 
   editing_state: "Editando provincia"
   editing_tax_category: "Editando Categoría fiscal"
+  editing_tax_rate: "Editing Tax Rate"
   editing_user: "Editando usuario"
   editing_zone: "Editando zona"
   email: "Correo Electrónico"
@@ -242,6 +272,8 @@ es:
   email_server_settings_description: "Configuración del servidor de correo electrónico"
   empty_cart: "Vaciar Cesta"
   enable_mail_delivery: Habilitar envio por correo      
+  enable_mail_queue: "Enable Mail Queue"
+  enter_exactly_as_shown_on_card: Please enter exactly as shown on the card
   error: error
   event: Evento
   existing_customer: "Cliente existente"
@@ -253,8 +285,15 @@ es:
   filename: "Nombre de archivo"
   final_confirmation: "Confirmación Final"
   first_name: Nombre
+  flat_percent: Flat Percent
+  flat_rate_amount: Amount
+  flat_rate_per_item: "Flat Rate (per item)"
+  flat_rate_per_order: "Flat Rate (per order)"
+  flexible_rate: "Flexible Rate"
   forgot_password: "¿Olvidaste tu contraseña?"
+  full_name: "Full Name"
   gateway: "pasarela"
+  gateway_configuration: "Gateway configuration"
   gateway_error: "Error en la pasarela"
   gateway_setting_description: "Configuracion de la pasarela"
   general: "General"
@@ -271,14 +310,17 @@ es:
   hello_user: "Hola usuario"
   history: Historia
   home: "Inicio"
+  icons_by: "Icons by"
   image: Imágen
   images: Imagenes
+  images_for: "Images for"
   in_progress: "En progreso"
   invalid_search: "Busqueda invalida"
   inventory: Inventario
   inventory_adjustment: "Ajuste de inventario"
   inventory_setting_description: "Configuracion del inventario, Devoluciones, mostrar articulos sin stock"
   inventory_settings: "Configuracion del inventario"
+  issue_number: Issue Number
   item: artículo
   item_description: "Descripción del artículo"
   item_total: "Total de artículos"
@@ -290,16 +332,21 @@ es:
   listing_reports: "Listado de reportes"
   listing_tax_categories: "Listado de Taxons"
   listing_users: "Listado de usuarios"
+  loading: Loading
   locale_changed: "Se ha cambiado el idioma"
   log_in: "Iniciar sesión"
   logged_in_as: "Identificado como"
   logged_in_succesfully: "Conectado con éxito"
   logged_out: "Se ha cerrado la sesión." 
+  login_as_existing: "Log In as Existing Customer" 
   login_failed: "No se ha podido iniciar la sesion, error de autenticacion."      
   login_name: "Nombre de usuario"
   logout: "Cerrar sesión"
+  maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "La entrega de correo está habilitada"
   mail_delivery_not_enabled: "La entrega de correo está deshabilitada"
+  mail_queue_enabled: "Mail queue is enabled"
+  mail_queue_not_enabled: "Mail queue is not enabled (emails are delivered immediately)"
   mail_server_preferences: Preferencias del servidor de correo
   mail_server_settings: "Configuración del servidor de correo"
   mark_shipped: "Marcar como enviado"
@@ -313,6 +360,7 @@ es:
   name: Nombre
   new: Nuevo
   new_category: "Nueva categoría"
+  new_coupon: New Coupon
   new_credit_card_payment: "Nuevo pago con tarjeta de credito"
   new_customer: "Nuevo cliente"
   new_image: "Nueva Imágen"
@@ -324,19 +372,23 @@ es:
   new_shipment: "Nuevo envio"
   new_shipping_category: "Nueva categoria de envio"
   new_shipping_method: "Nueva forma de envio"
+  new_shipping_rate: New Shipping Rate
   new_state: "Nueva provincia"
   new_tax_category: "Nueva categoría"
   new_tax_rate: "Nuevo iipo impositivo"
+  new_taxon: "New Taxon"
   new_taxonomy: "New Taxonomy"
   new_user: "Nuevo usuario"
   new_variant: "Nueva Variante"
   new_zone: "Nueva zona"
   next: próximo
+  no: "No"
   no_items_in_cart: "La cesta está vacía"
   no_match_found: "No se ha encontrado"
   no_user_found: "No se ha encontrado ningun usuario con esa direccion de correo"
   none: "Ninguno"
   none_available: "No hay nada que mostrar"
+  not: not
   on_hand: "En mano"
   operation: Operación
   option_Values: "Valores de opción"
@@ -349,9 +401,11 @@ es:
   order_date: "Fecha de pedido"
   order_details: "Detalles del pedido"
   order_email_resent: "Email de pedido reenviado"
+  order_not_in_system: That order number is not valid on this site.
   order_number: "Pedido #"
   order_operation_authorize: "Autorizar"
   order_processed_successfully: "Su pedido se ha procesado correctamente"
+  order_summary: Order Summary
   order_total: "Total del pedido"
   order_total_message: "El importe total cargado a su tarjeta sera"
   order_updated: "Pedido actualizado"
@@ -373,6 +427,8 @@ es:
   payments: Pagos
   phone: Teléfono
   place_order: Hacer pedido
+  please_create_user: "Please create a user account"     
+  powered_by: "Powered by"
   presentation: Presentación
   previous: Anterior
   price: Precio
@@ -383,8 +439,10 @@ es:
   process: Procesar
   product: Producto
   product_details: "Detalles del producto"
+  product_has_no_description: Product has not description
   product_properties: "Propiedades del producto"
   products: Productos
+  products_with_zero_inventory_display: "Products with a zero inventory will {{not}} be displayed"
   properties: "Propiedades"
   property: "Propiedad"
   prototype: Prototipo
@@ -397,6 +455,7 @@ es:
   remember_me: "Recordarme en este equipo"
   remove: "Remover"
   reports: Reportes
+  required_for_solo_and_maestro: Required for Solo and Maestro cards.
   resend: "Volver a enviar"
   reset_password: "Reinicia my contraseña"
   response_code: "Código de respuesta"
@@ -405,6 +464,7 @@ es:
   return: volver
   returned: regresó
   roles: Funciones
+  sales_tax: "Sales Tax"
   sales_total: "Total de ventas"
   sales_total_for_all_orders: "Total de ventas para todos los pedidos"
   sales_totals: "Ventas Totales"
@@ -419,6 +479,8 @@ es:
   send_copy_of_orders_mails_to: Envia una copia de todos los correos de pedidos a         
   send_mails_as: Enviar correos como
   send_order_mails_as: Enviar correos de pedidos como
+  server_error: "The server returned an error"
+  settings: Settings
   ship: enviar
   ship_address: "Direccion de envio"
   shipment: Envio
@@ -426,14 +488,17 @@ es:
   shipped: Enviado
   shipping: Envío
   shipping_address: "Dirección de envío"
-  shipping_calculator: Calculadora
   shipping_categories: "Categorias de envio"
   shipping_categories_description: "Gestionar las categorias de envio para determinar qué categorías de productos pueden ser transportados a través de qué método"
+  shipping_category: Shipping Category
   shipping_cost: Costes de envio
   shipping_error: "Error de envio"
+  shipping_instructions: "Shipping Instructions"
   shipping_method: Metodo de envio
   shipping_methods: "Metodos de envio"
   shipping_methods_description: "Manejar metodos de envio"
+  shipping_rates: "Shipping Rates"
+  shipping_rates_description: "Manage shipping rates"
   shipping_total: "Total de envío"
   shop_by_taxonomy: "Comprar por {{taxonomy}}"
   shopping_cart: "Cesta de compras"
@@ -441,6 +506,7 @@ es:
   show_incomplete_orders: "Mostrar los pedidos incompletos"
   show_only_complete_orders: "Mostrar solo los pedidos completados"
   show_out_of_stock_products: "Mostrar productos sin stock"
+  show_price_inc_vat: "Show price including VAT"
   sign_up: Registrarme
   site_name: "Nombre del sitio"
   site_url: "URL del sitio"
@@ -451,11 +517,20 @@ es:
   smtp_mail_host: SMTP Mail Host                       
   smtp_password: contraseña SMTP
   smtp_port: puerto SMTP          
+  smtp_send_all_emails_as_from_following_address: "Send all mails as from the following address."
+  smtp_send_copy_of_orders_to_this_addresses: "Sends a copy of all order's mails to this address. For multiple addresses, separate with commas."
+  smtp_send_copy_to_this_addresses: "Sends a copy of all outgoing mails to this address. For multiple addresses, separate with commas." 
+  smtp_send_order_mails_as_from_following_address: "Send orders mails as from the following address."
   smtp_username: nombre de usuario SMTP  
   spree:
     date: Fecha 
     time: Hora                                               
+  ssl_will_be_used_in_development_and_test_modes: "SSL will be used in development and test mode if necessary."
+  ssl_will_be_used_in_production_mode: "SSL will be used in production mode"
+  ssl_will_not_be_used_in_development_and_test_modes: "SSL will not be used in development and test mode if necessary."
+  ssl_will_not_be_used_in_production_mode: "SSL will not be used in production mode"
   start: Inicio
+  start_date: Valid from
   state: Provincia
   state_based: "Provincia"
   state_setting_description: "Administrar la lista de estados o provincias asociados con cada país."
@@ -472,14 +547,22 @@ es:
   tax_categories: "Categorias"
   tax_categories_setting_description: "Establecer categorías para determinar qué productos deben estar sujetos a que categorias"
   tax_category: "Categoria"
+  tax_rates: "Tax Rates"
+  tax_rates_description: Tax rates setup and configuration.
+  tax_settings: "Tax settings"
+  tax_settings_description: Basic tax settings.
   tax_total: "Total impuestos"
   tax_type: "Tipo de impuesto"
   taxon: Taxon
   taxonomies: Taxonomias
   taxonomies_setting_description: "Crear y manejar taxonomias"
+  taxonomy_edit: "Edit taxonomy"
+  taxonomy_tree_error: "The requested change has not been accepted and the tree has been returned to its previous state, please try again."
+  taxonomy_tree_instruction: "* Right click a child in the tree to access the menu for adding, deleting or sorting a child."
   taxons: Taxons
   thank_you_for_your_order: "Gracias por su pedido"
   this_file_language: "Español (España)"
+  thumbnail: "Thumbnail"
   to_add_variants_you_must_first_define: "Para agregar variantes, primero debe definir"
   total: Total
   tracking: Seguimiento
@@ -487,12 +570,16 @@ es:
   tree: Arbol
   try_again: "Volver a intentar"
   type: Tipo
+  unable_ship_method: "Unable to generate shipping methods due to a server error."
   unable_to_authorize_credit_card: "No se ha podido autorizar la tarjeta de credito"
   unable_to_capture_credit_card: "No se ha podido capturar la tarjeta de credito"
   unable_to_save_order: "No se ha podido guardar el pedido"
+  unrecognized_card_type: Unrecognized card type
   update: Actualizar
   update_password: "Actualiza mi contraseña y dejame entrar"                    
   updated_successfully: "Actualizado correctamente"
+  updating: Updating
+  usage_limit: Usage Limit
   use_as_shipping_address: Usar como direccion de envio
   use_billing_address: Usar la direccion de facturacion
   use_different_shipping_address: "Usar una dirección de envío diferente"
@@ -502,6 +589,7 @@ es:
   users: Usuarios
   value: "valor"
   variants: Variantes
+  vat: "VAT"           
   version: Versión
   website: "Página web"
   weight: Peso
@@ -511,6 +599,7 @@ es:
   whats_this: "¿Qué es esto?"
   width: Ancho
   year: "Año"
+  yes: "Yes"
   you_have_been_logged_out: "Se ha cerrado la sesión."
   your_cart_is_empty: "Su cesta está vacía"
   zip: "Código postal"

@@ -1,13 +1,12 @@
 class Variant < ActiveRecord::Base
-  after_update :adjust_inventory
+  after_save :adjust_inventory
   
   belongs_to :product
   has_many :inventory_units
   has_and_belongs_to_many :option_values
-  
-  validates_presence_of :product
+	has_many :images, :as => :viewable, :order => :position, :dependent => :destroy
+
   validate :check_price
-  
   
   # default variant scope only lists non-deleted variants
   named_scope :active, :conditions => "deleted_at is null"
@@ -18,7 +17,7 @@ class Variant < ActiveRecord::Base
               {:name => 'Height', :only => [:variant], :format => "%.2f"},
               {:name => 'Width',  :only => [:variant], :format => "%.2f"},
               {:name => 'Depth',  :only => [:variant], :format => "%.2f"} ]
-  
+
   def on_hand
     inventory_units.with_state("on_hand").size
   end
@@ -55,13 +54,15 @@ class Variant < ActiveRecord::Base
   def orderable?
     self.in_stock || ( !self.in_stock && self.allow_backordering) || Spree::Config[:allow_backorders]
   end
+	
+	def options_text
+		self.option_values.map { |ov| "#{ov.option_type.presentation}: #{ov.presentation}" }.to_sentence({:words_connector => ", ", :two_words_connector => ", "})
+	end
 
   private
 
-    def adjust_inventory    
-      return unless @new_level && @new_level.is_integer?    
-      @new_level = @new_level.to_i
-      # don't allow negative on_hand inventory
+    def adjust_inventory
+			@new_level = @new_level ? @new_level.to_i : -1 
       return if @new_level < 0
       
       # fill backordered orders first
@@ -73,7 +74,7 @@ class Variant < ActiveRecord::Base
         break if @new_level < 1
         }
       
-      adjustment = @new_level - on_hand 
+      adjustment = @new_level - on_hand
       if adjustment > 0
         InventoryUnit.create_on_hand(self, adjustment)
         reload

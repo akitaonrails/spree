@@ -15,8 +15,10 @@ module Spree
         setup
       end  
       def create_admin_user
-        raise "Cannot create a second admin user." unless User.count == 0
         new.create_admin_user
+      end 
+      def load_sample_data
+        new.load_sample_data
       end
     end
     
@@ -26,10 +28,16 @@ module Spree
       # make sure the product images directory exists
       FileUtils.mkdir_p "#{RAILS_ROOT}/public/images/products/"
       
-      @config = config
-      @admin = create_admin_user(config[:admin_password], config[:admin_email])
-      load_sample_data if sample_data?
-      announce "Finished.\n\n"
+      @config = config      
+      load_default_data unless Country.count > 0
+      create_admin_user(config[:admin_password], config[:admin_email]) unless User.first(:include => :roles, :conditions => ["roles.name = 'admin'"])     
+      
+      if RAILS_ENV == 'production' and Product.count > 0
+        announce "WARNING: Running bootstrap in production mode and there is already existing product data.  Sample data will not be loaded."
+      else
+        load_sample_data if sample_data?
+      end
+      announce "Bootstrap Complete.\n\n"
     end
 
     def create_admin_user(password=nil, email=nil)
@@ -45,13 +53,22 @@ module Spree
         :email => email,
         :login => email
       }
-      admin = User.create(attributes)
       
-      # create an admin role and and assign the admin user to that role
-      role = Role.create(:name => 'admin')
-      admin.roles << role
-      admin.save      
-      admin      
+      if User.find_by_login(email)
+        say "\nWARNING: There is already a user with the email: #{email}, so no account changes were made.  If you wish to create an additional admin user, please run rake db:admin:create again with a different email.\n\n"
+      else
+        admin = User.create(attributes)
+
+        # create an admin role and and assign the admin user to that role
+        role = Role.find_or_create_by_name "admin"
+        admin.roles << role
+        admin.save          
+      end      
+    end
+
+    # Loads default data necessary for basic spree functionality
+    def load_default_data
+      Rake::Task["db:seed"].invoke
     end
     
     # Uses a special set of fixtures to load sample data
@@ -82,8 +99,14 @@ module Spree
           FileUtils.cp src_path, target_path
         end
       end
+      
+      # HACK - need to add all sample users to the 'user' role (can't do this in sample fixtures because user role is seed data)
+      user_role = Role.find_by_name "user"
+      if user_role
+        User.all.each { |u| u.roles << user_role unless u.has_role?("user") } 
+      end
 
-      announce "Sample products have been loaded into to the store"
+      announce "Sample data has been loaded"
     end
          
     private
@@ -101,7 +124,7 @@ module Spree
       
       def prompt_for_admin_email
         email = ask('Email [spree@example.com]: ', String) do |q|
-          q.echo = false
+          q.echo = true
           q.whitespace = :strip
         end
         email = "spree@example.com" if email.blank?
@@ -112,7 +135,7 @@ module Spree
       def sample_data?
         return true if ENV['AUTO_ACCEPT']
         sample = ask('Load Sample Data? [y]: ', String) do |q|
-          q.echo = false
+          q.echo = true
           q.whitespace = :strip
         end
         sample == "" or sample == "y" or sample == "yes" or sample == "true"

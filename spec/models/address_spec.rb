@@ -27,10 +27,10 @@ describe Address do
     @address.should_not be_valid
   end
 
-  ['First Name', 'Last Name', 'Address', 'City', 'Country', 'Zip Code', 'Phone'].each do |field|
+  ['firstname', 'lastname', 'address1', 'city', 'country', 'zipcode', 'phone'].each do |field|
     it "should require #{field}" do
-      @address.should_not be_valid
-      @address.errors.full_messages.should include("#{field} #{I18n.translate("activerecord.errors.messages.blank")}")
+      @address.should_not be_valid                    
+      @address.errors.full_messages.should include("#{Address.human_attribute_name(field)} #{I18n.translate("activerecord.errors.messages.blank")}")
     end
   end
 
@@ -43,7 +43,8 @@ describe Address do
 
   it "should require a state when the associated country have states" do
     @address.attributes = valid_address_attributes.with(
-      :country => Country.new(:states => [State.new(:name => "A State", :abbr => "ST")])
+      :country => Country.new(:states => [State.new(:name => "A State", :abbr => "ST")]),
+      :state_name => ""
     )
 
     @address.should_not be_valid

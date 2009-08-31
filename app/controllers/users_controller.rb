@@ -4,7 +4,8 @@ class UsersController < Spree::BaseController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:show, :edit, :update]
   before_filter :initialize_extension_partials
-
+  ssl_required :new, :create, :edit, :update, :show
+  
   actions :all, :except => [:index, :destroy]
 
   create do   
@@ -13,11 +14,18 @@ class UsersController < Spree::BaseController
     wants.js { render :js => true.to_json }
     failure.wants.html { render :new }
     failure.wants.js { render :js => @user.errors.to_json }    
+  end 
+  
+  create.after do
+    next if admin_created?
+    @user.roles << Role.find_by_name("admin")
   end
 
   show.before do
-    @orders = Order.checkout_completed(true).find_all_by_user_id(current_user.id)
+    @orders = @user.orders.checkout_complete 
   end
+  
+  new_action.before { flash.now[:notice] = I18n.t(:please_create_user) unless admin_created? }
 
   def update
     @user = @current_user
@@ -28,11 +36,5 @@ class UsersController < Spree::BaseController
       render :action => :edit
     end
   end
-
-
-  private
-    def object
-      @object ||= current_user
-    end
 
 end

@@ -31,13 +31,16 @@ namespace 'spree' do
     s.bindir = 'bin'
     s.executables = ['spree']
     s.add_dependency 'rake', '>= 0.7.1'
-    s.add_dependency 'highline', '= 1.4.0'
+    s.add_dependency 'highline', '>= 1.4.0'
     s.add_dependency 'rails', '= 2.3.2'
-    s.add_dependency 'activemerchant', '= 1.4.1'
-    s.add_dependency 'activerecord-tableless', '= 0.1.0' 
-    s.add_dependency 'has_many_polymorphs', '= 2.13'     
+    s.add_dependency 'activemerchant', '>= 1.4.1'
+    s.add_dependency 'activerecord-tableless', '>= 0.1.0' 
     s.add_dependency 'calendar_date_select', '= 1.15' 
-    s.add_dependency 'tlsmail', '= 0.0.1'
+    s.add_dependency 'tlsmail', '= 0.0.1' 
+    s.add_dependency 'rspec', '>= 1.2.0'
+    s.add_dependency 'rspec-rails', '>= 1.2.0' 
+    # For some reason the authlogic dependency really screws things up (See Issue #433)
+    #s.add_dependency 'authlogic', '>= 2.0.11'
     s.has_rdoc = true
     #s.rdoc_options << '--title' << RDOC_TITLE << '--line-numbers' << '--main' << 'README'
     rdoc_excludes = Dir["**"].reject { |f| !File.directory? f }
@@ -53,10 +56,9 @@ namespace 'spree' do
     files.exclude 'config/locomotive.yml'
     files.exclude 'config/lighttpd.conf'
     files.exclude 'config/mongrel_mimes.yml'
-    files.exclude 'db/*.db'
+    files.exclude 'db/schema.db'
     files.exclude 'db/*.sqlite3'
     files.exclude 'db/*.sql'
-    files.exclude 'db/*.rb'
     files.exclude /^doc/
     files.exclude 'log/*.log'
     files.exclude 'log/*.pid'
@@ -79,8 +81,13 @@ namespace 'spree' do
       sh "gem uninstall #{PKG_NAME}" rescue nil
     end
 
+    desc "Install the gems needed for testing"
+    task :test_gems do
+      system "rake gems:install RAILS_ENV=test"
+    end
+
     desc "Build and install Gem from source"
-    task :install => [:package, :uninstall] do
+    task :install => [:test_gems, :package, :uninstall] do
       chdir("#{SPREE_ROOT}/pkg") do
         latest = Dir["#{PKG_NAME}-*.gem"].last
         sh "gem install #{latest}"

@@ -1,5 +1,4 @@
 module Admin::BaseHelper
-
   def link_to_new(resource)
     link_to_with_icon('add', t("new"), edit_object_url(resource))
   end
@@ -8,8 +7,24 @@ module Admin::BaseHelper
     link_to_with_icon('edit', t("edit"), edit_object_url(resource))
   end
   
-  def link_to_delete(resource)
-    link_to_with_icon('delete', t("delete"), object_url(resource), :confirm => t('are_you_sure'), :method => :delete )
+  def link_to_delete(resource, options = {})
+	  options.assert_valid_keys(:url, :caption, :title)
+
+		options.reverse_merge! :url => object_url(resource) unless options.key? :url
+    options.reverse_merge! :caption => t('are_you_sure')
+    options.reverse_merge! :title => t('confirm_delete')
+
+    #link_to_with_icon('delete', t("delete"), object_url(resource), :confirm => t('are_you_sure'), :method => :delete )
+		link_to_function icon("delete") + ' ' + t("delete"), "jConfirm('#{options[:caption]}', '#{options[:title]}', function(r) { 
+      if(r){ 
+        jQuery.ajax({
+          type: 'POST',
+          url: '#{options[:url]}',
+          data: ({_method: 'delete', authenticity_token: AUTH_TOKEN}),
+          success: function(r){ jQuery('##{dom_id resource}').fadeOut('hide'); } 
+        });
+      }
+		});"
   end
   
   def link_to_with_icon(icon_name, text, url, options = {})
@@ -20,8 +35,8 @@ module Admin::BaseHelper
     image_tag("/images/admin/icons/#{icon_name}.png")
   end
   
-  def button(text, icon = nil)
-    content_tag('button', content_tag('span', text))
+  def button(text, icon = nil, button_type = 'submit')
+    content_tag('button', content_tag('span', text), :type => button_type)
   end
 
   def button_link_to(text, url, html_options = {})
@@ -62,10 +77,14 @@ module Admin::BaseHelper
       options = options.merge(args.pop)
     end
     options[:route] ||=  "admin_#{args.first}"
-    
+
+    destination_url = send("#{options[:route]}_path")
+
+    return("") unless url_options_authenticate?(ActionController::Routing::Routes.recognize_path(destination_url))
+
     ## if more than one form, it'll capitalize all words
     label_with_first_letters_capitalized = t(options[:label]).gsub(/\b\w/){$&.upcase}
-    link = link_to(label_with_first_letters_capitalized, send("#{options[:route]}_path"))
+    link = link_to(label_with_first_letters_capitalized, destination_url)
     
     css_classes = []
 
@@ -146,5 +165,54 @@ module Admin::BaseHelper
     out << fields.hidden_field(:_delete) unless fields.object.new_record?
     out << (link_to icon("delete"), "#", :class => "remove")
     out
-  end    
+  end
+
+  def preference_field(form, field, options)
+    case options[:type]
+    when :integer
+      form.text_field(field, {
+          :size => 10,
+          :class => 'input_integer',
+          :readonly => options[:readonly],
+          :disabled => options[:disabled]
+        }
+      )
+    when :boolean
+      form.check_box(field, {:readonly => options[:readonly],
+          :disabled => options[:disabled]})
+    when :string
+      form.text_field(field, {
+          :size => 10,
+          :class => 'input_string',
+          :readonly => options[:readonly],
+          :disabled => options[:disabled]
+        }
+      )
+    when :text
+      form.text_area(field,
+        {:rows => 15, :cols => 85, :readonly => options[:readonly],
+          :disabled => options[:disabled]}
+      )
+    else
+      form.text_field(field, {
+          :size => 10,
+          :class => 'input_string',
+          :readonly => options[:readonly],
+          :disabled => options[:disabled]
+        }
+      )
+    end
+  end
+
+  def preference_fields(object, form)
+    return unless object.respond_to?(:preferences)
+    object.preferences.keys.map{ |key|
+      definition = object.class.preference_definitions[key]
+      type = definition.instance_eval{@type}.to_sym
+      
+      form.label("preferred_#{key}", t(key)+": ") +
+        preference_field(form, "preferred_#{key}", :type => type)
+    }.join("<br />")
+  end
+
 end

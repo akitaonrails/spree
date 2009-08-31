@@ -4,25 +4,30 @@ class Taxon < ActiveRecord::Base
   has_and_belongs_to_many :products
   before_save :set_permalink  
     
+
+  # indicate which filters should be used for a taxon
+  # this method should be customized to your own site
+  def applicable_filters
+    fs  = []
+    fs << ProductFilters.taxons_below(self)
+                          ## unless it's a root taxon? left open for demo purposes
+    fs += [ 
+            ProductFilters.price_filter,
+            ProductFilters.brand_filter,
+            ProductFilters.selective_brand_filter(self) ]
+  end
+
   private
+
+  # Creates permalink based on .to_url method provided by stringx gem
   def set_permalink
-    ancestors.reverse.collect { |ancestor| ancestor.name }.join( "/")
-    prefix = ancestors.reverse.collect { |ancestor| escape(ancestor.name) }.join( "/")
-    prefix += "/" unless prefix.blank?
-    self.permalink =  prefix + "#{escape(name)}/"
+    self.permalink = (ancestors.reverse + [self]).collect { |taxon| 
+      taxon.name.to_url 
+    }.join("/") + "/"
   end
   
-  # taken from the find_by_param plugin
+  # obsolete, kept for backwards compat 
   def escape(str)
-    return "" if str.blank? # hack if the str/attribute is nil/blank
-    s = Iconv.iconv('ascii//ignore//translit', 'utf-8', str.dup).to_s
-    returning str.dup.to_s do |s|
-      s.gsub!(/\ +/, '-') # spaces to dashes, preferred separator char everywhere
-      s.gsub!(/[^\w^-]+/, '') # kill non-word chars except -
-      s.strip!            # ohh la la
-      s.downcase!         # :D
-      s.gsub!(/([^ a-zA-Z0-9_-]+)/n,"") # and now kill every char not allowed.
-    end
+    str.blank? ? "" : str.to_url
   end
-  
 end
