@@ -1,4 +1,4 @@
-#######################################################################################################
+######################################################################################################
 # Substantial portions of this code were adapted from the Radiant CMS project (http://radiantcms.org) #
 #######################################################################################################
 
@@ -102,6 +102,7 @@ class InstanceGenerator < Rails::Generator::Base
 
       # Instance Configurations
       m.file "instance_routes.rb", "config/routes.rb"
+      m.file "../../../../db/seeds.rb", "db/seeds.rb"
       m.template "../../../../config/environment.rb", "config/environment.rb", :assigns => { :app_name => @app_name, :app_secret_key_to_be_replaced_in_real_app_by_generator => secret }
       m.file "../../../../config/boot.rb", "config/boot.rb"
       m.template "session_store.rb", "config/initializers/session_store.rb", :assigns => { :app_name => @app_name, :app_secret_key_to_be_replaced_in_real_app_by_generator => secret }
@@ -120,6 +121,7 @@ class InstanceGenerator < Rails::Generator::Base
   
   def after_generate
     Rails::Generator::Scripts::Generate.new.run(%w{extension site}, :destination => "#{@destination_root}/")
+    File.rename("#{@destination_root}/config/initializers/session_store.rb", "#{@destination_root}/vendor/extensions/site/config/initializers/session_store.rb")
     puts File.read("#{@destination_root}/INSTALL") unless options[:pretend]
   end  
 

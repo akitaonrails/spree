@@ -12,7 +12,7 @@ class Order < ActiveRecord::Base
   belongs_to :user
   has_many :state_events
 
-  has_many :line_items,   :extend => Totaling, :dependent => :destroy, :attributes => true
+  has_many :line_items, :extend => Totaling, :dependent => :destroy
   has_many :inventory_units
 
   has_many :payments,            :extend => Totaling
@@ -30,8 +30,10 @@ class Order < ActiveRecord::Base
     :class_name => "Charge", :conditions => {:secondary_type => "TaxCharge"}
   has_many :credits,          :extend => Totaling, :order => :position
   has_many :coupon_credits, :class_name => "Credit", :extend => Totaling, :conditions => {:adjustment_source_type => "Coupon"}, :order => :position
+  has_many :non_zero_charges, :class_name => "Charge", :conditions => ["amount > 0"]
 
-  accepts_nested_attributes_for :checkout
+  accepts_nested_attributes_for :checkout  
+  accepts_nested_attributes_for :line_items
   
   def ship_address; shipment.address; end
   delegate :shipping_method, :to =>:shipment
@@ -209,7 +211,11 @@ class Order < ActiveRecord::Base
   def update_totals
     self.item_total       = self.line_items.total
 
-    charges.reload.each(&:update_amount)
+    # save the items which might be changed by an order update, so that
+    # charges can be recalculated accurately.
+    self.line_items.map(&:save)
+
+    adjustments.reload.each(&:update_amount)
     self.adjustment_total = self.charge_total - self.credit_total
 
     self.total            = self.item_total   + self.adjustment_total
@@ -221,15 +227,19 @@ class Order < ActiveRecord::Base
   end
 
   private
-  
+ 
   def complete_order
     checkout.update_attribute(:completed_at, Time.now)
-    InventoryUnit.sell_units(self)
-    save_result = save!
     if email
       OrderMailer.deliver_confirm(self)
     end
-    save_result
+    begin
+      InventoryUnit.sell_units(self)
+      save!
+    rescue Exception => e
+      logger.error "Problem saving authorized order: #{e.message}"
+      logger.error self.to_yaml
+    end
   end
 
   def cancel_order

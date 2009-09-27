@@ -1,9 +1,9 @@
 class ProductsController < Spree::BaseController
-  prepend_before_filter :reject_unknown_object
+  prepend_before_filter :reject_unknown_object, :only => [:show]
+  before_filter :load_data, :only => :show
 
   resource_controller
   helper :taxons  
-  before_filter :load_data, :only => :show
   actions :show, :index
 
   index do
@@ -21,7 +21,7 @@ class ProductsController < Spree::BaseController
   private
   def load_data  
     load_object  
-    @selected_variant = @product.variants.detect { |v| v.in_stock || Spree::Config[:allow_backorders] }
+    @selected_variant = @product.variants.detect { |v| v.available? }
 		
     return unless permalink = params[:taxon_path]
     @taxon = Taxon.find_by_permalink(params[:taxon_path].join("/") + "/")	 
@@ -40,12 +40,13 @@ class ProductsController < Spree::BaseController
 
     # this can now be set on a model basis 
     # Product.per_page ||= Spree::Config[:products_per_page]
+    per_page = params[:per_page].present? ? params[:per_page] : Spree::Config[:products_per_page]
 
     ## defunct?
     @product_cols = 3 
 
     @products ||= @search.paginate(:include  => [:images, {:variants => :images}],
-                                   :per_page => params[:per_page] || Spree::Config[:products_per_page],
+                                   :per_page => per_page,
                                    :page     => params[:page])
   end
 end

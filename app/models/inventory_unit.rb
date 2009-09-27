@@ -21,7 +21,7 @@ class InventoryUnit < ActiveRecord::Base
     # TODO: add backorder state and relevant transitions
   end
   
-  # destory the specified number of on hand inventory units 
+  # destroy the specified number of on hand inventory units 
   def self.destroy_on_hand(variant, quantity)
     inventory = self.retrieve_on_hand(variant, quantity)
     inventory.each do |unit|
@@ -29,7 +29,7 @@ class InventoryUnit < ActiveRecord::Base
     end                                          
   end
   
-  # destory the specified number of on hand inventory units
+  # create the specified number of on hand inventory units
   def self.create_on_hand(variant, quantity)
     quantity.times do
       self.create(:variant => variant, :state => 'on_hand')
@@ -44,7 +44,8 @@ class InventoryUnit < ActiveRecord::Base
       # retrieve the requested number of on hand units (or as many as possible) - note: optimistic locking used here
       on_hand = self.retrieve_on_hand(variant, quantity)
       # mark all of these units as sold and associate them with this order 
-      on_hand.each do |unit|
+      on_hand.each do |unit|          
+        unit.order = order
         unit.sell!
       end
       # right now we always allow back ordering

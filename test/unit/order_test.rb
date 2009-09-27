@@ -6,9 +6,9 @@ require 'test_helper'
 class OrderTest < ActiveSupport::TestCase
   context "create" do
     setup { Order.create }
-    should_change "Checkout.count", :by => 1
-  end   
-  
+    should_change("Checkout.count", :by => 1) { Checkout.count }
+  end
+
   context "Order" do
     setup { create_complete_order }
 
@@ -38,13 +38,22 @@ class OrderTest < ActiveSupport::TestCase
       assert_not_nil(@order.total)
     end
 
+    context "when line_items change" do
+      setup do 
+        @first_price = @order.line_items.first.price
+        @order.line_items.first.update_attribute(:quantity, @order.line_items.first.quantity + 1)
+        @order.save
+      end
+      should_change("item total", :by => @first_price) { @order.item_total }
+    end
+
     should "create default tax charge" do
       assert(@order.tax_charges.first, "Tax charge was not created")
-    end    
+    end
 
     context "complete" do
       setup { @order.complete }
-      should_change "@order.state", :from => "in_progress", :to => "new"
+      should_change("@order.state", :from => "in_progress", :to => "new") { @order.state }
 
       should "create shipment" do
         assert(@order.shipments.first, "Shipment was not created")
@@ -53,7 +62,19 @@ class OrderTest < ActiveSupport::TestCase
       should "update checkout completed_at" do
         assert(@order.checkout.completed_at, "Checkout#completed_at was not updated")
       end
+
+      context "with empty stock" do
+        setup do
+          line_item = @order.line_items.first
+          num_left = line_item.variant.inventory_units.with_state("on_hand").count
+          InventoryUnit.destroy_on_hand(line_item.variant, num_left)
+        end
+        should "be able to save order when allow_backorders is off" do
+          Spree::Config.set(:allow_backorders => false)
+          assert(@order.save == true, "Completed order could not be saved")
+          Spree::Config.set(:allow_backorders => true)
+        end
+      end
     end
   end
-
 end

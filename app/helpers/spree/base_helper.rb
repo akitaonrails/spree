@@ -33,8 +33,8 @@ module Spree::BaseHelper
     # overwrite show_vat_text if show_price_inc_vat is false
     options[:show_vat_text] = Spree::Config[:show_price_inc_vat]
 
-    amount =  order.item_total    
-    amount += Spree::VatCalculator.calculate_tax(order) if Spree::Config[:show_price_inc_vat]    
+    amount =  order.item_total   
+    amount += Calculator::Vat.calculate_tax(order) if Spree::Config[:show_price_inc_vat]
 
     options.delete(:format_as_currency) ? number_to_currency(amount) : amount
   end
@@ -69,7 +69,7 @@ module Spree::BaseHelper
   # human readable list of variant options
   def variant_options(v, allow_back_orders = Spree::Config[:allow_backorders], include_style = true)
     list = v.options_text
-    list = include_style ? "<span class =\"out-of-stock\">(" + t("out_of_stock") + ") #{list}</span>" : "#{t("out_of_stock")} #{list}" unless (v.in_stock or allow_back_orders)
+    list = include_style ? "<span class =\"out-of-stock\">(" + t("out_of_stock") + ") #{list}</span>" : "#{t("out_of_stock")} #{list}" unless (v.in_stock? or allow_back_orders)
     list
   end  
   

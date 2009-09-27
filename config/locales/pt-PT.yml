@@ -167,6 +167,7 @@ pt-PT:
   add_state: "Adicionar Estado"
   add_to_cart: "Adicionar ao Carro"
   add_zone: "Adicionar Zona"
+  additional_item: Additional Item Cost
   address: Morada
   address_information: "Informação de Morada"
   adjustment: Acerto
@@ -284,6 +285,7 @@ pt-PT:
   extensions: Extensões
   filename: "Nome do ficheiro"
   final_confirmation: "Confirmação Final"
+  first_item: First Item Cost
   first_name: Nome
   flat_percent: Flat Percent
   flat_rate_amount: Amount
@@ -351,6 +353,7 @@ pt-PT:
   mail_server_settings: "Configuração do Servidor de E-mail"
   mark_shipped: "Mark Shipped"
   master_price: "Preço Principal"
+  max_items: Max Items
   meta_description: "Meta Description"
   meta_keywords: "Meta Keywords"
   metadata: "Metadata"
@@ -412,6 +415,8 @@ pt-PT:
   orders: Encomendas
   out_of_stock: "sem Stock"
   overview: Resumo
+  page_only_viewable_when_logged_in: You attempted to visit a page which can only be viewed when you are logged in
+  page_only_viewable_when_logged_out: You attempted to visit a page which can only be viewed when you are logged out
   paid: Paid
   parent_category: "Categoria do Pai"
   password: pass

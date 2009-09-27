@@ -9,6 +9,7 @@ class ActiveSupport::TestCase
 end
 
 I18n.locale = "en-US"
+Spree::Config.set(:default_country_id => Country.first.id) if Country.first
 
 ActionController::TestCase.class_eval do
   # special overload methods for "global"/nested params
@@ -41,7 +42,8 @@ def create_complete_order
   @zone = Zone.global
   @order = Factory(:order)
   3.times do
-    variant = Factory(:product).variants.first
+    #variant = Factory(:product).variants.first
+    variant = Factory(:variant)
     Factory(:line_item, :variant => variant, :order => @order)
   end
 

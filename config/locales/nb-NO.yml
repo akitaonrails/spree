@@ -167,6 +167,7 @@ nb-NO:
   add_state: "Legg til tilstand"
   add_to_cart: "Legg i handlekurv"
   add_zone: "Legg til sone"
+  additional_item: Additional Item Cost
   address: Adresse
   address_information: "Adresseinformasjon"
   adjustment: Justering
@@ -284,6 +285,7 @@ nb-NO:
   extensions: Utvidelser
   filename: Filnavn
   final_confirmation: "Endelig bekreftelse"
+  first_item: First Item Cost
   first_name: "Fornavn"
   flat_percent: Flat Percent
   flat_rate_amount: Amount
@@ -351,6 +353,7 @@ nb-NO:
   mail_server_settings: "Innstillinger for epostserver"
   mark_shipped: "Merk som levert"
   master_price: "Ordinær pris"
+  max_items: Max Items
   meta_description: "Meta Description"
   meta_keywords: "Meta Keywords"
   metadata: "Metadata"
@@ -412,6 +415,8 @@ nb-NO:
   orders: Ordrer
   out_of_stock: "Ikke på lager"
   overview: Oversikt
+  page_only_viewable_when_logged_in: You attempted to visit a page which can only be viewed when you are logged in
+  page_only_viewable_when_logged_out: You attempted to visit a page which can only be viewed when you are logged out
   paid: Betalt
   parent_category: "Overkategori"
   password: Passord
