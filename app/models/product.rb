@@ -1,10 +1,10 @@
 # PRODUCTS
-# Products represent an entity for sale in a store.  
-# Products can have variations, called variants 
-# Products properties include description, permalink, availability, 
+# Products represent an entity for sale in a store.
+# Products can have variations, called variants
+# Products properties include description, permalink, availability,
 #   shipping category, etc. that do not change by variant.
 #
-# MASTER VARIANT 
+# MASTER VARIANT
 # Every product has one master variant, which stores master price and sku, size and weight, etc.
 # The master variant does not have option values associated with it.
 # Price, SKU, size, weight, etc. are all delegated to the master variant.
@@ -16,73 +16,79 @@
 # The master variant can have inventory units, but not option values.
 # All other variants have option values and may have inventory units.
 # Sum of on_hand each variant's inventory level determine "on_hand" level for the product.
-# 
+#
 class Product < ActiveRecord::Base
   has_many :product_option_types, :dependent => :destroy
   has_many :option_types, :through => :product_option_types
   has_many :variants, :dependent => :destroy
   has_many :product_properties, :dependent => :destroy, :attributes => true
   has_many :properties, :through => :product_properties
-	has_many :images, :as => :viewable, :order => :position, :dependent => :destroy
-	
+  has_many :images, :as => :viewable, :order => :position, :dependent => :destroy
+
   belongs_to :tax_category
   has_and_belongs_to_many :taxons
   belongs_to :shipping_category
-  
-  has_one :master, 
-    :class_name => 'Variant', 
-    :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", true],
-    :dependent => :destroy
+
+  has_one :master,
+    :class_name => 'Variant',
+    :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", true]
+
   delegate_belongs_to :master, :sku, :price, :weight, :height, :width, :depth, :is_master
+
   after_create :set_master_variant_defaults
   after_create :add_properties_and_option_types_from_prototype
-  after_save :set_master_on_hand_to_zero_when_product_has_variants    
+  before_save :recalculate_count_on_hand
+  after_save :set_master_on_hand_to_zero_when_product_has_variants
   after_save :save_master
-  
-  has_many :variants, 
-    :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", false],
+
+  has_many :variants,
+    :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", false]
+
+
+  has_many :variants_including_master,
+    :class_name => 'Variant',
+    :conditions => ["variants.deleted_at IS NULL"],
     :dependent => :destroy
 
-    validates_presence_of :name
-    validates_presence_of :price
+  validates_presence_of :name
+  validates_presence_of :price
 
   accepts_nested_attributes_for :product_properties
-  
+
   make_permalink
 
   alias :options :product_option_types
 
+  include Scopes::Product
+
   # default product scope only lists available and non-deleted products
   named_scope :active,      lambda { |*args| Product.not_deleted.available(args.first).scope(:find) }
-
-  named_scope :not_deleted,                  { :conditions => "products.deleted_at is null" }
+  named_scope :on_hand,     { :conditions => "products.count_on_hand > 0" }
+  named_scope :not_deleted, { :conditions => "products.deleted_at is null" }
   named_scope :available,   lambda { |*args| { :conditions => ["products.available_on <= ?", args.first || Time.zone.now] } }
-
-  # other useful product scopes
-  include ProductScopes
-
+  named_scope :group_by_products_id, { :group => "products.id" }
 
   # ----------------------------------------------------------------------------------------------------------
   #
   # The following methods are deprecated and will be removed in a future version of Spree
-  # 
+  #
   # ----------------------------------------------------------------------------------------------------------
-  
+
   def master_price
-    warn "[DEPRECATION] `Product.master_price` is deprecated.  Please use `Product.price` instead. (called from #{caller[0]}"
+    warn "[DEPRECATION] `Product.master_price` is deprecated.  Please use `Product.price` instead. (called from #{caller[0]})"
     self.price
   end
-  
+
   def master_price=(value)
-    warn "[DEPRECATION] `Product.master_price=` is deprecated.  Please use `Product.price=` instead. (called from #{caller[0]}"
+    warn "[DEPRECATION] `Product.master_price=` is deprecated.  Please use `Product.price=` instead. (called from #{caller[0]})"
     self.price = value
   end
-  
+
   def variants?
     warn "[DEPRECATION] `Product.variants?` is deprecated.  Please use `Product.has_variants?` instead. (called from #{caller[0]})"
     self.has_variants?
   end
-  
+
   def variant
     warn "[DEPRECATION] `Product.variant` is deprecated.  Please use `Product.master` instead. (called from #{caller[0]})"
     self.master
@@ -92,11 +98,11 @@ class Product < ActiveRecord::Base
   # end deprecation region
   # ----------------------------------------------------------------------------------------------------------
 
-  def to_param       
+  def to_param
     return permalink unless permalink.blank?
     name.to_url
   end
-  
+
   # returns true if the product has any variants (the master variant is not a member of the variants array)
   def has_variants?
     !variants.empty?
@@ -123,7 +129,7 @@ class Product < ActiveRecord::Base
   def prototype_id=(value)
     @prototype_id = value.to_i
   end
-  
+
   def add_properties_and_option_types_from_prototype
     if prototype_id and prototype = Prototype.find_by_id(prototype_id)
       prototype.properties.each do |property|
@@ -132,8 +138,46 @@ class Product < ActiveRecord::Base
       self.option_types = prototype.option_types
     end
   end
-  
+
+  # for adding products which are closely related to existing ones 
+  # define "duplicate_extra" for site-specific actions, eg for additional fields
+  def duplicate
+    p = self.clone
+    p.name = 'COPY OF ' + self.name
+    p.deleted_at = nil 
+    p.created_at = p.updated_at = nil
+    p.taxons = self.taxons
+
+    p.product_properties = self.product_properties.map {|q| r = q.clone; r.created_at = r.updated_at = nil; r}
+
+    image_clone = lambda {|i| j = i.clone; j.attachment = i.attachment.clone; j}
+    p.images = self.images.map {|i| image_clone.call i}
+
+    variant = self.master.clone
+    variant.sku = 'COPY OF ' + self.master.sku
+    variant.deleted_at = nil
+    variant.images = self.master.images.map {|i| image_clone.call i}
+    p.master = variant
+
+    if self.has_variants?
+      # don't clone the actual variants, just the characterising types
+      p.option_types = self.option_types
+    else
+    end
+    # allow site to do some customization
+    p.send(:duplicate_extra) if p.respond_to?(:duplicate_extra)
+    p.save!
+    p
+  end
+
   private
+ 
+  def recalculate_count_on_hand
+    product_count_on_hand = has_variants? ?
+        variants.inject(0) {|acc, v| acc + v.count_on_hand} :
+        (master ? master.count_on_hand : 0)
+    self.count_on_hand = product_count_on_hand
+  end
 
   # the master on_hand is meaningless once a product has variants as the inventory
   # units are now "contained" within the product variants
@@ -144,11 +188,11 @@ class Product < ActiveRecord::Base
   # ensures the master variant is flagged as such
   def set_master_variant_defaults
     master.is_master = true
-  end      
-  
+  end
+
   # there's a weird quirk with the delegate stuff that does not automatically save the delegate object
   # when saving so we force a save using a hook.
   def save_master
-    master.save if master
+    master.save if master && (master.changed? || master.new_record?)
   end
 end

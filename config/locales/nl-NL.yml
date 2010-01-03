@@ -1,5 +1,8 @@
 --- 
 nl-NL: 
+  'no': "No"
+  'yes': "Yes"
+  5_biggest_spenders: "5 Biggest Spenders"
   a_copy_of_all_mail_will_be_sent_to_the_following_addresses: "Een kopie van alle mail wordt verzonden naar de volgende adressen"
   abbreviation: Afkorting
   access_denied: "Toegang geweigerd"
@@ -24,6 +27,24 @@ nl-NL:
         lastname: Achternaam
         phone: Telefoon
         zipcode: Postcode
+      checkout:
+        bill_address:
+          address1: "Billing address street"
+          city: "Billing address city"
+          firstname: "Billing address first name"
+          lastname: "Billing address last name"
+          phone: "Billing address phone"
+          state: "Billing address state"
+          zipcode: "Billing address zipcode"
+        shipment:
+          address:
+            address1: "Shipping address street"
+            city: "Shipping address city"
+            firstname: "Shipping address first name"
+            lastname: "Shipping address last name"
+            phone: "Shipping address phone"
+            state: "Shipping address state"
+            zipcode: "Shipping address zipcode"
       country: 
         iso: ISO
         iso3: ISO3
@@ -130,6 +151,9 @@ nl-NL:
       role: 
         one: Rol
         other: Rollen
+      shipment:
+        one: Shipment
+        other: Shipments
       shipping_category: 
         one: "Verzend-categorie"
         other: "Verzend-categorieën"
@@ -163,6 +187,7 @@ nl-NL:
   add_option_type: "Optie Type Toevoegen"
   add_option_types: "Optie Type"
   add_option_value: "Optie Waarde Toevoegen"
+  add_product: "Add Product"
   add_product_properties: "Add Product Properties"
   add_state: "Status Toevoegen"
   add_to_cart: "Toevoegen aan Winkelwagen"
@@ -171,8 +196,10 @@ nl-NL:
   address: Adres
   address_information: "Adresgegevens"
   adjustment: Aanpassing
+  adjustments: Adjustments
   administration: Administratie
   all: "All"
+  all_departments: All departments
   allow_backorders: "Nabestellingen toelaten"
   allow_ssl_to_be_used_when_in_developement_and_test_modes: "SSL gebruik toestaan in ontwikkel- en testomgevingen"
   allow_ssl_to_be_used_when_in_production_mode: "SSL gebruik toestaan in productie-omgeving"         
@@ -195,8 +222,16 @@ nl-NL:
   back: Terug
   back_to_store: "Verder Winkelen"
   backordering_is_allowed: "Backordering {{not}} allowed"
+  balance_due: "Balance Due"
+  best_selling_products: "Best Selling Products"
+  best_selling_taxons: "Best Selling Taxons"
   bill_address: "Factuuradres"
+  billing: Billing
   billing_address: "Factuuradres"
+  billing_integration: Billing Integration
+  billing_integrations: Billing Integrations
+  billing_integrations_description: "Configure your settings for third party billing integrations such as Paypal, Google Checkout, etc."
+  by_day: "by day"
   calculator: Calculator
   calculator_settings_warning: "If you are changing the calculator type, you must save first before you can edit the calculator settings"
   cancel: annuleer
@@ -212,8 +247,16 @@ nl-NL:
   change_language: "Taalkeuze"
   charge_total: Charge Total
   charged: Afgeboekt
+  charges: Charges
   checkout: Bestelling
+  checkout_steps:
+    # keys correspond to Checkout state names:
+    address: Address
+    complete: Complete
+    delivery: Delivery
+    payment: Payment
   city: Stad
+  clone: Clone
   code: Code
   combine: Combine
   comp_order: "Afgebroken order"
@@ -229,6 +272,7 @@ nl-NL:
   continue: "Ga Verder"
   continue_shopping: "Verder Winkelen"
   copy_all_mails_to: "Kopieer Alle Mails Naar"
+  count: Count
   country: Land
   country_based: "Gebaseerd op land"
   coupon: Coupon                                                                             
@@ -242,10 +286,14 @@ nl-NL:
   credit_card: "Creditcard"
   credit_card_capture_complete: "Afboeking via creditcard voltooid"
   credit_card_payment: "Creditcard Betaling"
+  credit_owed: "Credit Owed"
   credit_total: Credit Total
   creditcard: Creditcard
+  credits: Credits
   current: Huidige
   customer: Klant
+  customer_details: "Customer Details"
+  customer_search: "Customer Search"
   date_range: "Datum Bereik"
   delete: Verwijder
   depth: Diepte
@@ -253,6 +301,7 @@ nl-NL:
   destroy: Verwijder
   display: Weergeven
   edit: Wijzig
+  editing_billing_integration: Editing Billing Integration
   editing_category: "Wijzig Categorie"
   editing_coupon: Editing Coupon
   editing_option_type: "Optie Type Wijzigen"
@@ -272,6 +321,8 @@ nl-NL:
   email_address: "E-mail Adres"
   email_server_settings_description: "E-mail server installen."
   empty_cart: "Winkelwagen leegmaken"
+  enable_login_via_login_password: "Use standard email/password"  
+  enable_login_via_openid: "Use OpenID instead"
   enable_mail_delivery: "Mail aflevering aanzetten"
   enable_mail_queue: "Enable Mail Queue"
   enter_exactly_as_shown_on_card: Please enter exactly as shown on the card
@@ -317,6 +368,7 @@ nl-NL:
   images: Afbeeldingen
   images_for: "Images for"
   in_progress: "Aan de gang"
+  integration_settings_warning: "If you are changing the billing integration, you must save first before you can edit the integration settings"
   invalid_search: "Foute zoekcriteria."
   inventory: Voorraad
   inventory_adjustment: "Voorraad Aanpassing"
@@ -326,7 +378,13 @@ nl-NL:
   item: Products
   item_description: "Product Omschrijving"
   item_total: "Product Totaal"
+  items: "Items"
+  last_14_days: "Last 14 Days"
+  last_5_orders: "Last 5 Orders"
+  last_7_days: "Last 7 Days" 
+  last_month: "Last Month"
   last_name: "Achternaam"
+  last_year: "Last Year"
   list: Lijst
   listing_categories: "Lijst Categorieën"
   listing_option_types: "Lijst Optie Types"
@@ -344,6 +402,7 @@ nl-NL:
   login_failed: "Inloggen mislukt."      
   login_name: Loginnaam
   logout: Uitloggen
+  look_for_similar_items: Look for similar items
   maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "Mail aflevering aangezet"
   mail_delivery_not_enabled: "Mail aflevering afgezet"
@@ -357,11 +416,14 @@ nl-NL:
   meta_description: "Meta-beschrijving"
   meta_keywords: "Meta keywords"
   metadata: "Metadata"
+  missing_required_information: "Missing Required Information"
   month: "Maand"
   my_account: "Mijn Profiel"
   my_orders: "Mijn Bestellingen"    
   name: Naam
   new: Nieuw
+  new_adjustment: "New Adjustment"
+  new_billing_integration: New Billing Integration
   new_category: "Nieuwe categorie"
   new_coupon: New Coupon
   new_credit_card_payment: "Nieuwe creditcard betaling"
@@ -369,7 +431,9 @@ nl-NL:
   new_image: "Nieuwe afbeelding"
   new_option_type: "Nieuw Optie Type"
   new_option_value: "Nieuwe Optie Waarde"
+  new_order: "New Order"
   new_product: "Nieuw Product"
+  new_product_group: New Product Group
   new_property: "Nieuwe Eigenschap"
   new_prototype: "Nieuw Prototype"
   new_shipment: "Nieuwe Verzending"
@@ -385,9 +449,9 @@ nl-NL:
   new_variant: "Nieuwe Variant"
   new_zone: "Nieuwe Zone"
   next: Volgende
-  no: "No"
   no_items_in_cart: "Geen producten in Winkelwagen"
   no_match_found: "Geen gelijke gevonden"
+  no_products_found: "No products found"
   no_user_found: "No user was found with that email address"
   none: Geen
   none_available: "Niet op voorraad"
@@ -399,6 +463,8 @@ nl-NL:
   option_values: "Waarden Opties"
   options: Opties
   or: of
+  ord_qty: "Ord. Qty"
+  ord_total: "Ord. Total"
   order: Bestelling
   order_confirmation_note: "Orderbevestiging"
   order_date: "Besteldatum"
@@ -409,12 +475,16 @@ nl-NL:
   order_operation_authorize: Autoriseren
   order_processed_successfully: "Uw bestelling is succesvol verwerkt"
   order_summary: Order Summary
+  order_sure_want_to: "Are you sure you want to {{event}} this order?"
   order_total: "Bestelling Totaal"
   order_total_message: "Het aan te rekenen totaalbedrag is"
   order_updated: "Bestelling gewijzigd"
   orders: Bestellingen
   out_of_stock: "Niet op Voorraad"
+  out_of_stock_products: "Out of Stock Products"
+  over_paid: "Over Paid"
   overview: Overzicht
+  overview_welcome: "Welcome to your store overview, currently we do not have enough data to display the Overiew Dashboard.<br/><br/> The dashboard will display automatically once the system has sufficent orders to allow generation of the statistics."
   page_only_viewable_when_logged_in: You attempted to visit a page which can only be viewed when you are logged in
   page_only_viewable_when_logged_out: You attempted to visit a page which can only be viewed when you are logged out
   paid: Betaald
@@ -435,8 +505,10 @@ nl-NL:
   please_create_user: "Please create a user account"     
   powered_by: "Powered by"
   presentation: Presentatie
+  preview: Preview
   previous: vorige
   price: Prijs
+  price_with_vat_included: "{{price}} (inc. VAT)"
   problem_authorizing_card: "Fout bij autorisatie betaling"
   problem_capturing_card: "Fout bij afboeken betaling"
   problems_processing_order: "Fout vastgesteld bij het verwerken van de bestelling"
@@ -444,8 +516,121 @@ nl-NL:
   process: Verwerking
   product: Product
   product_details: "Product Details"
+  product_group: Product Group
+  product_group_invalid: Product Group has invalid scopes
+  product_groups: Product Groups
   product_has_no_description: Product has not description
   product_properties: "Product Eigenschappen"
+  product_scopes:
+    groups:
+      price:
+        description: "Scopes for selecting products based on Price"
+        name: Price
+      search:
+        description: "Scopes for selecting products based on name, keywords and description of product"
+        name: "Text search"
+      taxon:
+        description: "Scopes for selecting products based on Taxons"
+        name: Taxon
+      values:
+        description: "Scopes for selecting products based on option and property values"
+        name: Values
+    scopes:
+      ascend_by_master_price:
+        name: Ascend by product master price
+      ascend_by_name:
+        name: Ascend by product name
+      ascend_by_updated_at:
+        name: Ascendy by actualization date
+      by_popularity:
+        name: Sort by popularity(most popular first)
+      descend_by_master_price:
+        name: Descend by product master price
+      descend_by_name:
+        name: Descend by product name
+      descend_by_updated_at:
+        name: Descend by actualization date
+      in_name:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name have following"
+        sentence: product name contain <em>%s</em>
+      in_name_or_description:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name or description have following"
+        sentence: name or description contain <em>%s</em>
+      in_name_or_keywords:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name or meta heywords have following"
+        sentence: name or keywords contain <em>%s</em>
+      in_taxons:
+        args:
+          "taxon_names": "Taxon names"
+        description: "Taxon names have to be separated by comma or space(eg. adidas,shoes)"
+        name: "In taxons and all their descendants"
+        sentence: in <em>%s</em> and all their descendants
+      master_price_gte:
+        args:
+          amount: Amount
+        description: ""
+        name: "Master price greater or equal to"
+        sentence: price greater or equal to <em>%.2f</em>
+      master_price_lte:
+        args:
+          amount: Amount
+        description: ""
+        name: "Master price lesser or equal to"
+        sentence: price less or equal to <em>%.2f</em>
+      price_between:
+        args:
+          high: High
+          low: Low
+        description: ""
+        name: "Price between"
+        sentence: price between <em>%.2f</em> and <em>%.2f</em>
+      taxons_name_eq:
+        args:
+          taxon_name: "Taxon name"
+        description: "In specific taxon - without descendants"
+        name: "In Taxon(without descendants)"
+        sentence: in <em>%s</em>
+      with:
+        args:
+          value: Value
+        description: "Selects all products that have at least one variant that have specified value as either option or property (eg. red)"
+        name: With value
+        sentence: with value <em>%s</em>
+      with_option:
+        args:
+          option: Option
+        description: "Selects all products that have specified option(eg. color)"
+        name: "With option"
+        sentence: with option <em>%s</em>
+      with_option_value:
+        args:
+          option: Option
+          value: Value
+        description: "Selects all products that have at least one variant with specified option and value(eg. color:red)"
+        name: "With option and value"
+        sentence: with option <em>%s</em> and value <em>%s</em>
+      with_property:
+        args:
+          property: Property
+        description: "Selects all products that have specified property(eg. weight)"
+        name: "With property"
+        sentence: with property <em>%s</em>
+      with_property_value:
+        args:
+          property: Property
+          value: Value
+        description: "Selects all products that have at least one variant with specified property and value(eg. weight:10kg)"
+        name: "With property value"
+        sentence: with property <em>%s</em> and value <em>%s</em>
   products: Producten
   products_with_zero_inventory_display: "Products with a zero inventory will {{not}} be displayed"
   properties: Eigenschappen
@@ -453,6 +638,7 @@ nl-NL:
   prototype: Prototype
   prototypes: Prototypes
   qty: Aantal
+  range: "Range"
   rate: Tarief
   register: Register as a New User
   register_or_guest: Checkout as Guest or Register
@@ -463,6 +649,11 @@ nl-NL:
   required_for_solo_and_maestro: Required for Solo and Maestro cards.
   resend: "Opnieuw verzenden"
   reset_password: "Reset my password"
+  resource_controller:
+    member_object_not_found: "Member object not found."
+    successfully_created: "Successfully created!"
+    successfully_removed: "Successfully removed!"
+    successfully_updated: "Successfully updated!"
   response_code: "Antwoord Code"  
   resume: "Hervatten"
   resumed: Hervat
@@ -474,8 +665,10 @@ nl-NL:
   sales_total_for_all_orders: "Omzet voor alle bestellingen"
   sales_totals: "Omzet"
   sales_totals_description: "Omzet voor alle bestellingen"
+  save_and_continue: Save and Continue
   save_preferences: "Instellingen Opslaan"           
   search: Zoek
+  search_results: "Search results for '{{keywords}}'"
   secure_connection_type: "Secure Connection Type"
   select: Selecteer
   select_from_prototype: "Selecteer vanuit Prototype"
@@ -490,6 +683,7 @@ nl-NL:
   ship_address: "Afleveringssadres"
   shipment: Verzending
   shipment_number: "Zending #"
+  shipments: "Shipments"
   shipped: Verzonden
   shipping: Aflevering
   shipping_address: "Afleveringsadres"
@@ -507,6 +701,7 @@ nl-NL:
   shipping_total: "Verzending"
   shop_by_taxonomy: "Winkelen op {{taxonomy}}"
   shopping_cart: "Winkelwagen"
+  show: Show
   show_deleted: "Toon verwijderde bestellingen"
   show_incomplete_orders: "Toon niet afgewerkte bestellingen"
   show_only_complete_orders: "Toon enkel afgewerkte bestellingen"
@@ -567,8 +762,11 @@ nl-NL:
   taxons: Taxons
   thank_you_for_your_order: "Hartelijk dank voor uw bestelling. U kan deze pagina afdrukken als bewijs van bestelling."
   this_file_language: "Nederlands (NL)"
+  this_month: "This Month"
+  this_year: "This Year"
   thumbnail: "Thumbnail"
   to_add_variants_you_must_first_define: "To add variants, you must first define"
+  top_grossing_products: "Top Grossing Products"
   total: Totaal
   tracking: Tracking
   transaction: Transactie
@@ -579,6 +777,7 @@ nl-NL:
   unable_to_authorize_credit_card: "Autorisatie van de creditcard mislukt"
   unable_to_capture_credit_card: "Afboeking via creditcard mislukt"
   unable_to_save_order: "Bestelling opslaan is mislukt"
+  under_paid: "Under Paid"
   unrecognized_card_type: Unrecognized card type
   update: Updaten
   update_password: "Update mijn wachtwoord en log mij in"                    
@@ -590,12 +789,14 @@ nl-NL:
   use_different_shipping_address: "Ander afleveringsadres gebruiken"
   user: Gebruiker
   user_account: "Account Gebruiker"
+  user_created_successfully: "User created successfully"
   user_details: "Details Gebruiker"
   users: Gebruikers
   value: Waarde
   variants: Varianten
   vat: "VAT"           
   version: Versie
+  view_shipping_options: "View shipping options"
   website: Website
   weight: Gewicht
   welcome_to_sample_store: "Welkom in de voorbeeldwinkel"
@@ -604,7 +805,6 @@ nl-NL:
   whats_this: "Wat is dit"
   width: Breedte
   year: "Year"
-  yes: "Yes"
   you_have_been_logged_out: "U bent nu uitgelogd."
   your_cart_is_empty: "Uw winkelwagen is leeg"
   zip: Postcode

@@ -37,13 +37,13 @@ module Spree
     def load_rubygems
       require 'rubygems'
 
-      unless rubygems_version >= '0.9.4'
-        $stderr.puts %(Spree requires RubyGems >= 0.9.4 (you have #{rubygems_version}). Please `gem update --system` and try again.)
+      unless rubygems_version >= '1.3.2'
+        $stderr.puts %(Spree requires RubyGems >= 1.3.2 (you have #{rubygems_version}). Please `gem update --system` and try again.)
         exit 1
       end
 
     rescue LoadError
-      $stderr.puts %(Spree requires RubyGems >= 0.9.4. Please install RubyGems and try again: http://rubygems.rubyforge.org)
+      $stderr.puts %(Spree requires RubyGems >= 1.3.2. Please install RubyGems and try again: http://rubygems.rubyforge.org)
       exit 1
     end
     
@@ -55,7 +55,7 @@ module Spree
   class Boot 
     include Spree::RubyGemsLoader
     def run
-      load_rails("2.3.4")  # note: spree requires this specific version of rails (change at your own risk)
+      load_rails("2.3.5")  # note: spree requires this specific version of rails (change at your own risk)
       load_initializer
       Spree::Initializer.run(:set_load_path)
     end

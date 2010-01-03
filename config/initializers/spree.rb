@@ -51,3 +51,4 @@ class String #:nodoc:
 end
 
 CalendarDateSelect.format = :american
+require 'spree/theme_support'

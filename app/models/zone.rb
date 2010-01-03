@@ -1,6 +1,7 @@
 class Zone < ActiveRecord::Base
   has_many :zone_members
   has_many :tax_rates
+  has_many :shipping_methods
   
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -63,10 +64,12 @@ class Zone < ActiveRecord::Base
         zone_member.zoneable.country_list
       when "Country"
         zone_member.zoneable
+      when "State"
+        zone_member.zoneable.country
       else
         nil
       end
-    }.flatten.compact
+    }.flatten.compact.uniq
   end
   
   def <=>(other)

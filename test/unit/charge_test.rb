@@ -1,7 +1,15 @@
 require 'test_helper'
 
+class TestCharge < Charge; end
+
+Charge.class_eval do
+  private
+  def self.subclasses
+    self == Charge ? [TaxCharge, ShippingCharge, TestCharge] : []
+  end
+end
+
 class ChargeTest < ActiveSupport::TestCase
-  should_validate_presence_of :amount
   should_validate_presence_of :description
 
   context "Order" do
@@ -13,6 +21,14 @@ class ChargeTest < ActiveSupport::TestCase
       assert_equal(1, @order.tax_charges.length)
       assert_equal(1, @order.charges.reload.length)
       assert_equal(0, @order.shipping_charges.length)
+    end
+
+    should "find all types of charges" do
+      Charge.create(:order => @order, :description => "TestCharge")
+      ShippingCharge.create(:order => @order, :description => "TestCharge")
+      TaxCharge.create(:order => @order, :description => "TestCharge")
+      TestCharge.create(:order => @order, :description => "TestCharge")
+      assert_equal(5, @order.reload.charges.length) # 4 + 1 default tax charge
     end
 
     context "TaxCharge" do
@@ -30,16 +46,19 @@ class ChargeTest < ActiveSupport::TestCase
       end
 
       should "have amount = 0" do
-        assert_equal("0.0", @tax_charge.amount.to_s)
+        assert_equal(0, @tax_charge.amount.to_f)
       end
     end
 
     context "with checkout, shipping method and addresses" do
       setup do
         create_complete_order
+        @order.update_attribute(:completed_at, nil)
         @ship_charge = @order.shipping_charges.first
         @tax_charge = @order.tax_charges.first
         assert(@ship_charge, "Shipping charge was not created")
+        assert_equal @order, @ship_charge.order
+        assert !@order.checkout_complete
       end
 
       should "have ship_address and at least one zone address belongs to" do
@@ -56,6 +75,9 @@ class ChargeTest < ActiveSupport::TestCase
       end
 
       should "calculate value for ship charge" do
+        assert !@ship_charge.order.checkout_complete
+        assert_nil(@ship_charge.read_attribute(:amount))
+        assert_equal("10.0", @ship_charge.calculate_adjustment.to_s)
         assert_equal("10.0", @ship_charge.amount.to_s)
       end
 
@@ -76,9 +98,9 @@ class ChargeTest < ActiveSupport::TestCase
       end
 
       context "with line_items quantity changes" do
-        setup do 
+        setup do
           @order.line_items.first.update_attribute(:quantity, @order.line_items.first.quantity + 1)
-          @order.save 
+          @order.save
           @tax_delta = @order.line_items.first.price * 0.05
           @total_delta = @order.line_items.first.price + @tax_delta
         end

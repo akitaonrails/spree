@@ -1,27 +1,19 @@
 class Credit < Adjustment
-   before_save :inverse_amount
+  before_save :ensure_negative_amount
 
-  def calculate_adjustment
-    if adjustment_source
-      case adjustment_source_type
-      when "Coupon"
-       calculate_coupon_credit
-      else
-        super
-      end
+  private
+  # Ensures Charge always has negative amount.
+  #
+  # Amount shold be modified ONLY when it's going to be saved to the database
+  # (read_attribute returns value)
+  #
+  # WARNING! It does not protect from Credits getting positive amounts while
+  # amount is autocalculated! Descending classes should ensure amount is always
+  # negative in their calculate_adjustment methods
+  # This method should be threated as a last resort for keeping integrity of adjustments
+  def ensure_negative_amount
+    if (db_amount = read_attribute(:amount)) && db_amount > 0
+      self.amount *= -1
     end
-  end
-   
-  def inverse_amount
-    x = self.amount > 0 ? -1 : 1
-    self.amount = self.amount * x
-  end
-  
-  private 
-  def calculate_coupon_credit
-    return 0 if order.line_items.empty?
-    amount = adjustment_source.calculator.compute(order)
-    amount = order.item_total if amount > order.item_total
-    amount
   end
 end

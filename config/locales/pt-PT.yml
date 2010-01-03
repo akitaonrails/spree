@@ -1,5 +1,8 @@
 --- 
 pt-PT: 
+  'no': "No"
+  'yes': "Yes"
+  5_biggest_spenders: "5 Biggest Spenders"
   a_copy_of_all_mail_will_be_sent_to_the_following_addresses: A copy of all mail be sent to the following addresses
   abbreviation: Abreviação
   access_denied: "Accesso Recusado"             
@@ -24,6 +27,24 @@ pt-PT:
         lastname: "Apelido"
         phone: Telefone
         zipcode: "Codigo Postal"
+      checkout:
+        bill_address:
+          address1: "Billing address street"
+          city: "Billing address city"
+          firstname: "Billing address first name"
+          lastname: "Billing address last name"
+          phone: "Billing address phone"
+          state: "Billing address state"
+          zipcode: "Billing address zipcode"
+        shipment:
+          address:
+            address1: "Shipping address street"
+            city: "Shipping address city"
+            firstname: "Shipping address first name"
+            lastname: "Shipping address last name"
+            phone: "Shipping address phone"
+            state: "Shipping address state"
+            zipcode: "Shipping address zipcode"
       country: 
         iso: ISO
         iso3: ISO3
@@ -130,6 +151,9 @@ pt-PT:
       role: 
         one: Função
         other: Funções
+      shipment:
+        one: Shipment
+        other: Shipments
       shipping_category: 
         one: "Shipping Category"
         other: "Shipping Categories"
@@ -163,6 +187,7 @@ pt-PT:
   add_option_type: "Adicionar Tipo de Opção"
   add_option_types: "Adicionar Tipos de Opção"
   add_option_value: "Add Valor da Opção"
+  add_product: "Add Product"
   add_product_properties: "Adicionar Propriedades do Produto"
   add_state: "Adicionar Estado"
   add_to_cart: "Adicionar ao Carro"
@@ -171,8 +196,10 @@ pt-PT:
   address: Morada
   address_information: "Informação de Morada"
   adjustment: Acerto
+  adjustments: Adjustments
   administration: Administração
   all: "All"
+  all_departments: All departments
   allow_backorders: "Allow Backorders"
   allow_ssl_to_be_used_when_in_developement_and_test_modes: Allow SSL to be used when in development and test modes
   allow_ssl_to_be_used_when_in_production_mode: Allow SSL to be used in production mode         
@@ -195,8 +222,16 @@ pt-PT:
   back: "Para Trás"
   back_to_store: "Voltar à Loja"
   backordering_is_allowed: "Backordering {{not}} allowed"
+  balance_due: "Balance Due"
+  best_selling_products: "Best Selling Products"
+  best_selling_taxons: "Best Selling Taxons"
   bill_address: "Endereço da Conta"
+  billing: Billing
   billing_address: "Endereço de Cobrança"
+  billing_integration: Billing Integration
+  billing_integrations: Billing Integrations
+  billing_integrations_description: "Configure your settings for third party billing integrations such as Paypal, Google Checkout, etc."
+  by_day: "by day"
   calculator: Calculator
   calculator_settings_warning: "If you are changing the calculator type, you must save first before you can edit the calculator settings"
   cancel: Cancelar
@@ -212,8 +247,16 @@ pt-PT:
   change_language: "Mudar Idioma"
   charge_total: Charge Total
   charged: Debitado
+  charges: Charges
   checkout: Finalizar
+  checkout_steps:
+    # keys correspond to Checkout state names:
+    address: Address
+    complete: Complete
+    delivery: Delivery
+    payment: Payment
   city: Cidade
+  clone: Clone
   code: Code
   combine: Combine
   comp_order: "Calcular Encomenda"
@@ -229,6 +272,7 @@ pt-PT:
   continue: Continue
   continue_shopping: "Continue a sua compra"
   copy_all_mails_to: Copy All Mails To                                                                             
+  count: Count
   country: País
   country_based: "Baseado em País"
   coupon: Coupon                                                                             
@@ -242,10 +286,14 @@ pt-PT:
   credit_card: "Cartão de Crédito"
   credit_card_capture_complete: "Credit Card Was Captured"
   credit_card_payment: "Pagamento com Cartão de Crédito"
+  credit_owed: "Credit Owed"
   credit_total: Credit Total
   creditcard: Creditcard
+  credits: Credits
   current: Actual
   customer: Cliente
+  customer_details: "Customer Details"
+  customer_search: "Customer Search"
   date_range: "Entre as Datas"
   delete: Apagar
   depth: Espessura
@@ -253,6 +301,7 @@ pt-PT:
   destroy: Destruir
   display: Mostrar
   edit: Editar
+  editing_billing_integration: Editing Billing Integration
   editing_category: "Editando Categoria"
   editing_coupon: Editing Coupon
   editing_option_type: "Editando Tipo de Opção"
@@ -272,6 +321,8 @@ pt-PT:
   email_address: "Endereço de Email"
   email_server_settings_description: "Ajustar as configurações do servidor de email."
   empty_cart: "Esvaziar o Carro"
+  enable_login_via_login_password: "Use standard email/password"  
+  enable_login_via_openid: "Use OpenID instead"
   enable_mail_delivery: Enable Mail Delivery      
   enable_mail_queue: "Enable Mail Queue"
   enter_exactly_as_shown_on_card: Please enter exactly as shown on the card
@@ -317,6 +368,7 @@ pt-PT:
   images: Imagens
   images_for: "Images for"
   in_progress: "Em Progresso"
+  integration_settings_warning: "If you are changing the billing integration, you must save first before you can edit the integration settings"
   invalid_search: "Procura Inválida"
   inventory: Inventário
   inventory_adjustment: "Acerto de Inventário"
@@ -326,7 +378,13 @@ pt-PT:
   item: Artigo
   item_description: "Descrição do Artigo"
   item_total: "Total do Artigo"
+  items: "Items"
+  last_14_days: "Last 14 Days"
+  last_5_orders: "Last 5 Orders"
+  last_7_days: "Last 7 Days" 
+  last_month: "Last Month"
   last_name: Apelido
+  last_year: "Last Year"
   list: Lista
   listing_categories: "Listando as Categorias"
   listing_option_types: "Listando Tipos de Opções"
@@ -344,6 +402,7 @@ pt-PT:
   login_failed: "Login authentication failed."      
   login_name: "Nome de Login"
   logout: Sair
+  look_for_similar_items: Look for similar items
   maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "Envio de email permitido"
   mail_delivery_not_enabled: "Envio de email não permitido"
@@ -357,11 +416,14 @@ pt-PT:
   meta_description: "Meta Description"
   meta_keywords: "Meta Keywords"
   metadata: "Metadata"
+  missing_required_information: "Missing Required Information"
   month: "Month"
   my_account: "Minha Conta"
   my_orders: "As Minhas Encomendas"
   name: Name
   new: New
+  new_adjustment: "New Adjustment"
+  new_billing_integration: New Billing Integration
   new_category: "Nova categoria"
   new_coupon: New Coupon
   new_credit_card_payment: "Novo Pagamento por Cartão de Credito"
@@ -369,7 +431,9 @@ pt-PT:
   new_image: "Nova Imagem"
   new_option_type: "Novo Tipo de Opção"
   new_option_value: "Nova Opção de Valor"
+  new_order: "New Order"
   new_product: "Novo Produto"
+  new_product_group: New Product Group
   new_property: "Nova Propriedade"
   new_prototype: "Novo Protótipo"
   new_shipment: "Nova Entrega"
@@ -385,9 +449,9 @@ pt-PT:
   new_variant: "Nova Variante"
   new_zone: "Nova Zona"
   next: Próximo
-  no: "No"
   no_items_in_cart: "Nr. de itens no carro"
   no_match_found: "Não encontrado"
+  no_products_found: "No products found"
   no_user_found: "No user was found with that email address"
   none: Nenhum
   none_available: "Nenhum Disponível"
@@ -399,6 +463,8 @@ pt-PT:
   option_values: "Valores Opcionais"
   options: Opções
   or: ou
+  ord_qty: "Ord. Qty"
+  ord_total: "Ord. Total"
   order: Encomenda
   order_confirmation_note: "Nota de confirmação da encomenda"
   order_date: "Data da Encomenda"
@@ -409,12 +475,16 @@ pt-PT:
   order_operation_authorize: Autorizar
   order_processed_successfully: "A Sua encomenda foi processado com sucesso."
   order_summary: Order Summary
+  order_sure_want_to: "Are you sure you want to {{event}} this order?"
   order_total: "Total da Encommenda"
   order_total_message: "O total debitado no seu Cartão de Crédito será"
   order_updated: "Encomenda Actualizada"
   orders: Encomendas
   out_of_stock: "sem Stock"
+  out_of_stock_products: "Out of Stock Products"
+  over_paid: "Over Paid"
   overview: Resumo
+  overview_welcome: "Welcome to your store overview, currently we do not have enough data to display the Overiew Dashboard.<br/><br/> The dashboard will display automatically once the system has sufficent orders to allow generation of the statistics."
   page_only_viewable_when_logged_in: You attempted to visit a page which can only be viewed when you are logged in
   page_only_viewable_when_logged_out: You attempted to visit a page which can only be viewed when you are logged out
   paid: Paid
@@ -435,8 +505,10 @@ pt-PT:
   please_create_user: "Please create a user account"     
   powered_by: "Powered by"
   presentation: Apresentação
+  preview: Preview
   previous: anterior
   price: Preço
+  price_with_vat_included: "{{price}} (inc. VAT)"
   problem_authorizing_card: "Problema na autorização do cartão"
   problem_capturing_card: "Problema capturando cartão de crédito"
   problems_processing_order: "Tivemos problemas processando esta encomenda"
@@ -444,8 +516,121 @@ pt-PT:
   process: Processar
   product: Produto
   product_details: "Detalhes do Produto"
+  product_group: Product Group
+  product_group_invalid: Product Group has invalid scopes
+  product_groups: Product Groups
   product_has_no_description: Product has not description
   product_properties: "Propriedades do Produto"
+  product_scopes:
+    groups:
+      price:
+        description: "Scopes for selecting products based on Price"
+        name: Price
+      search:
+        description: "Scopes for selecting products based on name, keywords and description of product"
+        name: "Text search"
+      taxon:
+        description: "Scopes for selecting products based on Taxons"
+        name: Taxon
+      values:
+        description: "Scopes for selecting products based on option and property values"
+        name: Values
+    scopes:
+      ascend_by_master_price:
+        name: Ascend by product master price
+      ascend_by_name:
+        name: Ascend by product name
+      ascend_by_updated_at:
+        name: Ascendy by actualization date
+      by_popularity:
+        name: Sort by popularity(most popular first)
+      descend_by_master_price:
+        name: Descend by product master price
+      descend_by_name:
+        name: Descend by product name
+      descend_by_updated_at:
+        name: Descend by actualization date
+      in_name:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name have following"
+        sentence: product name contain <em>%s</em>
+      in_name_or_description:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name or description have following"
+        sentence: name or description contain <em>%s</em>
+      in_name_or_keywords:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name or meta heywords have following"
+        sentence: name or keywords contain <em>%s</em>
+      in_taxons:
+        args:
+          "taxon_names": "Taxon names"
+        description: "Taxon names have to be separated by comma or space(eg. adidas,shoes)"
+        name: "In taxons and all their descendants"
+        sentence: in <em>%s</em> and all their descendants
+      master_price_gte:
+        args:
+          amount: Amount
+        description: ""
+        name: "Master price greater or equal to"
+        sentence: price greater or equal to <em>%.2f</em>
+      master_price_lte:
+        args:
+          amount: Amount
+        description: ""
+        name: "Master price lesser or equal to"
+        sentence: price less or equal to <em>%.2f</em>
+      price_between:
+        args:
+          high: High
+          low: Low
+        description: ""
+        name: "Price between"
+        sentence: price between <em>%.2f</em> and <em>%.2f</em>
+      taxons_name_eq:
+        args:
+          taxon_name: "Taxon name"
+        description: "In specific taxon - without descendants"
+        name: "In Taxon(without descendants)"
+        sentence: in <em>%s</em>
+      with:
+        args:
+          value: Value
+        description: "Selects all products that have at least one variant that have specified value as either option or property (eg. red)"
+        name: With value
+        sentence: with value <em>%s</em>
+      with_option:
+        args:
+          option: Option
+        description: "Selects all products that have specified option(eg. color)"
+        name: "With option"
+        sentence: with option <em>%s</em>
+      with_option_value:
+        args:
+          option: Option
+          value: Value
+        description: "Selects all products that have at least one variant with specified option and value(eg. color:red)"
+        name: "With option and value"
+        sentence: with option <em>%s</em> and value <em>%s</em>
+      with_property:
+        args:
+          property: Property
+        description: "Selects all products that have specified property(eg. weight)"
+        name: "With property"
+        sentence: with property <em>%s</em>
+      with_property_value:
+        args:
+          property: Property
+          value: Value
+        description: "Selects all products that have at least one variant with specified property and value(eg. weight:10kg)"
+        name: "With property value"
+        sentence: with property <em>%s</em> and value <em>%s</em>
   products: Produtos
   products_with_zero_inventory_display: "Products with a zero inventory will {{not}} be displayed"
   properties: Propriedades
@@ -453,6 +638,7 @@ pt-PT:
   prototype: Prototype
   prototypes: Protótipos
   qty: Qt.
+  range: "Range"
   rate: Rate
   register: Register as a New User
   register_or_guest: Checkout as Guest or Register
@@ -463,6 +649,11 @@ pt-PT:
   required_for_solo_and_maestro: Required for Solo and Maestro cards.
   resend: Reenviar
   reset_password: "Reset my password"
+  resource_controller:
+    member_object_not_found: "Member object not found."
+    successfully_created: "Successfully created!"
+    successfully_removed: "Successfully removed!"
+    successfully_updated: "Successfully updated!"
   response_code: "Código de Resposta"
   resume: "resume"
   resumed: Resumido
@@ -474,8 +665,10 @@ pt-PT:
   sales_total_for_all_orders: "Valor total de todas as encomendas"
   sales_totals: "Total de Vendas"
   sales_totals_description: "Total de Vendas para todos os Pedidos"
+  save_and_continue: Save and Continue
   save_preferences: Save Preferences           
   search: Pesquisa
+  search_results: "Search results for '{{keywords}}'"
   secure_connection_type: Secure Connection Type
   select: Selecionar
   select_from_prototype: "Selecionar a partir de Protótipo"
@@ -490,6 +683,7 @@ pt-PT:
   ship_address: "Endereço da Entrega"
   shipment: Distribuição
   shipment_number: "Shipment #"
+  shipments: "Shipments"
   shipped: despachado
   shipping: Entrega
   shipping_address: "Endereço de Entrega"
@@ -507,6 +701,7 @@ pt-PT:
   shipping_total: "Total de Entrega"
   shop_by_taxonomy: "Shop by {{taxonomy}}"
   shopping_cart: "Carro de Compra"
+  show: Show
   show_deleted: "Mortra Eliminados"
   show_incomplete_orders: "Mostra Encomendas Incompletas"
   show_only_complete_orders: "Only show complete orders"
@@ -567,8 +762,11 @@ pt-PT:
   taxons: Taxons
   thank_you_for_your_order: "Obrigado por sua compra. Por favor, imprima uma cópia desta página de confirmação para seu controle."
   this_file_language: "Português"
+  this_month: "This Month"
+  this_year: "This Year"
   thumbnail: "Thumbnail"
   to_add_variants_you_must_first_define: "To add variants, you must first define"
+  top_grossing_products: "Top Grossing Products"
   total: Total
   tracking: Tracking
   transaction: Transacção
@@ -579,6 +777,7 @@ pt-PT:
   unable_to_authorize_credit_card: "Unable to Authorize Credit Card"
   unable_to_capture_credit_card: "Unable to Capture Credit Card"
   unable_to_save_order: "Unable to Save Order"
+  under_paid: "Under Paid"
   unrecognized_card_type: Unrecognized card type
   update: Actualizar
   update_password: "Update my password and log me in"                    
@@ -590,12 +789,14 @@ pt-PT:
   use_different_shipping_address: "Use um Endereço de Entrega Diferente"
   user: Utilizador
   user_account: User Account
+  user_created_successfully: "User created successfully"
   user_details: "Detalhes do Utilizador"
   users: Utilizador
   value: Valor
   variants: Variantes
   vat: "VAT"           
   version: Versão
+  view_shipping_options: "View shipping options"
   website: Website
   weight: Peso
   welcome_to_sample_store: "Bem Vindo à Loja de Exemplo"
@@ -604,7 +805,6 @@ pt-PT:
   whats_this: "O que é isto?"
   width: Largura
   year: "Year"
-  yes: "Yes"
   you_have_been_logged_out: "You have been logged out."
   your_cart_is_empty: "O carro está vazio"
   zip: Codigo Postal

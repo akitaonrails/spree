@@ -1,5 +1,8 @@
 --- 
 il: 
+  'no': "No"
+  'yes': "Yes"
+  5_biggest_spenders: "5 Biggest Spenders"
   a_copy_of_all_mail_will_be_sent_to_the_following_addresses: A copy of all mail be sent to the following addresses
   abbreviation: Abbreviation
   access_denied: "Access Denied"
@@ -24,6 +27,24 @@ il:
         lastname: "שם משפחה"
         phone: Phone
         zipcode: "Zip Code"
+      checkout:
+        bill_address:
+          address1: "Billing address street"
+          city: "Billing address city"
+          firstname: "Billing address first name"
+          lastname: "Billing address last name"
+          phone: "Billing address phone"
+          state: "Billing address state"
+          zipcode: "Billing address zipcode"
+        shipment:
+          address:
+            address1: "Shipping address street"
+            city: "Shipping address city"
+            firstname: "Shipping address first name"
+            lastname: "Shipping address last name"
+            phone: "Shipping address phone"
+            state: "Shipping address state"
+            zipcode: "Shipping address zipcode"
       country: 
         iso: ISO
         iso3: ISO3
@@ -130,6 +151,9 @@ il:
       role: 
         one: Roles
         other: Roles
+      shipment:
+        one: Shipment
+        other: Shipments
       shipping_category: 
         one: "Shipping Category"
         other: "Shipping Categories"
@@ -163,6 +187,7 @@ il:
   add_option_type: "Add Option Type"
   add_option_types: "Add Option Types"
   add_option_value: "Add Option Value"
+  add_product: "Add Product"
   add_product_properties: "Add Product Properties"
   add_state: "Add State"
   add_to_cart: "הוסף לעגלה"
@@ -171,8 +196,10 @@ il:
   address: Address
   address_information: "Address Information"
   adjustment: Adjustment
+  adjustments: Adjustments
   administration: Administration
   all: "All"
+  all_departments: All departments
   allow_backorders: "Allow Backorders"
   allow_ssl_to_be_used_when_in_developement_and_test_modes: Allow SSL to be used when in development and test modes
   allow_ssl_to_be_used_when_in_production_mode: Allow SSL to be used in production mode         
@@ -195,8 +222,16 @@ il:
   back: Back
   back_to_store: "Go Back To Store"
   backordering_is_allowed: "Backordering {{not}} allowed"
+  balance_due: "Balance Due"
+  best_selling_products: "Best Selling Products"
+  best_selling_taxons: "Best Selling Taxons"
   bill_address: "כתובת למשלוח חבילה"
+  billing: Billing
   billing_address: "כתובת למשלוח חשבונית"
+  billing_integration: Billing Integration
+  billing_integrations: Billing Integrations
+  billing_integrations_description: "Configure your settings for third party billing integrations such as Paypal, Google Checkout, etc."
+  by_day: "by day"
   calculator: Calculator
   calculator_settings_warning: "If you are changing the calculator type, you must save first before you can edit the calculator settings"
   cancel: cancel
@@ -212,8 +247,16 @@ il:
   change_language: "שנה שפה"
   charge_total: Charge Total
   charged: Charged
+  charges: Charges
   checkout: תשלום
+  checkout_steps:
+    # keys correspond to Checkout state names:
+    address: Address
+    complete: Complete
+    delivery: Delivery
+    payment: Payment
   city: עיר
+  clone: Clone
   code: Code
   combine: Combine
   comp_order: "Comp Order"
@@ -229,6 +272,7 @@ il:
   continue: המשך
   continue_shopping: "בחזרה לחנות"
   copy_all_mails_to: Copy All Mails To                                                                             
+  count: Count
   country: ארץ
   country_based: "Country Based"
   coupon: Coupon                                                                             
@@ -242,10 +286,14 @@ il:
   credit_card: "Credit Card"
   credit_card_capture_complete: "Credit Card Was Captured"
   credit_card_payment: "Credit Card Payment"
+  credit_owed: "Credit Owed"
   credit_total: Credit Total
   creditcard: Creditcard
+  credits: Credits
   current: Current
   customer: Customer
+  customer_details: "Customer Details"
+  customer_search: "Customer Search"
   date_range: "Date Range"
   delete: Delete
   depth: Depth
@@ -253,6 +301,7 @@ il:
   destroy: Destroy
   display: Display
   edit: Edit
+  editing_billing_integration: Editing Billing Integration
   editing_category: "Editing Category"
   editing_coupon: Editing Coupon
   editing_option_type: "Editing Option Type"
@@ -272,6 +321,8 @@ il:
   email_address: "כתובת דואל"
   email_server_settings_description: "Set email server settings."
   empty_cart: "רוקן עגלה"
+  enable_login_via_login_password: "Use standard email/password"  
+  enable_login_via_openid: "Use OpenID instead"
   enable_mail_delivery: Enable Mail Delivery      
   enable_mail_queue: "Enable Mail Queue"
   enter_exactly_as_shown_on_card: Please enter exactly as shown on the card
@@ -317,6 +368,7 @@ il:
   images: Images
   images_for: "Images for"
   in_progress: "In Progress"
+  integration_settings_warning: "If you are changing the billing integration, you must save first before you can edit the integration settings"
   invalid_search: "Invalid search criteria."
   inventory: Inventory
   inventory_adjustment: "Inventory Adjustment"
@@ -326,7 +378,13 @@ il:
   item: פריט
   item_description: "תיאור הפריט"
   item_total: "Item Total"
+  items: "Items"
+  last_14_days: "Last 14 Days"
+  last_5_orders: "Last 5 Orders"
+  last_7_days: "Last 7 Days" 
+  last_month: "Last Month"
   last_name: "שם משפחה"
+  last_year: "Last Year"
   list: List
   listing_categories: "Listing Categories"
   listing_option_types: "Listing Option Types"
@@ -344,6 +402,7 @@ il:
   login_failed: "Login authentication failed."    
   login_name: Login
   logout: יציאה  
+  look_for_similar_items: Look for similar items
   maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "Mail delivery is enabled"
   mail_delivery_not_enabled: "Mail delivery is not enabled"
@@ -357,11 +416,14 @@ il:
   meta_description: "Meta Description"
   meta_keywords: "Meta Keywords"
   metadata: "Metadata"
+  missing_required_information: "Missing Required Information"
   month: "Month"
   my_account: "חשבון המשתמש שלי"
   my_orders: "My Orders"    
   name: Name
   new: New
+  new_adjustment: "New Adjustment"
+  new_billing_integration: New Billing Integration
   new_category: "New category"
   new_coupon: New Coupon
   new_credit_card_payment: "New Credit Card Payment"
@@ -369,7 +431,9 @@ il:
   new_image: "New Image"
   new_option_type: "New Option Type"
   new_option_value: "New Option Value"
+  new_order: "New Order"
   new_product: "New Product"
+  new_product_group: New Product Group
   new_property: "New Property"
   new_prototype: "New Prototype"
   new_shipment: "New Shipment"
@@ -385,9 +449,9 @@ il:
   new_variant: "New Variant"
   new_zone: "New Zone"
   next: Next
-  no: "No"
   no_items_in_cart: ""
   no_match_found: "No Match Found"
+  no_products_found: "No products found"
   no_user_found: "No user was found with that email address"
   none: None
   none_available: "None Available"
@@ -399,6 +463,8 @@ il:
   option_values: "Option Values"
   options: Options
   or: or
+  ord_qty: "Ord. Qty"
+  ord_total: "Ord. Total"
   order: Order
   order_confirmation_note: ""
   order_date: "Order Date"
@@ -409,12 +475,16 @@ il:
   order_operation_authorize: Authorize
   order_processed_successfully: "Your order has been processed successfully"
   order_summary: Order Summary
+  order_sure_want_to: "Are you sure you want to {{event}} this order?"
   order_total: "סכום כולל"
   order_total_message: "The total amount charged to your card will be"
   order_updated: "Order Updated"
   orders: Orders
   out_of_stock: "Out of Stock"
+  out_of_stock_products: "Out of Stock Products"
+  over_paid: "Over Paid"
   overview: Overview
+  overview_welcome: "Welcome to your store overview, currently we do not have enough data to display the Overiew Dashboard.<br/><br/> The dashboard will display automatically once the system has sufficent orders to allow generation of the statistics."
   page_only_viewable_when_logged_in: You attempted to visit a page which can only be viewed when you are logged in
   page_only_viewable_when_logged_out: You attempted to visit a page which can only be viewed when you are logged out
   paid: Paid
@@ -435,8 +505,10 @@ il:
   please_create_user: "Please create a user account"     
   powered_by: "Powered by"
   presentation: Presentation
+  preview: Preview
   previous: Previous
   price: מחיר
+  price_with_vat_included: "{{price}} (inc. VAT)"
   problem_authorizing_card: "Problem authorizing credit card"
   problem_capturing_card: "Problem capturing credit card"
   problems_processing_order: "We had problems processing your order"
@@ -444,8 +516,121 @@ il:
   process: Process
   product: Product
   product_details: "Product Details"
+  product_group: Product Group
+  product_group_invalid: Product Group has invalid scopes
+  product_groups: Product Groups
   product_has_no_description: Product has not description
   product_properties: "Product Properties"
+  product_scopes:
+    groups:
+      price:
+        description: "Scopes for selecting products based on Price"
+        name: Price
+      search:
+        description: "Scopes for selecting products based on name, keywords and description of product"
+        name: "Text search"
+      taxon:
+        description: "Scopes for selecting products based on Taxons"
+        name: Taxon
+      values:
+        description: "Scopes for selecting products based on option and property values"
+        name: Values
+    scopes:
+      ascend_by_master_price:
+        name: Ascend by product master price
+      ascend_by_name:
+        name: Ascend by product name
+      ascend_by_updated_at:
+        name: Ascendy by actualization date
+      by_popularity:
+        name: Sort by popularity(most popular first)
+      descend_by_master_price:
+        name: Descend by product master price
+      descend_by_name:
+        name: Descend by product name
+      descend_by_updated_at:
+        name: Descend by actualization date
+      in_name:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name have following"
+        sentence: product name contain <em>%s</em>
+      in_name_or_description:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name or description have following"
+        sentence: name or description contain <em>%s</em>
+      in_name_or_keywords:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name or meta heywords have following"
+        sentence: name or keywords contain <em>%s</em>
+      in_taxons:
+        args:
+          "taxon_names": "Taxon names"
+        description: "Taxon names have to be separated by comma or space(eg. adidas,shoes)"
+        name: "In taxons and all their descendants"
+        sentence: in <em>%s</em> and all their descendants
+      master_price_gte:
+        args:
+          amount: Amount
+        description: ""
+        name: "Master price greater or equal to"
+        sentence: price greater or equal to <em>%.2f</em>
+      master_price_lte:
+        args:
+          amount: Amount
+        description: ""
+        name: "Master price lesser or equal to"
+        sentence: price less or equal to <em>%.2f</em>
+      price_between:
+        args:
+          high: High
+          low: Low
+        description: ""
+        name: "Price between"
+        sentence: price between <em>%.2f</em> and <em>%.2f</em>
+      taxons_name_eq:
+        args:
+          taxon_name: "Taxon name"
+        description: "In specific taxon - without descendants"
+        name: "In Taxon(without descendants)"
+        sentence: in <em>%s</em>
+      with:
+        args:
+          value: Value
+        description: "Selects all products that have at least one variant that have specified value as either option or property (eg. red)"
+        name: With value
+        sentence: with value <em>%s</em>
+      with_option:
+        args:
+          option: Option
+        description: "Selects all products that have specified option(eg. color)"
+        name: "With option"
+        sentence: with option <em>%s</em>
+      with_option_value:
+        args:
+          option: Option
+          value: Value
+        description: "Selects all products that have at least one variant with specified option and value(eg. color:red)"
+        name: "With option and value"
+        sentence: with option <em>%s</em> and value <em>%s</em>
+      with_property:
+        args:
+          property: Property
+        description: "Selects all products that have specified property(eg. weight)"
+        name: "With property"
+        sentence: with property <em>%s</em>
+      with_property_value:
+        args:
+          property: Property
+          value: Value
+        description: "Selects all products that have at least one variant with specified property and value(eg. weight:10kg)"
+        name: "With property value"
+        sentence: with property <em>%s</em> and value <em>%s</em>
   products: Products
   products_with_zero_inventory_display: "Products with a zero inventory will {{not}} be displayed"
   properties: Properties
@@ -453,6 +638,7 @@ il:
   prototype: Prototype
   prototypes: Prototypes
   qty: כמות
+  range: "Range"
   rate: Rate
   register: "הרשם כמשתמש חדש"
   register_or_guest: "שלם כאורח או הרשם כמשתמש"
@@ -463,6 +649,11 @@ il:
   required_for_solo_and_maestro: "חובה עבור כרטיסי סולו ומאסטרו."
   resend: Resend
   reset_password: "Reset my password"
+  resource_controller:
+    member_object_not_found: "Member object not found."
+    successfully_created: "Successfully created!"
+    successfully_removed: "Successfully removed!"
+    successfully_updated: "Successfully updated!"
   response_code: "Response Code"  
   resume: "resume"
   resumed: Resumed
@@ -474,8 +665,10 @@ il:
   sales_total_for_all_orders: "Sales total for all orders"
   sales_totals: "Sales Totals"
   sales_totals_description: "Sales Total For All Orders"
+  save_and_continue: Save and Continue
   save_preferences: Save Preferences           
   search: Search
+  search_results: "Search results for '{{keywords}}'"
   secure_connection_type: Secure Connection Type
   select: Select
   select_from_prototype: "Select From Prototype"
@@ -490,6 +683,7 @@ il:
   ship_address: "כתובת למשלוח חבילה"
   shipment: Shipment
   shipment_number: "Shipment #"
+  shipments: "Shipments"
   shipped: Shipped
   shipping: משלוח
   shipping_address: "כתובת למשלוח חבילה"
@@ -507,6 +701,7 @@ il:
   shipping_total: "Shipping Total"
   shop_by_taxonomy: "הצג לפי {{taxonomy}}"
   shopping_cart: "עגלת קניות"
+  show: Show
   show_deleted: "Show Deleted"
   show_incomplete_orders: "Show Incomplete Orders"
   show_only_complete_orders: "Only show complete orders"
@@ -567,8 +762,11 @@ il:
   taxons: Taxons
   thank_you_for_your_order: "Thank you for your business.  Please print out a copy of this confirmation page for your records."
   this_file_language: "English (US)"
+  this_month: "This Month"
+  this_year: "This Year"
   thumbnail: "Thumbnail"
   to_add_variants_you_must_first_define: "To add variants, you must first define"
+  top_grossing_products: "Top Grossing Products"
   total: "סה\"כ"
   tracking: Tracking
   transaction: Transaction
@@ -579,6 +777,7 @@ il:
   unable_to_authorize_credit_card: "Unable to Authorize Credit Card"
   unable_to_capture_credit_card: "Unable to Capture Credit Card"
   unable_to_save_order: "Unable to Save Order"
+  under_paid: "Under Paid"
   unrecognized_card_type: Unrecognized card type
   update: עדכן
   update_password: "Update my password and log me in"                    
@@ -590,12 +789,14 @@ il:
   use_different_shipping_address: "Use Different Shipping Address"
   user: User
   user_account: User Account
+  user_created_successfully: "User created successfully"
   user_details: "User Details"
   users: Users
   value: Value
   variants: Variants
   vat: "VAT"           
   version: Version
+  view_shipping_options: "View shipping options"
   website: Website
   weight: Weight
   welcome_to_sample_store: "Welcome to the sample store"
@@ -604,7 +805,6 @@ il:
   whats_this: "מה זה"
   width: Width
   year: "Year"
-  yes: "Yes"
   you_have_been_logged_out: "You have been logged out."
   your_cart_is_empty: "Your cart is empty"
   zip: מיקוד

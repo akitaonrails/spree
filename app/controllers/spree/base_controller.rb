@@ -1,9 +1,9 @@
 class Spree::BaseController < ActionController::Base
-  layout 'application'
-  helper :application
+  layout 'spree_application'
+  helper :application, :hook
   before_filter :instantiate_controller_and_action_names
   filter_parameter_logging :password, :password_confirmation, :number, :verification_value
-  helper_method :current_user_session, :current_user, :title, :set_title
+  helper_method :current_user_session, :current_user, :title, :title=, :get_taxonomies
 
   # Pick a unique cookie name to distinguish our session data from others'
   session_options['session_key'] = '_spree_session_id'
@@ -11,41 +11,37 @@ class Spree::BaseController < ActionController::Base
 
   include RoleRequirementSystem
   include EasyRoleRequirementSystem
-  include SslRequirement
+  include SslRequirement  
 
   def admin_created?
     User.first(:include => :roles, :conditions => ["roles.name = 'admin'"])
   end
 
-  # retrieve the order_id from the session and then load from the database (or return a new order if no 
+  # retrieve the order_id from the session and then load from the database (or return a new order if no
   # such id exists in the session)
-  def find_order      
+  def find_order
     unless session[:order_id].blank?
       @order = Order.find_or_create_by_id(session[:order_id])
-    else      
-      @order = Order.create
+    else
+      @order = Order.new
+      @order.user = current_user
+      @order.save
     end
     session[:order_id]    = @order.id
     session[:order_token] = @order.token
     @order
   end
-    
+
   def access_forbidden
     render :text => 'Access Forbidden', :layout => true, :status => 401
   end
-  
-  # Used for pages which need to render certain partials in the middle
-  # of a view. Ex. Extra user form fields
-  def initialize_extension_partials
-    @extension_partials = []
-  end
 
-  # set_title can be used in views as well as controllers.
-  # e.g. <% set_title 'This is a custom title for this view' %>
-  def set_title(title)
+  # can be used in views as well as controllers.
+  # e.g. <% title = 'This is a custom title for this view' %>
+  def title=(title)
     @title = title
   end
-  
+
   def title
     if @title.blank?
       default_title
@@ -53,11 +49,11 @@ class Spree::BaseController < ActionController::Base
       @title
     end
   end
-  
+
   def default_title
     Spree::Config[:site_name]
   end
- 
+
   protected
   def reject_unknown_object
     # workaround to catch problems with loading errors for permalink ids (reconsider RC permalink hack elsewhere?)
@@ -67,14 +63,15 @@ class Spree::BaseController < ActionController::Base
       @object = nil
     end
     the_object = instance_variable_get "@#{object_name}"
+    the_object = nil if (the_object.respond_to?(:deleted_at) && the_object.deleted_at)
     unless params[:id].blank? || the_object
       if self.respond_to? :object_missing
         self.object_missing(params[:id])
       else 
-        render_404 Exception.new("missing object in #{self.class.to_s}")
+        render_404(Exception.new("missing object in #{self.class.to_s}"))
       end
     end
-    return true 
+    true 
   end         
   
   def render_404(exception)
@@ -114,7 +111,12 @@ class Spree::BaseController < ActionController::Base
   end
 
   def store_location
-    session[:return_to] = request.request_uri
+    # disallow return to login, logout, signup pages
+    disallowed_urls = [signup_url, login_url, logout_url]
+    disallowed_urls.map!{|url| url[/\/\w+$/]}
+    unless disallowed_urls.include?(request.request_uri)
+      session[:return_to] = request.request_uri
+    end
   end
 
   def redirect_back_or_default(default)
@@ -152,8 +154,11 @@ class Spree::BaseController < ActionController::Base
   def instantiate_controller_and_action_names
     @current_action = action_name
     @current_controller = controller_name
+  end
   
-    @taxonomies = Taxonomy.find(:all, :include => {:root => :children})
+  def get_taxonomies
+    @taxonomies ||= Taxonomy.find(:all, :include => {:root => :children})
+    @taxonomies
   end
   
 end

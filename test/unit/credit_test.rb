@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class CreditTest < ActiveSupport::TestCase
-  should_validate_presence_of :amount
   should_validate_numericality_of :amount
   should_validate_presence_of :description
   context "order instance with discounts" do
@@ -12,11 +11,11 @@ class CreditTest < ActiveSupport::TestCase
     end
 
     should "set positive credit_total" do
-      assert_equal("2.0", @order.credit_total.to_s)
+      assert_equal(2, @order.credit_total)
     end
 
     should "not set negative charge_total" do
-      assert_equal("0.0", @order.charge_total.to_s)
+      assert_equal(0, @order.charge_total.to_f)
     end
 
     should "set negative adjustment_total" do

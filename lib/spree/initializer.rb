@@ -5,15 +5,8 @@
 
 require 'initializer'
 require 'spree/extension_loader'
+require 'spree/extensions'
 
-# Small hack to make sure metal stuff inside Spree gem is also loaded
-Rails::Initializer.class_eval do
-  alias :initialize_metal_old :initialize_metal
-  def initialize_metal
-    Rails::Rack::Metal.metal_paths += ["#{SPREE_ROOT}/app/metal"]
-    initialize_metal_old
-  end
-end
 
 module Spree
 
@@ -25,7 +18,7 @@ module Spree
     def initialize   
       self.view_paths = []
       self.extension_paths = default_extension_paths
-      self.extensions = [ :all ]
+      self.extensions = Spree::Extensions.load_order
       super
     end
 
@@ -133,14 +126,8 @@ module Spree
       extension_loader.run_initializers #? conds?
       super
     end
-=begin
-    def initialize_default_admin_tabs
-      admin.tabs.clear
-      admin.tabs.add "Pages",    "/admin/pages"
-      admin.tabs.add "Snippets", "/admin/snippets"
-      admin.tabs.add "Layouts",  "/admin/layouts", :visibility => [:admin, :developer]
-    end
-=end
+
+
     def initialize_framework_views
       view_paths = returning [] do |arr|
         # Add the singular view path if it's not in the list
@@ -155,6 +142,9 @@ module Spree
     
       ActionMailer::Base.template_root = view_paths  if configuration.frameworks.include?(:action_mailer)        
       ActionController::Base.view_paths = view_paths if configuration.frameworks.include?(:action_controller)
+
+			if defined?(ActionMailer::QueueMailer)
+			ActionMailer::QueueMailer.template_root = view_paths if configuration.frameworks.include?(:action_mailer) end
     end
     
     def initialize_i18n
@@ -168,6 +158,14 @@ module Spree
       extension_loader.add_controller_paths
       super
     end
+
+    def initialize_metal
+      Rails::Rack::Metal.metal_paths += ["#{SPREE_ROOT}/app/metal"]
+      Rails::Rack::Metal.metal_paths +=
+        configuration.extension_paths.map { |dir| Dir["#{dir}/*/app/metal"] }.flatten
+      super
+    end
+
 =begin
     def admin
       configuration.admin

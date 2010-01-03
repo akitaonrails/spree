@@ -6,11 +6,7 @@ class Admin::VariantsController < Admin::BaseController
     wants.html {render :action => :new, :layout => false}
   end
 
-  create.before do 
-    option_values = params[:new_variant]
-    option_values.each_value {|id| @object.option_values << OptionValue.find(id)}
-    @object.save
-  end
+  create.before :create_before
   
   # redirect to index (instead of r_c default of show view)
   create.response do |wants| 
@@ -33,11 +29,20 @@ class Admin::VariantsController < Admin::BaseController
     else
       flash[:notice] = "Variant could not be deleted"
     end
-    
-    redirect_to admin_product_variants_url(params[:product_id])
+
+    respond_to do |format|
+      format.html { redirect_to admin_product_variants_url(params[:product_id]) }
+      format.js  { render_js_for_destroy }
+    end
   end
   
   private 
+  def create_before 
+    option_values = params[:new_variant]
+    option_values.each_value {|id| @object.option_values << OptionValue.find(id)}
+    @object.save
+  end
+  
   def collection
     @deleted =  (params.key?(:deleted)  && params[:deleted] == "on") ? "checked" : ""
     

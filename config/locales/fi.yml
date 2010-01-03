@@ -1,5 +1,8 @@
 --- 
 fi: 
+  'no': "No"
+  'yes': "Yes"
+  5_biggest_spenders: "5 Biggest Spenders"
   a_copy_of_all_mail_will_be_sent_to_the_following_addresses: "Kopio kaikista viesteistä lähetetään seuraaviin osoitteisiin"
   abbreviation: Lyhenne
   access_denied: "Pääsy kielletty!"
@@ -24,6 +27,24 @@ fi:
         lastname: Sukunimi
         phone: Puhelin
         zipcode: Postinumero
+      checkout:
+        bill_address:
+          address1: "Billing address street"
+          city: "Billing address city"
+          firstname: "Billing address first name"
+          lastname: "Billing address last name"
+          phone: "Billing address phone"
+          state: "Billing address state"
+          zipcode: "Billing address zipcode"
+        shipment:
+          address:
+            address1: "Shipping address street"
+            city: "Shipping address city"
+            firstname: "Shipping address first name"
+            lastname: "Shipping address last name"
+            phone: "Shipping address phone"
+            state: "Shipping address state"
+            zipcode: "Shipping address zipcode"
       country: 
         iso: ISO
         iso3: ISO3
@@ -130,6 +151,9 @@ fi:
       role: 
         one: Rooli
         other: Roolit
+      shipment:
+        one: Shipment
+        other: Shipments
       shipping_category: 
         one: Toimituskategoria
         other: Toimitukategoriat
@@ -163,6 +187,7 @@ fi:
   add_option_type: "Lisää valintatyyppi"
   add_option_types: "Lisää valintatyyppejä"
   add_option_value: "Lisää valinta-arvo"
+  add_product: "Add Product"
   add_product_properties: "Lisää tuoteominaisuus"
   add_state: "Lisää osavaltio"
   add_to_cart: "Lisää ostoskoriin"
@@ -171,8 +196,10 @@ fi:
   address: Osoite
   address_information: Osoitetiedot
   adjustment: Säätö
+  adjustments: Adjustments
   administration: Hallinnointi
   all: Kaikki
+  all_departments: All departments
   allow_backorders: "Salli jälkitoimitukset"
   allow_ssl_to_be_used_when_in_developement_and_test_modes: "Salli SSL:n käyttö kehitys- ja testiympäristöissä"
   allow_ssl_to_be_used_when_in_production_mode: "Salli SSL:n käyttö vain tuotantoympäristössä"
@@ -195,8 +222,16 @@ fi:
   back: Takaisin
   back_to_store: "Palaa kauppaan"
   backordering_is_allowed: "Jälkitoimittaminen {{not}} sallittu"
+  balance_due: "Balance Due"
+  best_selling_products: "Best Selling Products"
+  best_selling_taxons: "Best Selling Taxons"
   bill_address: "Laskun osoite"
+  billing: Billing
   billing_address: Laskutusosoite
+  billing_integration: Billing Integration
+  billing_integrations: Billing Integrations
+  billing_integrations_description: "Configure your settings for third party billing integrations such as Paypal, Google Checkout, etc."
+  by_day: "by day"
   calculator: Laskin
   calculator_settings_warning: "Mikäli vaihdat laskimen tyyppiä, sinun täytyy ensin tallentaa ennen kuin voit muuttaa laskimen asetuksia"
   cancel: peruuta
@@ -212,8 +247,16 @@ fi:
   change_language: "Vaihda kieli"
   charge_total: "Veloitettu yhteensä"
   charged: Veloitettu
+  charges: Charges
   checkout: Kassa
+  checkout_steps:
+    # keys correspond to Checkout state names:
+    address: Address
+    complete: Complete
+    delivery: Delivery
+    payment: Payment
   city: Paikkakunta
+  clone: Clone
   code: Koodi
   combine: Yhdistä
   comp_order: "Tilauksen keskeyttäminen"
@@ -229,6 +272,7 @@ fi:
   continue: Jatka
   continue_shopping: "Jatka ostoksia"
   copy_all_mails_to: "Kopioi kaikki viestit"                                                                             
+  count: Count
   country: Maa
   country_based: Sijaintimaa
   coupon: Kuponki
@@ -242,10 +286,14 @@ fi:
   credit_card: Luottokortti
   credit_card_capture_complete: "Luottokortin tallentaminen onnistui"
   credit_card_payment: Luottokorttimaksu
+  credit_owed: "Credit Owed"
   credit_total: "Veloittamatta yhteensä"
   creditcard: Luottokortti
+  credits: Credits
   current: Nykyinen
   customer: Asiakas
+  customer_details: "Customer Details"
+  customer_search: "Customer Search"
   date_range: "Päivämäärä (mistä mihin)"
   delete: Poista
   depth: Syvyys
@@ -253,6 +301,7 @@ fi:
   destroy: Tuhoa
   display: Näytä
   edit: Muokkaa
+  editing_billing_integration: Editing Billing Integration
   editing_category: "Muokataan kategoriaa"
   editing_coupon: "Muokataan kuponkia"
   editing_option_type: "Muokataan valintatyyppiä"
@@ -272,6 +321,8 @@ fi:
   email_address: Sähköpostiosoite
   email_server_settings_description: "Aseta sähköpostipalvelimen asetukset."
   empty_cart: "Tyhjennä ostoskori"
+  enable_login_via_login_password: "Use standard email/password"  
+  enable_login_via_openid: "Use OpenID instead"
   enable_mail_delivery: "Salli sähköpostin toimitus"
   enable_mail_queue: "Salli sähköpostijono"
   enter_exactly_as_shown_on_card: "Kirjoita täsmälleen samoin kuin kortissa lukee"
@@ -317,6 +368,7 @@ fi:
   images: Kuvat
   images_for: Kuvia
   in_progress: Kesken
+  integration_settings_warning: "If you are changing the billing integration, you must save first before you can edit the integration settings"
   invalid_search: "Virheellinen haku."
   inventory: Varasto
   inventory_adjustment: "Varaston säätö"
@@ -326,7 +378,13 @@ fi:
   item: Tuote
   item_description: Tuotekuvaus
   item_total: "Tuotteet yhteensä"
+  items: "Items"
+  last_14_days: "Last 14 Days"
+  last_5_orders: "Last 5 Orders"
+  last_7_days: "Last 7 Days" 
+  last_month: "Last Month"
   last_name: Sukunimi
+  last_year: "Last Year"
   list: Lista
   listing_categories: "Listataan kategoriat"
   listing_option_types: "Listataan valintatyypit"
@@ -344,6 +402,7 @@ fi:
   login_failed: "Kirjautumisen autentikointi epäonnistui."
   login_name: Nimi
   logout: "Kirjaudu ulos"
+  look_for_similar_items: Look for similar items
   maestro_or_solo_cards: "Maestro/Solo kortit"
   mail_delivery_enabled: "Sähköpostiviestien toimitus päällä"
   mail_delivery_not_enabled: "Sähköpostiviestien toimitus poissa päältä"
@@ -357,11 +416,14 @@ fi:
   meta_description: Meta-kuvaus
   meta_keywords: Meta-avainsanat
   metadata: Metadata
+  missing_required_information: "Missing Required Information"
   month: Kuukausi
   my_account: Tunnukseni
   my_orders: Tilaukseni
   name: Nimi
   new: Uusi
+  new_adjustment: "New Adjustment"
+  new_billing_integration: New Billing Integration
   new_category: "Uusi kategoria"
   new_coupon: "Uusi kuponki"
   new_credit_card_payment: "Uusi luottokorttimaksutapa"
@@ -369,7 +431,9 @@ fi:
   new_image: "Uusi kuva"
   new_option_type: "Uusi valintatyyppi"
   new_option_value: "Uusi valinta-arvo"
+  new_order: "New Order"
   new_product: "Uusi tuote"
+  new_product_group: New Product Group
   new_property: "Uusi ominaisuus"
   new_prototype: "Uusi prototyyppi"
   new_shipment: "Uusi toimitus"
@@ -385,9 +449,9 @@ fi:
   new_variant: "Uusi variantti"
   new_zone: "Uusi alue"
   next: Seuraava
-  no: Ei
   no_items_in_cart: ""
   no_match_found: "Ei löytynyt vastaavia"
+  no_products_found: "No products found"
   no_user_found: "Ei löytnyt käyttäjää kyseisellä sähköpostiosoitteella"
   none: "Ei yhtäkään"
   none_available: "Ei yhtäkään saatavilla"
@@ -399,6 +463,8 @@ fi:
   option_values: Valinta-arvot
   options: Valinnat
   or: tai
+  ord_qty: "Ord. Qty"
+  ord_total: "Ord. Total"
   order: Tilaus
   order_confirmation_note: ""
   order_date: Tilauspäivämäärä
@@ -409,12 +475,16 @@ fi:
   order_operation_authorize: Valtuuta
   order_processed_successfully: "Tilauksenne käsitelty onnistuneesti"
   order_summary: Tilaustiivistelmä
+  order_sure_want_to: "Are you sure you want to {{event}} this order?"
   order_total: "Tilaus yhteensä"
   order_total_message: "Kortiltanne veloitettava kokonaissumma"
   order_updated: "Tilaus päivitetty"
   orders: Tilaukset
   out_of_stock: "Ei saatavilla"
+  out_of_stock_products: "Out of Stock Products"
+  over_paid: "Over Paid"
   overview: Yleiskuva
+  overview_welcome: "Welcome to your store overview, currently we do not have enough data to display the Overiew Dashboard.<br/><br/> The dashboard will display automatically once the system has sufficent orders to allow generation of the statistics."
   page_only_viewable_when_logged_in: You attempted to visit a page which can only be viewed when you are logged in
   page_only_viewable_when_logged_out: You attempted to visit a page which can only be viewed when you are logged out
   paid: Maksettu
@@ -435,8 +505,10 @@ fi:
   please_create_user: "Luo käyttäjätunnus"     
   powered_by: "Powered by"
   presentation: Esitys
+  preview: Preview
   previous: Edellinen
   price: Hinta
+  price_with_vat_included: "{{price}} (inc. VAT)"
   problem_authorizing_card: "Ongelma luottokortin tunnistamisessa"
   problem_capturing_card: "Ongelma luottokortin kaappaamisessa"
   problems_processing_order: "Ongelmia tilauksen käsittelyssä"
@@ -444,8 +516,121 @@ fi:
   process: Prosessi
   product: Tuote
   product_details: Tuotetiedot
+  product_group: Product Group
+  product_group_invalid: Product Group has invalid scopes
+  product_groups: Product Groups
   product_has_no_description: "Tuotteella ei tuotekuvausta"
   product_properties: "Tuotteen ominaisuudet"
+  product_scopes:
+    groups:
+      price:
+        description: "Scopes for selecting products based on Price"
+        name: Price
+      search:
+        description: "Scopes for selecting products based on name, keywords and description of product"
+        name: "Text search"
+      taxon:
+        description: "Scopes for selecting products based on Taxons"
+        name: Taxon
+      values:
+        description: "Scopes for selecting products based on option and property values"
+        name: Values
+    scopes:
+      ascend_by_master_price:
+        name: Ascend by product master price
+      ascend_by_name:
+        name: Ascend by product name
+      ascend_by_updated_at:
+        name: Ascendy by actualization date
+      by_popularity:
+        name: Sort by popularity(most popular first)
+      descend_by_master_price:
+        name: Descend by product master price
+      descend_by_name:
+        name: Descend by product name
+      descend_by_updated_at:
+        name: Descend by actualization date
+      in_name:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name have following"
+        sentence: product name contain <em>%s</em>
+      in_name_or_description:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name or description have following"
+        sentence: name or description contain <em>%s</em>
+      in_name_or_keywords:
+        args:
+          words: Words
+        description: "(separated by space or comma)"
+        name: "Product name or meta heywords have following"
+        sentence: name or keywords contain <em>%s</em>
+      in_taxons:
+        args:
+          "taxon_names": "Taxon names"
+        description: "Taxon names have to be separated by comma or space(eg. adidas,shoes)"
+        name: "In taxons and all their descendants"
+        sentence: in <em>%s</em> and all their descendants
+      master_price_gte:
+        args:
+          amount: Amount
+        description: ""
+        name: "Master price greater or equal to"
+        sentence: price greater or equal to <em>%.2f</em>
+      master_price_lte:
+        args:
+          amount: Amount
+        description: ""
+        name: "Master price lesser or equal to"
+        sentence: price less or equal to <em>%.2f</em>
+      price_between:
+        args:
+          high: High
+          low: Low
+        description: ""
+        name: "Price between"
+        sentence: price between <em>%.2f</em> and <em>%.2f</em>
+      taxons_name_eq:
+        args:
+          taxon_name: "Taxon name"
+        description: "In specific taxon - without descendants"
+        name: "In Taxon(without descendants)"
+        sentence: in <em>%s</em>
+      with:
+        args:
+          value: Value
+        description: "Selects all products that have at least one variant that have specified value as either option or property (eg. red)"
+        name: With value
+        sentence: with value <em>%s</em>
+      with_option:
+        args:
+          option: Option
+        description: "Selects all products that have specified option(eg. color)"
+        name: "With option"
+        sentence: with option <em>%s</em>
+      with_option_value:
+        args:
+          option: Option
+          value: Value
+        description: "Selects all products that have at least one variant with specified option and value(eg. color:red)"
+        name: "With option and value"
+        sentence: with option <em>%s</em> and value <em>%s</em>
+      with_property:
+        args:
+          property: Property
+        description: "Selects all products that have specified property(eg. weight)"
+        name: "With property"
+        sentence: with property <em>%s</em>
+      with_property_value:
+        args:
+          property: Property
+          value: Value
+        description: "Selects all products that have at least one variant with specified property and value(eg. weight:10kg)"
+        name: "With property value"
+        sentence: with property <em>%s</em> and value <em>%s</em>
   products: Tuotteet
   products_with_zero_inventory_display: "Tuotteita, joden varastosaldo 0 {{not}} näytetä(än)"
   properties: Ominaisuudet
@@ -453,6 +638,7 @@ fi:
   prototype: Prototyyppi
   prototypes: Prototyypit
   qty: lkm
+  range: "Range"
   rate: Taso
   register: "Rekisteröidy uutena käyttäjänä"
   register_or_guest: "Jätä tilaus vierailijana tai rekisteröidy"
@@ -463,6 +649,11 @@ fi:
   required_for_solo_and_maestro: "Vaaditaan Solo- ja Maestro korteilta."
   resend: Uudelleenlähetä
   reset_password: "Palauta salasana"
+  resource_controller:
+    member_object_not_found: "Member object not found."
+    successfully_created: "Successfully created!"
+    successfully_removed: "Successfully removed!"
+    successfully_updated: "Successfully updated!"
   response_code: Vastauskoodi
   resume: jatka
   resumed: Jatkettu
@@ -474,8 +665,10 @@ fi:
   sales_total_for_all_orders: "Liikevaihto kaikilta tilauksilta"
   sales_totals: "Liikevaihdot"
   sales_totals_description: "Myynnit yhteensä kaikilta tilauksilta"
+  save_and_continue: Save and Continue
   save_preferences: "Tallenna asetukset"
   search: Etsi
+  search_results: "Search results for '{{keywords}}'"
   secure_connection_type: "Turvallinen yhteystyyppi"
   select: Valitse
   select_from_prototype: "Valitse prototyypistä"
@@ -490,6 +683,7 @@ fi:
   ship_address: Toimitusosoite
   shipment: Toimitus
   shipment_number: Toimitusnumero
+  shipments: "Shipments"
   shipped: Toimitettu
   shipping: Toimitus
   shipping_address: Toimitusosoite
@@ -507,6 +701,7 @@ fi:
   shipping_total: "Toimitus yhteensä"
   shop_by_taxonomy: "{{taxonomy}}"
   shopping_cart: Ostoskori
+  show: Show
   show_deleted: "Näytä poistetut"
   show_incomplete_orders: "Näytä keskeneräiset tilaukset"
   show_only_complete_orders: "Näytä vain valmiit tilaukset"
@@ -567,8 +762,11 @@ fi:
   taxons: Taksonit
   thank_you_for_your_order: "Kiitos kaupankäynnistä. Tulosta tarvittaessa kopio tästä vahvistuksesta."
   this_file_language: Finnish
+  this_month: "This Month"
+  this_year: "This Year"
   thumbnail: Näytekuva
   to_add_variants_you_must_first_define: "Lisättävä variantti täytyy ensin määritellä"
+  top_grossing_products: "Top Grossing Products"
   total: Loppusumma
   tracking: Seuranta
   transaction: Tapahtuma
@@ -579,6 +777,7 @@ fi:
   unable_to_authorize_credit_card: "Luottokortin valtuuttaminen ei onnistu"
   unable_to_capture_credit_card: "Luottokortin tallentaminen ei onnistu"
   unable_to_save_order: "Tilauksen tallentaminen ei onnistu"
+  under_paid: "Under Paid"
   unrecognized_card_type: "Tunnistamaton korttityyppi"
   update: Päivitä
   update_password: "Päivitä salasanani ja kirjaa minut sisään"
@@ -590,12 +789,14 @@ fi:
   use_different_shipping_address: "Käytä eri toimitusosoitetta"
   user: Käyttäjä
   user_account: Käyttäjätunnus
+  user_created_successfully: "User created successfully"
   user_details: Käyttäjätiedot
   users: Käyttäjät
   value: Arvo
   variants: Variantit
   vat: ALV           
   version: Versio
+  view_shipping_options: "View shipping options"
   website: Verkkosivu
   weight: Paino
   welcome_to_sample_store: "Tervetuloa esimerkkikauppaan"
@@ -604,7 +805,6 @@ fi:
   whats_this: "Mikä tämä on"
   width: Leveys
   year: Vuosi
-  yes: Kyllä
   you_have_been_logged_out: "Olet kirjautunut ulos."
   your_cart_is_empty: "Ostoskorisi on tyhjä"
   zip: Postinumero

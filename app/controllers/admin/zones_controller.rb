@@ -11,6 +11,8 @@ class Admin::ZonesController < Admin::BaseController
     wants.html { redirect_to collection_url }
   end
   
+  destroy.success.wants.js { render_js_for_destroy }
+  
   private
   def build_object
     @object ||= end_of_association_chain.send parent? ? :build : :new, object_params
@@ -19,7 +21,7 @@ class Admin::ZonesController < Admin::BaseController
   end
 
   def collection
-    @search = end_of_association_chain.search(params[:search])
+    @search = end_of_association_chain.searchlogic(params[:search])
     @search.order ||= "ascend_by_name"
     @collection_count = @search.count
     @collection = @search.paginate(:per_page => Spree::Config[:orders_per_page], :page => params[:page])
