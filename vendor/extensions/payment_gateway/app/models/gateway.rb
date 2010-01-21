@@ -2,7 +2,12 @@ class Gateway < ActiveRecord::Base
 	delegate_belongs_to :provider, :authorize, :purchase, :capture, :void, :credit
 	
 	validates_presence_of :name, :type
- 
+
+  # instantiates the selected gateway and configures with the options stored in the database
+  def self.current
+    Gateway.find(:first, :conditions => {:active => true, :environment => ENV['RAILS_ENV']}) 
+	end
+	
 	@provier = nil
   @@providers = Set.new
   def self.register
@@ -21,7 +26,7 @@ class Gateway < ActiveRecord::Base
     ActiveMerchant::Billing::Base.gateway_mode = server.to_sym
     gateway_options = options
     gateway_options[:test] = true if test_mode
-		@provider ||= provider_class.new(gateway_options)
+    @provider ||= provider_class.new(gateway_options)
   end 
  
 	def validate
@@ -47,4 +52,9 @@ class Gateway < ActiveRecord::Base
 			@provider.respond_to?(method) ? provider.send(method) : super
 		end
 	end
+	
+	def payment_profiles_supported?
+	  false
+  end
+  
 end

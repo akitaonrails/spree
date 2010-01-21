@@ -6,8 +6,10 @@ class Creditcard < ActiveRecord::Base
   
   validates_numericality_of :month, :integer => true
   validates_numericality_of :year, :integer => true   
-  validates_presence_of :number
-  validates_presence_of :verification_value
+  validates_presence_of :number, :on => :create
+  validates_presence_of :verification_value, :on => :create
+  
+  has_many :creditcard_txns, :through => :creditcard_payments
   
   def set_last_digits
     self.last_digits ||= number.to_s.length <= 4 ? number : number.to_s.slice(-4..-1) 

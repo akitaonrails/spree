@@ -49,8 +49,21 @@ class CreditcardTest < ActiveSupport::TestCase
     should_change("CreditcardPayment.count", :by => 1) { CreditcardPayment.count }
     should_change("CreditcardTxn.count", :by => 1) { CreditcardTxn.count }
     should_not_change("Order.by_state('new').count") { Order.by_state('new').count }
+    should "store the avs_result" do
+      assert_equal 'A', CreditcardTxn.last.avs_response
+    end
+    context "followed by void" do
+      setup do
+        @creditcard.void(CreditcardTxn.last)
+        @void_txn = CreditcardTxn.last
+      end
+      should_change("CreditcardTxn.count", :by => 1) { CreditcardTxn.count }
+      should "create new transaction with correct attributes" do
+        assert_equal CreditcardTxn::TxnType::VOID, @void_txn.txn_type
+      end
+    end
   end
-
+  
   context "authorization failure" do
     setup do
       @creditcard = Factory.build(:creditcard, :number => "4111111111111999", :checkout => Factory(:checkout))
@@ -64,11 +77,33 @@ class CreditcardTest < ActiveSupport::TestCase
   context "purchase success" do
     setup do
       @creditcard = Factory.build(:creditcard, :checkout => Factory(:checkout))
+      @order = @creditcard.checkout.order
+      Factory(:line_item, :order => @order, :price => 100, :quantity => 1)
+      @order.reload
+      @order.save
       @creditcard.purchase(100)
     end
     should_change("CreditcardPayment.count", :by => 1) { CreditcardPayment.count }
     should_change("CreditcardTxn.count", :by => 1) { CreditcardTxn.count }
     should_not_change("Order.by_state('paid').count") { Order.by_state('paid').count }
+    context "followed by refund" do
+      setup do
+        @order.line_items.first.update_attribute(:price, 75)
+        @order.reload
+        @order.save
+        
+        @txn = @order.creditcard_payments.first.txns.first
+        @creditcard.credit(25, @txn)
+      end
+      should_change("CreditcardPayment.count", :by => 1) { CreditcardPayment.count }
+      
+      should "create a new payment with negative amount" do
+        @new_transaction = @order.creditcard_payments.last.txns.first
+        assert_equal -25.00, @new_transaction.amount
+        assert_equal CreditcardTxn::TxnType::CREDIT, @new_transaction.txn_type
+      end
+ 
+    end
   end
 
   context "purchase failure" do
@@ -80,4 +115,5 @@ class CreditcardTest < ActiveSupport::TestCase
     should_not_change("CreditcardTxn.count") { CreditcardTxn.count }
     should_not_change("Order.by_state('paid').count") { Order.by_state('paid').count }
   end
+
 end

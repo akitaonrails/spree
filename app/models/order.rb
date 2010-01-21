@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
 
   before_create :generate_token
   before_save :update_line_items, :update_totals
-  after_create :create_checkout_and_shippment, :create_tax_charge
+  after_create :create_checkout, :create_shipment, :create_tax_charge
 
   belongs_to :user
   has_many :state_events, :as => :stateful
@@ -17,10 +17,13 @@ class Order < ActiveRecord::Base
 
   has_many :payments,            :extend => Totaling
   has_many :creditcard_payments, :extend => Totaling
+  has_many :creditcards, :through => :creditcard_payments, :uniq => true
 
   has_one :checkout
   has_one :bill_address, :through => :checkout
+  has_one :ship_address, :through => :checkout
   has_many :shipments, :dependent => :destroy
+  has_many :return_authorizations, :dependent => :destroy
 
   has_many :adjustments,      :extend => Totaling, :order => :position
   has_many :charges,          :extend => Totaling, :order => :position
@@ -35,8 +38,7 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :line_items
   accepts_nested_attributes_for :shipments
 
-  def ship_address; shipment.address; end
-  delegate :shipping_method, :to =>:shipment
+  delegate :shipping_method, :to => :checkout
   delegate :email, :to => :checkout
   delegate :ip_address, :to => :checkout
   delegate :special_instructions, :to => :checkout
@@ -69,7 +71,9 @@ class Order < ActiveRecord::Base
     after_transition :to => 'canceled', :do => :cancel_order
     after_transition :to => 'returned', :do => :restock_inventory
     after_transition :to => 'resumed', :do => :restore_state
+    after_transition :to => 'paid', :do => :make_shipments_ready
     after_transition :to => 'shipped', :do => :make_shipments_shipped
+    after_transition :to => 'balance_due', :do => :make_shipments_pending
 
     event :complete do
       transition :to => 'new', :from => 'in_progress'
@@ -78,7 +82,7 @@ class Order < ActiveRecord::Base
       transition :to => 'canceled', :if => :allow_cancel?
     end
     event :return do
-      transition :to => 'returned', :from => 'shipped'
+      transition :to => 'returned', :from => 'credit_owed'
     end
     event :resume do
       transition :to => 'resumed', :from => 'canceled', :if => :allow_resume?
@@ -87,13 +91,16 @@ class Order < ActiveRecord::Base
       transition :to => 'paid', :if => :allow_pay?
     end
     event :under_paid do
-      transition :to => 'balance_due', :from => ['paid', 'new', 'credit_owed']
+      transition :to => 'balance_due', :from => ['paid', 'new', 'credit_owed', 'shipped', 'awaiting_return']
     end
     event :over_paid do
-      transition :to => 'credit_owed', :from => ['paid', 'new', 'balance_due']
+      transition :to => 'credit_owed', :from => ['paid', 'new', 'balance_due', 'shipped', 'awaiting_return']
     end
     event :ship do
       transition :to => 'shipped', :from  => 'paid'
+    end
+    event :return_authorized do
+      transition :to => 'awaiting_return', :from => 'shipped'
     end
   end
 
@@ -109,6 +116,50 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def make_shipments_ready
+    shipments.each(&:ready)
+  end
+
+  def make_shipments_pending
+    shipments.each(&:pend)
+  end
+
+  def shipped_units
+    shipped_units = shipments.inject([]) { |units, shipment| units << shipment.inventory_units if shipment.shipped? }
+
+    if shipped_units.nil?
+      return nil
+    else
+      shipped_units.flatten!
+    end
+
+    shipped = {}
+    shipped_units.group_by(&:variant_id).each do |variant_id, ship_units|
+      shipped[Variant.find(variant_id)] = ship_units.size
+    end
+    shipped
+  end
+
+  def returnable_units
+    returned_units = return_authorizations.inject([]) { |units, return_auth| units << return_auth.inventory_units}
+    returned_units.flatten! unless returned_units.nil?
+
+    returnable = shipped_units
+    return if returnable.nil?
+
+    returned_units.group_by(&:variant_id).each do |variant_id, returned_units|
+      variant = returnable.detect { |ru| ru.first.id == variant_id }[0]
+
+      count = returnable[variant] - returned_units.size
+      if count > 0
+        returnable[variant] = returnable[variant] - returned_units.size
+      else
+        returnable.delete variant
+      end
+    end
+
+    returnable.empty? ? nil : returnable
+  end
 
   def allow_cancel?
     self.state != 'canceled'
@@ -164,7 +215,7 @@ class Order < ActiveRecord::Base
 
   # convenience method since many stores will not allow user to create multiple shipments
   def shipment
-    shipments.last
+    @shipment ||= shipments.last
   end
 
   def contains?(variant)
@@ -190,7 +241,7 @@ class Order < ActiveRecord::Base
 
   def shipping_methods
     return [] unless ship_address and ShippingMethod.count > 0
-    ShippingMethod.all.select { |method| method.zone.include?(ship_address) && method.available?(self) }
+    ShippingMethod.all_available_to_address(ship_address)
   end
 
   def payment_total
@@ -243,6 +294,15 @@ class Order < ActiveRecord::Base
 
   def update_totals!
     update_totals
+
+    if self.payments.total < self.total
+      #Total is higher so balance_due
+      self.under_paid
+    elsif self.payments.total > self.total
+      #Total is lower so credit_owed
+      self.over_paid
+    end
+
     save!
   end
 
@@ -250,6 +310,32 @@ class Order < ActiveRecord::Base
     self.adjustments.each(&:update_amount)
     update_totals(:force_adjustment_update)
     self
+  end
+
+  def name
+    address = bill_address || ship_address
+    "#{address.firstname} #{address.lastname}" if address
+  end
+
+
+  def out_of_stock_items
+    @out_of_stock_items
+  end
+
+  def outstanding_balance
+    [0, total - payments.total].max
+  end
+  
+  def has_balance_outstanding?
+    outstanding_balance > 0
+  end
+  
+  def outstanding_credit
+    [0, payments.total - total].max
+  end
+  
+  def has_credit_outstanding?
+    outstanding_credit > 0
   end
 
   private
@@ -260,9 +346,12 @@ class Order < ActiveRecord::Base
 
     if email
       OrderMailer.deliver_confirm(self)
-    end
-    begin
-      InventoryUnit.sell_units(self)
+    end                  
+    
+    begin      
+      @out_of_stock_items = InventoryUnit.sell_units(self)
+      update_totals unless @out_of_stock_items.empty?     
+      shipment.inventory_units = inventory_units        
       save!
     rescue Exception => e
       logger.error "Problem saving authorized order: #{e.message}"
@@ -291,8 +380,12 @@ class Order < ActiveRecord::Base
     self.token = Authlogic::Random.friendly_token
   end
 
-  def create_checkout_and_shippment
-    self.shipments << Shipment.create(:order => self)
+  def create_checkout
     self.checkout ||= Checkout.create(:order => self)
   end
+
+  def create_shipment
+    self.shipments << Shipment.create(:order => self)
+  end
+
 end

@@ -85,9 +85,13 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource :mail_settings
     admin.resource :inventory_settings
     admin.resources :google_analytics
-    admin.resources :orders, :has_many => [:adjustments, :shipments, :payments, :creditcards, :line_items], :has_one => :checkout, :member => {:fire => :put, :resend => :post, :history => :get}
+    admin.resources :orders, :has_many => [:adjustments, :creditcards, :line_items], :has_one => :checkout, :member => {:fire => :put, :resend => :post, :history => :get} do |order|
+      order.resources :shipments, :member => {:fire => :put}
+      order.resources :return_authorizations, :member => {:fire => :put}
+    end
     admin.resources :orders do |order|
-      order.resources :creditcard_payments, :member => {:capture => :get}
+      order.resources :payments#, :member => {:capture => :get}
+      order.resources :creditcards, :member => {:refund => [:get,:post]}
     end
     admin.resource :general_settings
     admin.resources :taxonomies, :member => { :get_children => :get } do |taxonomy|
@@ -103,7 +107,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource  :tax_settings
     admin.resources :calculators
     admin.resources :product_groups
-    admin.resources :billing_integrations
+    admin.resources :billing_integrations    
+    admin.resources :trackers
   end
 
   map.connect ':controller/:action/:id.:format'

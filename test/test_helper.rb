@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require "authlogic/test_case"
+require File.expand_path(File.dirname(__FILE__) + "/../vendor/extensions/payment_gateway/test/mocks/authorize_net_cim_mock")
 
 class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
@@ -54,14 +55,17 @@ def create_complete_order
 
   @shipping_method = Factory(:shipping_method)
   @checkout = @order.checkout
+
+  @checkout.ship_address = Factory(:address)
+  @checkout.shipping_method = @shipping_method
+  @checkout.save
+
   @shipment = @order.shipment
-  @order.shipment.shipping_method = @shipping_method
-  @order.shipment.address = Factory(:address)  
-  @order.completed_at = Time.now
+
   @checkout.bill_address = Factory(:address)
 
   unless @zone.include?(@order.shipment.address)
-    ZoneMember.create(:zone => Zone.global, :zoneable => @order.shipment.address.country)
+    ZoneMember.create(:zone => Zone.global, :zoneable => @checkout.ship_address.country)
     @zone.reload
   end
 
@@ -69,6 +73,26 @@ def create_complete_order
   @shipment.save
   @order.save
   @order.reload
+end
+
+def add_capturable_payment(order)
+  creditcard = Factory(:creditcard)
+  creditcard.update_attribute(:checkout, order.checkout)
+
+  Gateway::Bogus.create(:name => "Test Gateway", :active => true, :environment => "test")
+  payment = CreditcardPayment.create(:order => order, :amount => order.total, :creditcard => creditcard)
+  CreditcardTxn.create(:creditcard_payment => payment, :amount => order.total, :txn_type => CreditcardTxn::TxnType::AUTHORIZE, :response_code => 12345)
+
+  order.reload
+end
+
+# Sets up an order with state 'new' with completed checkout and authorized payment
+def create_new_order
+  create_complete_order
+  @checkout.next!
+  @checkout.next!
+  @checkout.creditcard_attributes = Factory.attributes_for(:creditcard)
+  @checkout.next!
 end
 
 # useful method for functional tests that require an authenticated user

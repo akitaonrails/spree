@@ -6,9 +6,19 @@ class Admin::BaseController < Spree::BaseController
   before_filter :parse_date_params
 
   protected
+
+  def ssl_required?
+    ssl_supported?
+  end
+
   def render_js_for_destroy
     render :js => "$('.flash.notice').html('#{flash[:notice]}'); $('.flash.notice').show();"
     flash[:notice] = nil
+  end
+
+  def require_object_editable_by_current_user
+    return access_denied unless object.editable_by?(current_user)
+    true
   end
 
   private
