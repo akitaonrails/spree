@@ -11,7 +11,7 @@ class Spree::BaseController < ActionController::Base
 
   include RoleRequirementSystem
   include EasyRoleRequirementSystem
-  include SslRequirement  
+  include SslRequirement
 
   def admin_created?
     User.first(:include => :roles, :conditions => ["roles.name = 'admin'"])
@@ -43,45 +43,55 @@ class Spree::BaseController < ActionController::Base
   end
 
   def title
-    if @title.blank?
+    title_string = @title.blank? ? accurate_title : @title
+    if title_string.blank?
       default_title
     else
-      @title
+      if Spree::Config[:always_put_site_name_in_title]
+        [default_title, title_string].join(' - ')
+      else
+        title_string
+      end
     end
   end
+
+  protected
 
   def default_title
     Spree::Config[:site_name]
   end
-
-  protected
+  
+  def accurate_title
+    return nil
+  end
+  
   def reject_unknown_object
     # workaround to catch problems with loading errors for permalink ids (reconsider RC permalink hack elsewhere?)
-    begin 
+    begin
       load_object
     rescue Exception => e
       @object = nil
     end
     the_object = instance_variable_get "@#{object_name}"
-    the_object = nil if (the_object.respond_to?(:deleted_at) && the_object.deleted_at)
+    the_object = nil if (the_object.respond_to?(:deleted?) && the_object.deleted?)
     unless params[:id].blank? || the_object
       if self.respond_to? :object_missing
         self.object_missing(params[:id])
-      else 
+      else
         render_404(Exception.new("missing object in #{self.class.to_s}"))
       end
     end
-    true 
-  end         
-  
+    true
+  end
+
   def render_404(exception)
     respond_to do |type|
       type.html { render :file    => "#{RAILS_ROOT}/public/404.html", :status => "404 Not Found" }
       type.all  { render :nothing => true,                            :status => "404 Not Found" }
     end
   end
-  
-  private  
+
+  private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
@@ -134,14 +144,14 @@ class Spree::BaseController < ActionController::Base
   # simply close itself.
   def access_denied
     respond_to do |format|
-      format.html do    
+      format.html do
         if current_user
           flash[:error] = t("authorization_failure")
           redirect_to '/user_sessions/authorization_failure'
           next
         else
           store_location
-          redirect_to login_path   
+          redirect_to login_path
           next
         end
       end
@@ -155,7 +165,7 @@ class Spree::BaseController < ActionController::Base
     @current_action = action_name
     @current_controller = controller_name
   end
-  
+
   def get_taxonomies
     @taxonomies ||= Taxonomy.find(:all, :include => {:root => :children})
     @taxonomies
@@ -164,5 +174,5 @@ class Spree::BaseController < ActionController::Base
   def current_gateway
     @current_gateway ||= Gateway.current
   end
-  
+
 end

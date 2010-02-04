@@ -14,6 +14,8 @@ class Shipment < ActiveRecord::Base
   accepts_nested_attributes_for :address
   accepts_nested_attributes_for :inventory_units
 
+  validates_presence_of :inventory_units, :if => Proc.new { |unit| !unit.order.in_progress? }
+
   def shipped=(value)
     return unless value == "1" && shipped_at.nil?
     self.shipped_at = Time.now
@@ -73,6 +75,7 @@ class Shipment < ActiveRecord::Base
   def recalculate_order
     shipping_charge.update_attribute(:description, description_for_shipping_charge)
     order.update_adjustments
+    order.update_totals!
     order.save
   end
 
@@ -96,6 +99,12 @@ class Shipment < ActiveRecord::Base
     update_attribute(:shipped_at, Time.now)
     # transition order to shipped if all shipments have been shipped
     order.ship! if order.shipments.all?(&:shipped?)
+  end
+
+  def validate
+    unless shipping_method.nil?
+      errors.add :shipping_method, I18n.t("is_not_available_to_shipment_address") unless shipping_method.zone.include?(address)
+    end
   end
 
 end

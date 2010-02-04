@@ -1,16 +1,18 @@
 jQuery(document).ready(function($){
-  
+
   $('input#checkout_use_billing').click(function() {
     show_billing(!this.checked);
   });
 
-  var show_billing = function(show) {   
+  var show_billing = function(show) {
     if(show) {
       $('#shipping .inner').show();
       $('#shipping .inner input').removeAttr('disabled', 'disabled');
+      $('#shipping .inner select').removeAttr('disabled', 'disabled');
     } else {
       $('#shipping .inner').hide();
       $('#shipping .inner input').attr('disabled', 'disabled');
+      $('#shipping .inner select').attr('disabled', 'disabled');
     }
   }
 
@@ -22,12 +24,16 @@ jQuery(document).ready(function($){
     var state_input = $('span#' + region + 'state input');
 
     if(states) {
+      var selected = state_select.val();
       state_select.html('');
       var states_with_blank = [["",""]].concat(states);
       $.each(states_with_blank, function(pos,id_nm) {
         var opt = $(document.createElement('option'))
                   .attr('value', id_nm[0])
                   .html(id_nm[1]);
+        if(selected==id_nm[0]){
+          opt.attr('selected', 'selected');
+        }
         state_select.append(opt);
       });
       state_select.removeAttr('disabled').show();;
@@ -47,5 +53,5 @@ jQuery(document).ready(function($){
     update_state('b');
     update_state('s');
   });
-  
+
 });

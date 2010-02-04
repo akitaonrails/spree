@@ -5,6 +5,15 @@ class Admin::CheckoutsController  < Admin::BaseController
  ssl_required
 
  edit.before :edit_before
+ update.before :update_before
+
+ update.wants.html do
+   if @order.in_progress?
+     redirect_to edit_admin_order_shipment_url(@order, @order.shipment)
+   else
+     redirect_to admin_order_checkout_url(@order)
+   end
+ end
 
  private
  def load_data
@@ -20,6 +29,13 @@ class Admin::CheckoutsController  < Admin::BaseController
 
  def edit_before
    @checkout.build_bill_address(:country_id => Spree::Config[:default_country_id]) if @checkout.bill_address.nil?
-   @checkout.order.shipments[0].build_address(:country_id => Spree::Config[:default_country_id]) if @checkout.order.shipments[0].address.nil?
+   @checkout.build_ship_address(:country_id => Spree::Config[:default_country_id]) if @checkout.ship_address.nil?
+ end
+
+ def update_before
+   address = Address.create( params[:checkout][:ship_address_attributes])
+   params[:checkout][:ship_address_attributes][:id] = address.id
+   @checkout.update_attribute(:ship_address_id, address.id)
+   @checkout.shipping_method = @checkout.shipping_methods.first
  end
 end

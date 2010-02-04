@@ -18,7 +18,7 @@
 #
 require 'test_helper'
 
-class ProductTest < Test::Unit::TestCase
+class ProductTest < ActiveSupport::TestCase
 
   def self.should_pass_basic_tests
     subject { @product }
@@ -39,6 +39,9 @@ class ProductTest < Test::Unit::TestCase
     end
     should "not obscure deleted_at" do
       assert true, @product.deleted_at.nil?
+    end
+    should "not be deleted" do
+      assert !@product.deleted?
     end
     should "have a price" do
       assert_equal 19.99, @product.price
@@ -276,5 +279,10 @@ class ProductTest < Test::Unit::TestCase
         assert_equal BigDecimal.new("1.11"), @product.reload.price
       end
     end
+  end
+
+  should 'be deleted if deleted_at is set' do
+    @product = Factory.build(:product, :deleted_at => Time.now)
+    assert @product.deleted?
   end
 end

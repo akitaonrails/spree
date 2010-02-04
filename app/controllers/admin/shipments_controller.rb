@@ -5,17 +5,25 @@ class Admin::ShipmentsController < Admin::BaseController
   resource_controller
   belongs_to :order
 
+  update.wants.html do
+    if @order.in_progress?
+      redirect_to new_admin_order_payment_url(@order)
+    else
+      redirect_to edit_object_url
+    end
+  end
+
   create do
     wants.html { redirect_to edit_object_url }
   end
 
   edit.before :edit_before
 
+  update.before :assign_inventory_units
   update.after :update_after
 
-  update do
-    wants.html { redirect_to edit_object_url }
-  end
+  create.before :assign_inventory_units
+  create.after :recalculate_order
 
   destroy.success.wants.js { render_js_for_destroy }
 
@@ -55,7 +63,17 @@ class Admin::ShipmentsController < Admin::BaseController
       @order.checkout.special_instructions = object_params[:special_instructions]
       @order.save
     end
+    recalculate_order
+  end
+
+  def assign_inventory_units
+    return unless params.has_key? :inventory_units
+
+    params[:inventory_units].each { |id, value| @shipment.inventory_units << InventoryUnit.find(id) }
+  end
+
+  def recalculate_order
     @shipment.recalculate_order if params[:recalculate]
   end
-  
+
 end

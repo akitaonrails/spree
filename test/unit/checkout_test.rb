@@ -5,25 +5,24 @@ class CheckoutTest < ActiveSupport::TestCase
 
   should_belong_to :bill_address
   should_not_allow_values_for :email, "blah", "b lah", "blah@blah"
-  
+
   context Checkout do
     setup do
-      @checkout = Factory(:checkout)
-      @order = @checkout.order
-      @order.checkout = @checkout
-      @order.save
+      @checkout = Factory(:order_with_totals).checkout
+       @checkout.state = "payment"
+      @checkout.creditcard = Factory(:creditcard)
     end
     context "in payment state w/no auto capture" do
-      setup do 
-        @checkout.state = "payment"
-        Spree::Config.set(:auto_capture => false) 
+      setup do
+
+        Spree::Config.set(:auto_capture => false)
       end
       context "next" do
         setup { @checkout.next! }
         should_change("@checkout.state", :to => "complete") { @checkout.state }
         should_change("@checkout.order.completed_at", :from => nil) { @checkout.order.completed_at }
-        should_change("@checkout.order.state", :from => "in_progress", :to => "new") { @checkout.order.state }        
-        should_change("@checkout.order.creditcard_payments.count", :by => 1) { @checkout.order.creditcard_payments.count }
+        should_change("@checkout.order.state", :from => "in_progress", :to => "new") { @checkout.order.state }
+        should_not_change("@checkout.order.creditcard_payments.count") { @checkout.order.creditcard_payments.count }
         should_change("CreditcardTxn.count", :by => 1) { CreditcardTxn.count }
       end
       context "next with declineable creditcard" do
@@ -38,19 +37,16 @@ class CheckoutTest < ActiveSupport::TestCase
       end
     end
     context "in payment state w/auto capture" do
-      setup do    
-        @order = Factory(:order_with_totals)
-        @checkout = Factory(:checkout, :order => @order, :state => "payment")
-        @order.checkout = @checkout
-        @order.save!
-        Spree::Config.set(:auto_capture => true) 
+      setup do
+
+        Spree::Config.set(:auto_capture => true)
       end
       context "next" do
         setup { @checkout.next! }
 
         should_change("@checkout.state", :to => "complete") { @checkout.state }
         should_change("@checkout.order.completed_at", :from => nil) { @checkout.order.completed_at }
-        should_change("@checkout.order.state", :from => "in_progress", :to => "paid") { @checkout.order.state }        
+        should_change("@checkout.order.state", :from => "in_progress", :to => "paid") { @checkout.order.state }
         should_change("@checkout.order.creditcard_payments.count", :by => 1) { @checkout.order.creditcard_payments.count }
         should_change("CreditcardTxn.count", :by => 1) { CreditcardTxn.count }
       end
@@ -75,13 +71,13 @@ class CheckoutTest < ActiveSupport::TestCase
       end
     end
   end
-  context "Checkout#countries" do 
-    setup do 
-      3.times { Factory(:country) } 
-      @country = Factory(:country)     
+  context "Checkout#countries" do
+    setup do
+      3.times { Factory(:country) }
+      @country = Factory(:country)
       zone_member = ZoneMember.create(:zoneable => @country)
       @zone = Zone.create(:name => Faker::Lorem.words, :description => Faker::Lorem.sentence, :zone_members => [zone_member])
-    end 
+    end
     context "with no checkout zone defined" do
       setup { Spree::Config.set(:checkout_zone => nil) }
       should "return complete list of countries" do

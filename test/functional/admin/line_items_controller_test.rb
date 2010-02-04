@@ -5,7 +5,9 @@ class Admin::LineItemsControllerTest < ActionController::TestCase
     setup do
       UserSession.create(Factory(:admin_user))
       @order = Factory(:order)
-
+      @order.checkout.shipping_method = Factory(:shipping_method)
+      @order.checkout.save
+      @order.shipment.reload
       @variant = Factory(:variant)
     end
 

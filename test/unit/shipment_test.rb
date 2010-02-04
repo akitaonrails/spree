@@ -2,7 +2,11 @@ require 'test_helper'
 class ShipmentTest < ActiveSupport::TestCase
 
   context "State machine" do
-    setup { @shipment = Factory(:shipment) }
+    setup do
+      order = Factory(:order_with_totals)
+      order.complete!
+      @shipment = order.shipment
+    end
 
     should "be pending initially" do
       assert Shipment.new.pending?
@@ -22,22 +26,19 @@ class ShipmentTest < ActiveSupport::TestCase
 
     context "when shipped" do
       setup do
-        @order = Factory(:order, :state => 'paid')
-        @shipment = @order.shipment
-        @shipment.update_attribute(:state, 'ready_to_ship')
+        @shipment.order.reload.pay!
+        @shipment.reload
       end
 
       should "make order shipped when this is the only shipment" do
         @shipment.ship!
-        @order.reload
-        assert @order.shipped?
+        assert @shipment.order.shipped?
       end
       should "not make order shipped if order has another unshipped shipment" do
-        Factory(:shipment, :order => @order)
+        @shipment.order.shipments.create(:shipping_method => Factory(:shipping_method))
 
         @shipment.ship!
-        @order.reload
-        assert !@order.shipped?
+        assert !@shipment.order.shipped?
       end
 
       should "set shipped_at" do
@@ -88,11 +89,10 @@ class ShipmentTest < ActiveSupport::TestCase
       assert_equal 3, @order.shipment.line_items.length
     end
     should "include only line items for each shipment when the order has multiple shipments" do
-      @new_shipment = @order.shipments.create(:shipping_method => @shipment.shipping_method, :address => @shipment.address)
-
       # move all inventory units for @line_item3 to the new shipment
-      inventory_units_to_move = @shipment.inventory_units.select{|iu| iu.variant == @line_item3.variant}
-      inventory_units_to_move.each {|iu| iu.update_attribute(:shipment, @new_shipment) }
+      units_to_move = @shipment.inventory_units.select{|iu| iu.variant == @line_item3.variant}
+      @new_shipment = @order.shipments.create(:shipping_method => Factory(:shipping_method), :inventory_units => units_to_move, :address => Factory(:address))
+
       @shipment.reload
 
       assert_equal 2, @shipment.line_items.length
@@ -166,7 +166,7 @@ class ShipmentTest < ActiveSupport::TestCase
   end
 
   context "instance w/params" do
-    setup { @shipment = Shipment.create(:number => "CUSTOM-123") }
+    setup { @shipment = Shipment.create(:number => "CUSTOM-123", :order => Factory(:order_with_totals)) }
     should "accept custom shipment number if one is provided" do
       assert @shipment.number == "CUSTOM-123"
     end

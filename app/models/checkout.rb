@@ -12,7 +12,7 @@ class Checkout < ActiveRecord::Base
   belongs_to :shipping_method
 
   has_one :creditcard
-  
+
   accepts_nested_attributes_for :bill_address
   accepts_nested_attributes_for :ship_address
   accepts_nested_attributes_for :creditcard
@@ -20,7 +20,7 @@ class Checkout < ActiveRecord::Base
   attr_accessor :coupon_code
   attr_accessor :use_billing
 
-  validates_presence_of :order_id
+  validates_presence_of :order_id, :shipping_method_id
   validates_format_of :email, :with => /^\S+@\S+\.\S+$/, :allow_blank => true
 
   validation_group :register, :fields => ["email"]
@@ -32,7 +32,7 @@ class Checkout < ActiveRecord::Base
                                        "ship_address.zipcode", "ship_address.state", "ship_address.lastname",
                                        "ship_address.address1", "ship_address.city", "ship_address.statename",
                                        "ship_address.zipcode"]
-  validation_group :delivery, :fields => []
+  validation_group :delivery, :fields => ["shipping_method_id"]
 
   def completed_at
     order.completed_at
@@ -72,19 +72,19 @@ class Checkout < ActiveRecord::Base
 
   def shipping_methods
     return [] unless ship_address
-    ShippingMethod.all_available_to_address(ship_address)
+    ShippingMethod.all_available(order)
   end
 
   private
 
   def check_addresses_on_duplication
-    if order.user      
+    if order.user
       if ship_address and order.user.ship_address.nil?
         order.user.update_attribute(:ship_address, ship_address)
       elsif order.user.ship_address and ship_address.nil?
         self.ship_address = order.user.ship_address
       end
-        
+
       if bill_address and order.user.bill_address.nil?
         order.user.update_attribute(:bill_address, bill_address)
       elsif order.user.bill_address and bill_address.nil?
@@ -92,18 +92,19 @@ class Checkout < ActiveRecord::Base
       end
     end
   end
-  
+
   def clone_billing_address
     self.ship_address = bill_address.clone
     true
   end
-  
+
   def complete_order
     order.complete!
     order.pay! if Spree::Config[:auto_capture]
   end
 
   def process_payment
+    return if order.payments.total == order.total
     begin
       if Spree::Config[:auto_capture]
         creditcard.purchase(order.total.to_f)
@@ -121,7 +122,7 @@ class Checkout < ActiveRecord::Base
   end
 
   # list of countries available for checkout
-  def self.countries   
+  def self.countries
     return Country.all unless zone = Zone.find_by_name(Spree::Config[:checkout_zone])
     zone.country_list
   end
@@ -133,5 +134,5 @@ class Checkout < ActiveRecord::Base
       order.shipment.save
     end
   end
-  
+
 end

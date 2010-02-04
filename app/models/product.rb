@@ -68,7 +68,7 @@ class Product < ActiveRecord::Base
   named_scope :available,   lambda { |*args| { :conditions => ["products.available_on <= ?", args.first || Time.zone.now] } }
   
   if (ActiveRecord::Base.connection.adapter_name == 'PostgreSQL')
-    named_scope :group_by_products_id, { :group => "products." + Product.column_names.join(", products.") }
+    named_scope :group_by_products_id, { :group => "products." + Product.column_names.join(", products.") } if ActiveRecord::Base.connection.tables.include?("products")
   else
     named_scope :group_by_products_id, { :group => "products.id" }
   end
@@ -172,6 +172,13 @@ class Product < ActiveRecord::Base
     p.send(:duplicate_extra) if p.respond_to?(:duplicate_extra)
     p.save!
     p
+  end
+
+  # use deleted? rather than checking the attribute directly. this
+  # allows extensions to override deleted? if they want to provide
+  # their own definition.
+  def deleted?
+    deleted_at
   end
 
   private

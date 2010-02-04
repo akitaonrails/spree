@@ -14,6 +14,7 @@ class Address < ActiveRecord::Base
   validates_presence_of :zipcode
   validates_presence_of :country
   validates_presence_of :phone
+  validate :state_name_validate, :if => Proc.new { |address| address.state.blank? && Spree::Config[:address_requires_state] }
 
   # disconnected since there's no code to display error messages yet OR matching client-side validation
   def phone_validate
@@ -21,7 +22,14 @@ class Address < ActiveRecord::Base
     n_digits = phone.scan(/[0-9]/).size
     valid_chars = (phone =~ /^[-+()\/\s\d]+$/)
     if !(n_digits > 5 && valid_chars)
-      errors.add(:phone, "is invalid")
+      errors.add(:phone, :invalid)
+    end
+  end
+
+  def state_name_validate
+    return if country.blank? || country.states.empty?
+    if state_name.blank? || country.states.name_or_abbr_equals(state_name).empty?
+      errors.add(:state, :invalid)
     end
   end
 
@@ -60,9 +68,21 @@ class Address < ActiveRecord::Base
   def to_s
     "#{full_name}: #{address1}"
   end
-  
+
   def clone
     Address.new(self.attributes.except("id", "updated_at", "created_at"))
   end
-  
+
+  def ==(other_address)
+    self_attrs = self.attributes
+    other_attrs = other_address.respond_to?(:attributes) ? other_address.attributes : {}
+
+    [self_attrs, other_attrs].each { |attrs| attrs.except!("id", "created_at", "updated_at", "order_id") }
+
+    self_attrs == other_attrs
+  end
+
+  def empty?
+    attributes.except("id", "created_at", "updated_at", "order_id", "country_id").all? {|k,v| v.nil?}
+  end
 end

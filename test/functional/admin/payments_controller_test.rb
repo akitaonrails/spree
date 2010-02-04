@@ -1,12 +1,17 @@
 require 'test_helper'
 
 class Admin::PaymentsControllerTest < ActionController::TestCase
-  fixtures :gateways
+  fixtures :gateways, :countries
 
   context "given order" do
     setup do
+      Spree::Config.set(:auto_capture => true) 
       UserSession.create(Factory(:admin_user))
-      create_new_order
+      create_new_order_v2
+      @order.reload
+      # Add a charge to create an outstanding balance on the order so new payments will validate
+      @charge = Factory(:charge, :amount => 2.99, :order => @order)
+      @order.update_totals!
       @order.reload
     end
 
@@ -27,14 +32,14 @@ class Admin::PaymentsControllerTest < ActionController::TestCase
                 }
               }
             }
-          }
+          }         
           post :create, @params
         end
-      
         should_create :creditcard_payment
+        should_create :creditcard_txn
         should_respond_with :redirect
         should "create payment with the right attributes" do
-          assert_equal 2, @order.creditcard_payments.count
+          assert_equal 1, @order.creditcard_payments.count
           assert_equal 2.99, @order.creditcard_payments.last.txns.last.amount.to_f
         end
       end
@@ -46,13 +51,14 @@ class Admin::PaymentsControllerTest < ActionController::TestCase
           @creditcard = @order.checkout.creditcard
           # Set up a fake payment profile on the existing creditcard so we can test charging it again
           # Using a mock gateway so there just need to be some values in these fields
-          @creditcard.update_attributes(:gateway_customer_profile_id => '123', :gateway_payment_profile_id => '456')
+          @creditcard.update_attributes!(:gateway_customer_profile_id => '123', :gateway_payment_profile_id => '456')
+          
           @params = {
             :payment_type => 'creditcard_payment',
             :order_id => @order.id, 
             :card => @creditcard.id,
             :creditcard_payment => {
-              :amount => '1.99',
+              :amount => '2.99',
             }
           }
           post :create, @params
@@ -60,8 +66,8 @@ class Admin::PaymentsControllerTest < ActionController::TestCase
         should_create :creditcard_payment
         should_respond_with :redirect
         should "create payment with the right attributes" do
-          assert_equal 2, @order.creditcard_payments.count
-          assert_equal 1.99, @order.creditcard_payments.last.txns.last.amount.to_f
+          assert_equal 1, @order.creditcard_payments.count
+          assert_equal 2.99, @order.creditcard_payments.last.txns.last.amount.to_f
         end
         should "create payment that's assigned to the existing card" do
           assert_equal @creditcard, @order.creditcard_payments.last.creditcard

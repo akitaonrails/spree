@@ -7,31 +7,18 @@ class Admin::PaymentsController < Admin::BaseController
 
   update.wants.html { redirect_to edit_object_url }
 
-  def capture
-    if @creditcard_payment.can_capture?
-      #Creditcard.transaction do
-      #  @order.state_events.create(:name => t('pay'), :user => current_user, :previous_state => order.state)
-        @creditcard_payment.capture#(authorization)
-      #end
-      flash[:notice] = t("credit_card_capture_complete")
-    else
-      flash[:error] = t("unable_to_capture_credit_card")
-    end
-    redirect_to edit_object_url
-  end
-
   def create
     build_object
     load_object
 
     if object.class == CreditcardPayment
-      
+
       unless object.valid?
         response_for :create_fails
         return
       end
       # object doesn't get saved here, that happens in @creditcard.authorize/capture
-      begin 
+      begin
         if @order.checkout.state == "complete"
           #This is a second or subsequent payment
           @creditcard_payment.creditcard.checkout = @order.checkout
@@ -40,16 +27,22 @@ class Admin::PaymentsController < Admin::BaseController
           else
             @creditcard_payment.creditcard.authorize(@creditcard_payment.amount)
           end
+
+          redirect_to collection_path
         else
-          #This is the first payment
+          #This is the first payment (admin created order)
           @order.checkout.creditcard = @creditcard_payment.creditcard
           until @order.checkout.state == "complete"
             @order.checkout.next!
           end
+
+          flash = t('new_order_completed')
+          redirect_to admin_order_url(@order)
         end
-        redirect_to collection_path
+
+
       rescue Spree::GatewayError => e
-        flash.now[:error] = "Gateway error: #{e.message}"
+        flash.now[:error] = "#{e.message}"
         response_for :create_fails
       end
 
@@ -93,7 +86,7 @@ class Admin::PaymentsController < Admin::BaseController
 
     if @object.class == CreditcardPayment
       if current_gateway.payment_profiles_supported? and !params[:card].blank? and params[:card] != 'new'
-        @object.creditcard = @order.creditcards.find_by_id(params[:card])
+        @object.creditcard = Creditcard.find_by_id(params[:card])
       else
         @object.creditcard ||= Creditcard.new(:checkout => @object.order.checkout)
       end
@@ -102,9 +95,9 @@ class Admin::PaymentsController < Admin::BaseController
   end
 
   def end_of_association_chain
-    parent_object.payments  
+    parent_object.payments
   end
-  
+
   # Set class for STI based on selected payment type
   def model_name
     return 'payment' if params[:action] == 'index'

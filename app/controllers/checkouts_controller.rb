@@ -11,7 +11,7 @@ class CheckoutsController < Spree::BaseController
   actions :show, :edit, :update
   belongs_to :order
 
-  ssl_required :update, :edit
+  ssl_required :update, :edit, :register
 
   # GET /checkout is invalid but we'll assume a bookmark or user error and just redirect to edit (assuming checkout is still in progress)
   show.wants.html { redirect_to edit_object_url }
@@ -19,6 +19,7 @@ class CheckoutsController < Spree::BaseController
   edit.before :edit_hooks, :set_user
   delivery.edit_hook :load_available_methods
   address.edit_hook :set_ip_address
+  payment.edit_hook :load_available_integrations
 
   # customized verison of the standard r_c update method (since we need to handle gateway errors, etc)
   def update
@@ -83,7 +84,7 @@ class CheckoutsController < Spree::BaseController
   def complete_checkout
     complete_order
     order_params = {:checkout_complete => true}
-    session[:order_id] = nil           
+    session[:order_id] = nil
     flash[:commerce_tracking] = "Track Me in GA"
     redirect_to order_url(@order, {:checkout_complete => true, :order_token => @order.token})
   end
@@ -108,7 +109,9 @@ class CheckoutsController < Spree::BaseController
 
   def load_data
     @countries = Checkout.countries.sort
-    if current_user && current_user.bill_address
+    if object.bill_address && object.bill_address.country
+      default_country = object.bill_address.country
+    elsif current_user && current_user.bill_address
       default_country = current_user.bill_address.country
     else
       default_country = Country.find Spree::Config[:default_country_id]
@@ -132,7 +135,11 @@ class CheckoutsController < Spree::BaseController
 
   def load_available_methods
     @available_methods = rate_hash
-    @checkout.shipping_method_id ||= @available_methods.first[:id]
+    @checkout.shipping_method_id ||= @available_methods.first[:id] unless @available_methods.empty?
+  end
+
+  def load_available_integrations
+    @billing_integrations = BillingIntegration.find(:all, :conditions => {:active => true, :environment => ENV['RAILS_ENV']})
   end
 
   def set_ip_address
@@ -145,9 +152,9 @@ class CheckoutsController < Spree::BaseController
     else
       flash[:notice] = t('order_processed_but_following_items_are_out_of_stock')
       flash[:notice] += '<ul>'
-      @checkout.order.out_of_stock_items.each do |item| 
-        flash[:notice] += '<li>' + t(:count_of_reduced_by, 
-                              :name => item[:line_item].variant.name, 
+      @checkout.order.out_of_stock_items.each do |item|
+        flash[:notice] += '<li>' + t(:count_of_reduced_by,
+                              :name => item[:line_item].variant.name,
                               :count => item[:count]) +
                           '</li>'
       end
@@ -156,11 +163,16 @@ class CheckoutsController < Spree::BaseController
   end
 
   def rate_hash
-    @checkout.shipping_methods.collect do |ship_method|
-      @checkout.shipment.shipping_method = ship_method
-      { :id => ship_method.id,
-        :name => ship_method.name,
-        :rate => number_to_currency(ship_method.calculate_cost(@checkout.shipment)) }
+    begin
+      @checkout.shipping_methods.collect do |ship_method|
+        @checkout.shipment.shipping_method = ship_method
+        { :id => ship_method.id,
+          :name => ship_method.name,
+          :rate => number_to_currency(ship_method.calculate_cost(@checkout.shipment)) }
+      end
+    rescue Spree::ShippingError => ship_error
+      flash[:error] = ship_error.to_s
+      []
     end
   end
 
@@ -176,5 +188,9 @@ class CheckoutsController < Spree::BaseController
       object.order.user = current_user
       object.order.save
     end
+  end
+  
+  def accurate_title
+    I18n.t(:checkout)
   end
 end
