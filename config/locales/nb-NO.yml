@@ -36,15 +36,14 @@ nb-NO:
           phone: "Billing address phone"
           state: "Billing address state"
           zipcode: "Billing address zipcode"
-        shipment:
-          address:
-            address1: "Shipping address street"
-            city: "Shipping address city"
-            firstname: "Shipping address first name"
-            lastname: "Shipping address last name"
-            phone: "Shipping address phone"
-            state: "Shipping address state"
-            zipcode: "Shipping address zipcode"
+        ship_address:
+          address1: "Shipping address street"
+          city: "Shipping address city"
+          firstname: "Shipping address first name"
+          lastname: "Shipping address last name"
+          phone: "Shipping address phone"
+          state: "Shipping address state"
+          zipcode: "Shipping address zipcode"
       country: 
         iso: ISO
         iso3: ISO3
@@ -403,6 +402,7 @@ nb-NO:
   inventory_adjustment: "Justering av varelager"
   inventory_setting_description: "Konfigurer varelager og restordre."
   inventory_settings: "Varelagerinnstillinger"
+  is_not_available_to_shipment_address: is not available to shipment address
   issue_number: Issue Number
   item: Artikkel
   item_description: "Beskrivelse"
@@ -536,6 +536,7 @@ nb-NO:
   payment_gateway: "Betalingstjeneste"
   payment_information: "Betalingsinformasjon"
   payments: Betalinger
+  permalink: Permalink
   phone: Telefon
   place_order: "Bekreft ordre"
   please_create_user: "Please create a user account"     
@@ -731,6 +732,7 @@ nb-NO:
   ship: send
   ship_address: "Leveringsadresse"
   shipment: Leveranse
+  shipment_details: Shipment Details
   shipment_number: "Leveransenummer"
   shipment_updated: Shipment Updated
   shipments: "Shipments"
@@ -773,6 +775,7 @@ nb-NO:
   smtp_send_order_mails_as_from_following_address: "Send orders mails as from the following address."
   smtp_username: "SMTP brukernavn"
   sold: Sold
+  sort_ordering: "Sort ordering"
   spree:
     date: Dato
     time: Tid                                               
@@ -805,6 +808,7 @@ nb-NO:
   tax_total: "Moms"
   tax_type: "Momstype"
   taxon: Klasse
+  taxon_edit: Edit Taxon
   taxonomies: Klassifikasjoner
   taxonomies_setting_description: "Konfigurer klassifikasjoner."
   taxonomy_edit: "Edit taxonomy"

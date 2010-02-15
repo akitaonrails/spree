@@ -52,3 +52,5 @@ end
 
 CalendarDateSelect.format = :american
 require 'spree/theme_support'
+require 'state_machine'
+require 'stringex'

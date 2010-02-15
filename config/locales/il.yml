@@ -36,15 +36,14 @@ il:
           phone: "Billing address phone"
           state: "Billing address state"
           zipcode: "Billing address zipcode"
-        shipment:
-          address:
-            address1: "Shipping address street"
-            city: "Shipping address city"
-            firstname: "Shipping address first name"
-            lastname: "Shipping address last name"
-            phone: "Shipping address phone"
-            state: "Shipping address state"
-            zipcode: "Shipping address zipcode"
+        ship_address:
+          address1: "Shipping address street"
+          city: "Shipping address city"
+          firstname: "Shipping address first name"
+          lastname: "Shipping address last name"
+          phone: "Shipping address phone"
+          state: "Shipping address state"
+          zipcode: "Shipping address zipcode"
       country: 
         iso: ISO
         iso3: ISO3
@@ -403,6 +402,7 @@ il:
   inventory_adjustment: "Inventory Adjustment"
   inventory_setting_description: "Inventory Configuration, Backordering, Zero-Stock Display"
   inventory_settings: "Inventory Settings"
+  is_not_available_to_shipment_address: is not available to shipment address
   issue_number: Issue Number
   item: פריט
   item_description: "תיאור הפריט"
@@ -536,6 +536,7 @@ il:
   payment_gateway: "Payment Gateway"
   payment_information: "פרטי התשלום"
   payments: Payments
+  permalink: Permalink
   phone: טלפון
   place_order: הזמן
   please_create_user: "Please create a user account"     
@@ -731,6 +732,7 @@ il:
   ship: ship
   ship_address: "כתובת למשלוח חבילה"
   shipment: Shipment
+  shipment_details: Shipment Details
   shipment_number: "Shipment #"
   shipment_updated: Shipment Updated
   shipments: "Shipments"
@@ -773,6 +775,7 @@ il:
   smtp_send_order_mails_as_from_following_address: "Send orders mails as from the following address."
   smtp_username: SMTP Username  
   sold: Sold
+  sort_ordering: "Sort ordering"
   spree:
     date: Date
     time: Time                                               
@@ -805,6 +808,7 @@ il:
   tax_total: "Tax Total"
   tax_type: "Tax Type"
   taxon: Taxon
+  taxon_edit: Edit Taxon
   taxonomies: Taxonomies
   taxonomies_setting_description: "Create and manage taxonomies"
   taxonomy_edit: "Edit taxonomy"
@@ -812,7 +816,7 @@ il:
   taxonomy_tree_instruction: "* Right click a child in the tree to access the menu for adding, deleting or sorting a child."
   taxons: Taxons
   thank_you_for_your_order: "Thank you for your business.  Please print out a copy of this confirmation page for your records."
-  this_file_language: "English (US)"
+  this_file_language: "עִבְרִית (IL)"
   this_month: "This Month"
   this_year: "This Year"
   thumbnail: "Thumbnail"

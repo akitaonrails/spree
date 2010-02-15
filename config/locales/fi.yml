@@ -36,15 +36,14 @@ fi:
           phone: "Puhelin (laskutus)"
           state: "Lääni/osavaltio (laskutus)"
           zipcode: "Postinumero (laskutus)"
-        shipment:
-          address:
-            address1: "Osoite (toimitus)"
-            city: "Paikkakunta (toimitus)"
-            firstname: "Etunimi (toimitus)"
-            lastname: "Sukunimi (toimitus)"
-            phone: "Puhelin (toimitus)"
-            state: "Lääni/osavaltio (toimitus)"
-            zipcode: "Postinumero (toimitus)"
+        ship_address:
+          address1: "Osoite (toimitus)"
+          city: "Paikkakunta (toimitus)"
+          firstname: "Etunimi (toimitus)"
+          lastname: "Sukunimi (toimitus)"
+          phone: "Puhelin (toimitus)"
+          state: "Lääni/osavaltio (toimitus)"
+          zipcode: "Postinumero (toimitus)"
       country:
         iso: ISO
         iso3: ISO3
@@ -403,6 +402,7 @@ fi:
   inventory_adjustment: "Varaston säätö"
   inventory_setting_description: "Varaston konfigurointi, jälkitoimitukset, loppuneet tuotteet"
   inventory_settings: Varastoasetukset
+  is_not_available_to_shipment_address: is not available to shipment address
   issue_number: Jakelunumero
   item: Tuote
   item_description: Tuotekuvaus
@@ -536,6 +536,7 @@ fi:
   payment_gateway: "Maksun yhdyskäytävä"
   payment_information: "Maksun tiedot"
   payments: Maksut
+  permalink: Permalink
   phone: Puhelin
   place_order: "Aseta tilaus"
   please_create_user: "Luo käyttäjätunnus"
@@ -731,6 +732,7 @@ fi:
   ship: toimita
   ship_address: Toimitusosoite
   shipment: Toimitus
+  shipment_details: Shipment Details
   shipment_number: Toimitusnumero
   shipment_updated: Shipment Updated
   shipments: Toimitukset
@@ -773,6 +775,7 @@ fi:
   smtp_send_order_mails_as_from_following_address: "Lähetä tilausviestit tästä osoitteesta."
   smtp_username: SMTP käyttäjänimi
   sold: Sold
+  sort_ordering: "Sort ordering"
   spree:
     date: Päivämäärä
     time: Kellonaika
@@ -805,6 +808,7 @@ fi:
   tax_total: "Vero yhteensä"
   tax_type: "Veron tyyppi"
   taxon: Taksoni
+  taxon_edit: Edit Taxon
   taxonomies: Taksonomiat
   taxonomies_setting_description: "Luo ja hallinnoi taksonomioita"
   taxonomy_edit: "Muokkaa taksonomiaa"

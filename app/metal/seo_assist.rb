@@ -2,8 +2,8 @@
 require(File.dirname(__FILE__) + "/../../config/environment") unless defined?(Rails)
 
 # Make redirects for SEO needs
-class SeoAssist  
-  
+class SeoAssist
+
   def self.call(env)
     request = Rack::Request.new(env)
     params = request.params
@@ -11,13 +11,20 @@ class SeoAssist
     if !taxon_id.blank? && !taxon_id.is_a?(Hash) && @taxon = Taxon.find(taxon_id)
       params.delete('taxon')
       query = build_query(params)
-      return [301, { 'Location'=> "/t/#{@taxon.permalink}?#{query}" }, []]
+      permalink = @taxon.permalink[0...-1] #ensures no trailing / for taxon urls
+      return [301, { 'Location'=> "/t/#{permalink}?#{query}" }, []]
+    elsif env["PATH_INFO"] =~ /^\/(t|products)(\/\S+)?\/$/
+      #ensures no trailing / for taxon and product urls
+      query = build_query(params)
+      new_location = env["PATH_INFO"][0...-1]
+      new_location += '?' + query unless query.blank?
+      return [301, { 'Location'=> new_location }, []]
     end
     [404, {"Content-Type" => "text/html"}, "Not Found"]
   end
-  
+
   private
-  
+
   def self.build_query(params)
     params.map { |k, v|
       if v.class == Array
@@ -27,5 +34,5 @@ class SeoAssist
       end
     }.join("&")
   end
-    
+
 end

@@ -29,7 +29,7 @@ Spree::Initializer.run do |config|
   config.gem "highline", :version => '1.5.1'
   config.gem 'authlogic', :version => '>=2.1.2'
   config.gem 'authlogic-oid', :lib => "authlogic_openid", :version => '1.0.4'
-  config.gem "activemerchant", :lib => "active_merchant", :version => '1.4.2'
+  config.gem "activemerchant", :lib => "active_merchant", :version => '1.5.0'
   config.gem 'activerecord-tableless', :lib => 'tableless', :version => '0.1.0'
   config.gem 'less', :version => '1.2.20'
   config.gem 'stringex', :lib => 'stringex', :version => '1.0.3'
@@ -47,7 +47,11 @@ Spree::Initializer.run do |config|
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
   config.plugins = [ :all, :resource_controller, :extension_patches ]
 
-  config.extensions = [:theme_default, :all]
+  # Define SPREE_EXTENSIONS_LOAD_ORDER in config/preinitializer.rb if you want to
+  # specify a custom extension load order.  You may have to create preinitializer.rb
+  # yourself, this is an optional Spree file. For example:
+  # SPREE_EXTENSIONS_LOAD_ORDER = [:theme_default, :all, :site]
+  # For more details see http://railsdog.lighthouseapp.com/projects/31096/tickets/595
   
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )

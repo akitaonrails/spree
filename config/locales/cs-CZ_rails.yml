@@ -1,70 +1,67 @@
-en-US:
+cs-CZ:
   date:
     formats:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
-      
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-      
+      default: "%d.%m.%Y"
+      short: "%d. %b"
+      long: "%d. %B %Y"
+
+    day_names: [Neděle, Pondělí, Úterý, Středa, Čtvrtek, Pátek, Sobota]
+    abbr_day_names: [Ne, Po, Út, St, Čt, Pá, So]
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, Leden, Únor, Březen, Duben, Květen, Červen, Červenec, Srpen, Září, Říjen, Listopad, Prosinec]
+    abbr_month_names: [~, Led, Úno, Bře, Dub, Kvě, Čvn, Čvc, Srp, Zář, Říj, Lis, Pro]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order: [ :day, :month, :year ]
 
   time:
     formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
+      default: "%a %d. %b %Y %H:%M:%S %z"
+      short: "%d. %b %H:%M"
+      long: "%d. %B %Y %H:%M"
     am: "am"
     pm: "pm"
-      
-# Used in array.to_sentence.
+
+  # Used in array.to_sentence.
   support:
     array:
       words_connector: ", "
-      two_words_connector: " and "
-      last_word_connector: ", and "
-    select:
-      # default value for :prompt => true in FormOptionsHelper
-      prompt: "Please select"
+      two_words_connector: " a "
+      last_word_connector: " a "
 
   number:
     # Used in number_with_delimiter()
     # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
     format:
       # Sets the separator between the units, for more precision (e.g. 1.0 / 2.0 == 0.5)
-      separator: "."
+      separator: ","
       # Delimets thousands (e.g. 1,000,000 is a million) (always in groups of three)
-      delimiter: ","
+      delimiter: " "
       # Number of decimals, behind the separator (the number 1 with a precision of 2 gives: 1.00)
       precision: 3
-  
+
     # Used in number_to_currency()
     currency:
       format:
         # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
-        format: "%u%n"
-        unit: "$"
+        format: "%n %u"
+        unit: "Kč"
         # These three are to override number.format and are optional
-        separator: "."
-        delimiter: ","
+        # separator: "."
+        # delimiter: ","
         precision: 2
-  
+
     # Used in number_to_percentage()
     percentage:
       format:
         # These three are to override number.format and are optional
-        # separator: 
+        # separator:
         delimiter: ""
-        # precision: 
-  
+        # precision:
+
     # Used in number_to_precision()
     precision:
       format:
@@ -72,101 +69,106 @@ en-US:
         # separator:
         delimiter: ""
         # precision:
-  
+
     # Used in number_to_human_size()
     human:
       format:
         # These three are to override number.format and are optional
-        # separator: 
+        # separator:
         delimiter: ""
-        precision: 1
+        precision: 2
       storage_units:
         # Storage units output formatting.
         # %u is the storage unit, %n is the number (default: 2 MB)
         format: "%n %u"
         units:
           byte:
-            one:   "Byte"
-            other: "Bytes"
+            one:   "Bajt"
+            other: "Bajty"
           kb: "KB"
           mb: "MB"
           gb: "GB"
           tb: "TB"
-  
+
   # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   datetime:
     distance_in_words:
-      half_a_minute: "half a minute"
+      half_a_minute: "půl minutou"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        one:   "asi před sekundou"
+        other: "asi před {{count}} sekundami"
       x_seconds:
-        one:   "1 second"
-        other: "{{count}} seconds"
+        one:   "sekundou"
+        other: "{{count}} sekundami"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        one:   "před necelou minutou"
+        other: "před ani ne {{count}} minutami"
       x_minutes:
-        one:   "1 minute"
-        other: "{{count}} minutes"
+        one:   "minutou"
+        other: "{{count}} minutami"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about {{count}} hours"
+        one:   "asi hodinou"
+        other: "asi {{count}} hodinami"
       x_days:
-        one:   "1 day"
-        other: "{{count}} days"
+        one:   "24 hodinami"
+        other: "{{count}} dny"
       about_x_months:
-        one:   "about 1 month"
-        other: "about {{count}} months"
+        one:   "asi měsícem"
+        other: "asi {{count}} měsíci"
       x_months:
-        one:   "1 month"
-        other: "{{count}} months"
+        one:   "měsícem"
+        other: "{{count}} měsíci"
       about_x_years:
-        one:   "about 1 year"
-        other: "about {{count}} years"
+        one:   "asi rokem"
+        other: "asi {{count}} roky"
       over_x_years:
-        one:   "over 1 year"
-        other: "over {{count}} years"
+        one:   "více než před rokem"
+        other: "více než {{count}} lety"
     prompts:
-      year:   "Year"
-      month:  "Month"
-      day:    "Day"
-      hour:   "Hour"
-      minute: "Minute"
-      second: "Seconds"
+      year:   "Rok"
+      month:  "Měsíc"
+      day:    "Den"
+      hour:   "Hodina"
+      minute: "Minuta"
+      second: "Sekunda"
+
+  support:
+    select:
+      # default value for :prompt => true in FormOptionsHelper
+      prompt: "Prosím vyberte"
 
   activerecord:
     errors:
       template:
         header:
-          one:    "1 error prohibited this {{model}} from being saved"
-          other:  "{{count}} errors prohibited this {{model}} from being saved"
+          one:    "Při ukládání objektu {{model}} došlo k chybě a nebylo jej možné uložit"
+          other:  "Při ukládání objektu {{model}} došlo ke {{count}} chybám a nebylo možné jej uložit"
         # The variable :count is also available
-        body: "There were problems with the following fields:"
+        body: "Následující pole obsahují chybně vyplněné údaje:"
 
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
-        inclusion: "is not included in the list"
-        exclusion: "is reserved"
-        invalid: "is invalid"
-        confirmation: "doesn't match confirmation"
-        accepted: "must be accepted"
-        empty: "can't be empty"
-        blank: "can't be blank"
-        too_long: "is too long (maximum is {{count}} characters)"
-        too_short: "is too short (minimum is {{count}} characters)"
-        wrong_length: "is the wrong length (should be {{count}} characters)"
-        taken: "has already been taken"
-        not_a_number: "is not a number"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
-        odd: "must be odd"
-        even: "must be even"
-        record_invalid: "Validation failed: {{errors}}"
+        inclusion: "není v seznamu povolených hodnot"
+        exclusion: "je vyhrazená hodnota"
+        invalid: "není platná hodnota"
+        confirmation: "se neshoduje s textem v poli pro potvrzení"
+        accepted: "musí být potvrzeno"
+        empty: "pole musí být vyplněno"
+        blank: "je povinná položka"
+        too_long: "zadaný text je příliš dlouhý (max. {{count}} znaků)"
+        too_short: "zadaný text je příliš krátký (min. {{count}} znaků)"
+        wrong_length: "nemá správnou délku (má mít {{count}} znaků)"
+        taken: "tuto hodnotu již databáze obsahuje"
+        not_a_number: "není číslo"
+        greater_than: "musí být větší než {{count}}"
+        greater_than_or_equal_to: "musí být větší nebo rovno {{count}}"
+        equal_to: "musí být rovno {{count}}"
+        less_than: "musí být méně než {{count}}"
+        less_than_or_equal_to: "musí být méně nebo rovno {{count}}"
+        odd: "musí být liché číslo"
+        even: "musí být sudé číslo"
+        record_invalid: "Při ověřování správnosti údajů jsme narazili na následující chyby: {{errors}}"
         # Append your own errors here or at the model/attributes scope.
 
       full_messages:
@@ -182,7 +184,7 @@ en-US:
       #       attributes:
       #         login:
       #           blank: "This is a custom blank message for User login"
-      # Will define custom blank validation message for User model and 
+      # Will define custom blank validation message for User model and
       # custom blank validation message for login attribute of User model.
       #models:
 

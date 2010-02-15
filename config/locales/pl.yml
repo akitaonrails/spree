@@ -36,15 +36,14 @@ pl:
           phone: "Billing address phone"
           state: "Billing address state"
           zipcode: "Billing address zipcode"
-        shipment:
-          address:
-            address1: "Shipping address street"
-            city: "Shipping address city"
-            firstname: "Shipping address first name"
-            lastname: "Shipping address last name"
-            phone: "Shipping address phone"
-            state: "Shipping address state"
-            zipcode: "Shipping address zipcode"
+        ship_address:
+          address1: "Shipping address street"
+          city: "Shipping address city"
+          firstname: "Shipping address first name"
+          lastname: "Shipping address last name"
+          phone: "Shipping address phone"
+          state: "Shipping address state"
+          zipcode: "Shipping address zipcode"
       country: 
         iso: ISO
         iso3: ISO3
@@ -403,6 +402,7 @@ pl:
   inventory_adjustment: "Dostosowanie zapasów"
   inventory_setting_description: "Inventory Configuration, Backordering, Zero-Stock Display"
   inventory_settings: "Inventory Settings"
+  is_not_available_to_shipment_address: is not available to shipment address
   issue_number: Issue Number
   item: Pozycja
   item_description: "Opis pozycji"
@@ -536,6 +536,7 @@ pl:
   payment_gateway: "Metoda Płatności"
   payment_information: "Payment Information"
   payments: Payments
+  permalink: Permalink
   phone: Telefon
   place_order: Place Order        
   please_create_user: "Please create a user account"     
@@ -731,6 +732,7 @@ pl:
   ship: wyślij
   ship_address: "Adres Dostawy"
   shipment: Shipment
+  shipment_details: Shipment Details
   shipment_number: "Shipment #"
   shipment_updated: Shipment Updated
   shipments: "Shipments"
@@ -773,6 +775,7 @@ pl:
   smtp_send_order_mails_as_from_following_address: "Send orders mails as from the following address."
   smtp_username: SMTP Username  
   sold: Sold
+  sort_ordering: "Sort ordering"
   spree:
     date: Data
     time: Czas                                               
@@ -805,6 +808,7 @@ pl:
   tax_total: "Podatek łącznie"
   tax_type: "Tax Type"
   taxon: Taxon
+  taxon_edit: Edit Taxon
   taxonomies: Taxonomies
   taxonomies_setting_description: "Create and manage taxonomies"
   taxonomy_edit: "Edit taxonomy"
@@ -812,7 +816,7 @@ pl:
   taxonomy_tree_instruction: "* Right click a child in the tree to access the menu for adding, deleting or sorting a child."
   taxons: Taxons
   thank_you_for_your_order: "Thank you for your business.  Please print out a copy of this confirmation page for your records."
-  this_file_language: Polski
+  this_file_language: Polski (PL)
   this_month: "This Month"
   this_year: "This Year"
   thumbnail: "Thumbnail"

@@ -1,12 +1,11 @@
 ---
-en-US:
+en-US: 
   'no': "No"
   'yes': "Yes"
   5_biggest_spenders: "5 Biggest Spenders"
   a_copy_of_all_mail_will_be_sent_to_the_following_addresses: A copy of all mail be sent to the following addresses
   abbreviation: Abbreviation
   access_denied: "Access Denied"
-  is_not_available_to_shipment_address: is not available to shipment address
   account: Account
   account_updated: "Account updated!"
   action: Action
@@ -37,15 +36,14 @@ en-US:
           phone: "Billing address phone"
           state: "Billing address state"
           zipcode: "Billing address zipcode"
-        shipment:
-          address:
-            address1: "Shipping address street"
-            city: "Shipping address city"
-            firstname: "Shipping address first name"
-            lastname: "Shipping address last name"
-            phone: "Shipping address phone"
-            state: "Shipping address state"
-            zipcode: "Shipping address zipcode"
+        ship_address:
+          address1: "Shipping address street"
+          city: "Shipping address city"
+          firstname: "Shipping address first name"
+          lastname: "Shipping address last name"
+          phone: "Shipping address phone"
+          state: "Shipping address state"
+          zipcode: "Shipping address zipcode"
       country:
         iso: ISO
         iso3: ISO3
@@ -404,6 +402,7 @@ en-US:
   inventory_adjustment: "Inventory Adjustment"
   inventory_setting_description: "Inventory Configuration, Backordering, Zero-Stock Display"
   inventory_settings: "Inventory Settings"
+  is_not_available_to_shipment_address: is not available to shipment address
   issue_number: Issue Number
   item: Item
   item_description: "Item Description"
@@ -537,6 +536,7 @@ en-US:
   payment_gateway: "Payment Gateway"
   payment_information: "Payment Information"
   payments: Payments
+  permalink: Permalink
   phone: Phone
   place_order: Place Order
   please_create_user: "Please create a user account"
@@ -556,7 +556,7 @@ en-US:
   product_group: Product Group
   product_group_invalid: Product Group has invalid scopes
   product_groups: Product Groups
-  product_has_no_description: Product has not description
+  product_has_no_description: This product has no description
   product_properties: "Product Properties"
   product_scopes:
     groups:
@@ -775,6 +775,7 @@ en-US:
   smtp_send_order_mails_as_from_following_address: "Send orders mails as from the following address."
   smtp_username: SMTP Username
   sold: Sold
+  sort_ordering: "Sort ordering"
   spree:
     date: Date
     time: Time
@@ -807,6 +808,7 @@ en-US:
   tax_total: "Tax Total"
   tax_type: "Tax Type"
   taxon: Taxon
+  taxon_edit: Edit Taxon
   taxonomies: Taxonomies
   taxonomies_setting_description: "Create and manage taxonomies"
   taxonomy_edit: "Edit taxonomy"

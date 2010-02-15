@@ -36,15 +36,14 @@ fr-FR:
           phone: "Billing address phone"
           state: "Billing address state"
           zipcode: "Billing address zipcode"
-        shipment:
-          address:
-            address1: "Shipping address street"
-            city: "Shipping address city"
-            firstname: "Shipping address first name"
-            lastname: "Shipping address last name"
-            phone: "Shipping address phone"
-            state: "Shipping address state"
-            zipcode: "Shipping address zipcode"
+        ship_address:
+          address1: "Shipping address street"
+          city: "Shipping address city"
+          firstname: "Shipping address first name"
+          lastname: "Shipping address last name"
+          phone: "Shipping address phone"
+          state: "Shipping address state"
+          zipcode: "Shipping address zipcode"
       country: 
         iso: ISO
         iso3: ISO3
@@ -403,6 +402,7 @@ fr-FR:
   inventory_adjustment: "Ajustement de l'inventaire"
   inventory_setting_description: "Configuration de l'inventaire, livraison remise à plus tard, affichage du stock à zéro"
   inventory_settings: "Paramètres de l'inventaire"
+  is_not_available_to_shipment_address: is not available to shipment address
   issue_number: "Numéro de problème"
   item: Article
   item_description: "Description de l'article"
@@ -536,6 +536,7 @@ fr-FR:
   payment_gateway: "Passerelle de paiement"
   payment_information: "Information sur le paiement"
   payments: Paiements
+  permalink: Permalink
   phone: Téléphone
   place_order: Place Order        
   please_create_user: "Prière de créer un compte d'utilisateur"
@@ -731,6 +732,7 @@ fr-FR:
   ship: livraison
   ship_address: "Adresse de livraison"
   shipment: Livraison
+  shipment_details: Shipment Details
   shipment_number: "Livraison #"
   shipment_updated: Shipment Updated
   shipments: "Shipments"
@@ -773,6 +775,7 @@ fr-FR:
   smtp_send_order_mails_as_from_following_address: "Envoyer les emails de commandes comme provenant de cette adresse."
   smtp_username: Identifiant SMTP
   sold: Sold
+  sort_ordering: "Sort ordering"
   spree:
     date: Date
     time: Heure
@@ -805,6 +808,7 @@ fr-FR:
   tax_total: "Total des Taxes"
   tax_type: "Type de taxe"
   taxon: Taxon
+  taxon_edit: Edit Taxon
   taxonomies: Arborescence
   taxonomies_setting_description: "Création et gestion des Arborescence"
   taxonomy_edit: "Modifier la taxonomie"
