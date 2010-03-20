@@ -22,7 +22,9 @@ class AuthorizeNetCimTest < Test::Unit::TestCase
     @address.save!
 
     @creditcard = Factory(:creditcard, :verification_value => '123', :number => '4242424242424242', :month => 9, :year => Time.now.year + 1, :first_name => 'John', :last_name => 'Doe')
-    @checkout = Factory(:checkout, :creditcard => @creditcard, :bill_address => @address, :ship_address => @address)
+    @checkout = Factory(:checkout, :bill_address => @address, :ship_address => @address)
+    @payment = Factory(:payment, :source => @creditcard, :payable => @checkout)
+    @checkout.payments << @payment
     @gateway = Gateway::AuthorizeNetCim.create!(:name => 'Authorize.net CIM Gateway')
     @creditcard.reload
     
@@ -46,10 +48,10 @@ class AuthorizeNetCimTest < Test::Unit::TestCase
           :bill_to => @address_options,
           :payment => {:credit_card => @creditcard}
           },
-          :ship_to_list => @address_options
+          # :ship_to_list => @address_options
         }}
 
-      options = @gateway.send(:options_for_create_customer_profile, @creditcard, @creditcard.gateway_options)
+      options = @gateway.send(:options_for_create_customer_profile, @payment)
       merchant_customer_id = options[:profile].delete(:merchant_customer_id)
 
       assert_equal expected_options, options
@@ -58,27 +60,23 @@ class AuthorizeNetCimTest < Test::Unit::TestCase
   
   context "create_customer_profile" do
     should "create a customer profile sucessfully" do
-      result = @gateway.send(:create_customer_profile, @creditcard, @creditcard.gateway_options)
+      result = @gateway.send(:create_customer_profile, @payment)
       assert result.is_a?(Hash)
       assert_equal "123", result[:customer_profile_id]
     end
     should "raise a gateway error if there is a problem creating profile" do
       ActiveMerchant::Billing::AuthorizeNetCimGateway.force_failure = true
-      assert_raise(Spree::GatewayError) { @gateway.send(:create_customer_profile, @creditcard, @creditcard.gateway_options) }
+      assert_raise(Spree::GatewayError) { @gateway.send(:create_customer_profile, @payment) }
     end
   end
-
+  
   context "authorize" do
     setup do
-      @response = @gateway.authorize(500, @creditcard, @creditcard.gateway_options)
+      @response = @gateway.authorize(500, @creditcard, @creditcard.gateway_options(@checkout))
     end
     should "return successfull Response object" do
       assert @response.is_a?(ActiveMerchant::Billing::Response)
       assert @response.success?
-    end
-    should "update creditcard with gateway_customer_profile_id and gateway_payment_profile_id" do
-      assert_equal "123", @creditcard.gateway_customer_profile_id
-      assert_equal "456", @creditcard.gateway_payment_profile_id
     end
     should "have authorization code in response" do
       assert_equal '123456', @response.authorization

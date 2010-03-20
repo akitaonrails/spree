@@ -33,12 +33,13 @@ class Product < ActiveRecord::Base
     :class_name => 'Variant',
     :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", true]
 
-  delegate_belongs_to :master, :sku, :price, :weight, :height, :width, :depth, :is_master, :cost_price
+  delegate_belongs_to :master, :sku, :price, :weight, :height, :width, :depth, :is_master
+  delegate_belongs_to :master, :cost_price if Variant.table_exists? && Variant.column_names.include?("cost_price")
 
   after_create :set_master_variant_defaults
   after_create :add_properties_and_option_types_from_prototype
   before_save :recalculate_count_on_hand
-  after_save :update_memberships
+  after_save :update_memberships if ProductGroup.table_exists?
   after_save :set_master_on_hand_to_zero_when_product_has_variants
   after_save :save_master
 
@@ -73,6 +74,11 @@ class Product < ActiveRecord::Base
   else
     named_scope :group_by_products_id, { :group => "products.id" }
   end
+
+
+  # truncate a list of results (TODO: move this into a superclass)
+  named_scope :limit, lambda {|n| {:limit => n}}
+
   # ----------------------------------------------------------------------------------------------------------
   #
   # The following methods are deprecated and will be removed in a future version of Spree
@@ -180,6 +186,13 @@ class Product < ActiveRecord::Base
   # their own definition.
   def deleted?
     deleted_at
+  end
+
+  # split variants list into hash which shows mapping of opt value onto matching variants
+  # eg categorise_variants_from_option(color) => {"red" -> [...], "blue" -> [...]}
+  def categorise_variants_from_option(opt_type)
+    return {} unless option_types.include?(opt_type)
+    variants.active.group_by {|v| v.option_values.detect {|o| o.option_type == opt_type} }
   end
 
   private

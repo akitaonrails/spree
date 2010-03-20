@@ -4,6 +4,8 @@ class PaymentGatewayExtension < Spree::Extension
   to use in the aplication."
 
   def activate  
+    require 'active_merchant'
+
     # Set the global "gateway mode" for active merchant (depending on what environment we're in)
     ActiveMerchant::Billing::Base.gateway_mode = :test unless ENV['RAILS_ENV'] == "production"
     # Mixin the payment_gateway method into the base controller so it can be accessed by the checkout process, etc.
@@ -14,7 +16,7 @@ class PaymentGatewayExtension < Spree::Extension
     
     silence_warnings { require 'active_merchant/billing/authorize_net_cim' }
     
-		#register all payment gateways
+		#register all payment methods
 		[
 			Gateway::Bogus,
       Gateway::AuthorizeNet,
@@ -22,12 +24,13 @@ class PaymentGatewayExtension < Spree::Extension
       Gateway::Linkpoint,
 			Gateway::PayPal,
 			Gateway::Protx,
-			Gateway::Beanstream
+			Gateway::Beanstream,
+			PaymentMethod::Check
     ].each{|gw|
       begin
         gw.register  
       rescue Exception => e
-        $stderr.puts "Error registering gateway #{c_model}"
+        $stderr.puts "Error registering gateway #{gw}: #{e}"
       end
     }
 

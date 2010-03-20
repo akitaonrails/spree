@@ -7,13 +7,14 @@ require File.expand_path(File.dirname(__FILE__) + "/../vendor/extensions/payment
 class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
+  fixtures :all
 end
 
 I18n.locale = "en-US"
 Spree::Config.set(:default_country_id => Country.first.id) if Country.first
 
 class ActionController::TestCase
-    setup :activate_authlogic
+  setup :activate_authlogic
 end
 
 ActionController::TestCase.class_eval do
@@ -58,6 +59,8 @@ def create_complete_order
 
   @checkout.ship_address = Factory(:address)
   @checkout.shipping_method = @shipping_method
+
+  @checkout.payments = [Factory(:payment, :amount => @order.total)]
   @checkout.save
 
   @shipment = @order.shipment
@@ -77,16 +80,6 @@ def create_complete_order
   @order
 end
 
-def add_capturable_card(order)
-  @creditcard = Factory(:creditcard)
-  @creditcard.update_attribute(:checkout, order.checkout)
-
-  Gateway::Bogus.create(:name => "Test Gateway", :active => true, :environment => "test")
-  @creditcard.txns.create(:amount => order.total, :txn_type => CreditcardTxn::TxnType::AUTHORIZE, :response_code => 12345)
-
-  order.reload
-end
-
 # Sets up an order with state 'new' with completed checkout and authorized payment
 def create_new_order
   create_complete_order
@@ -98,7 +91,7 @@ end
     
 def create_new_order_v2
   create_complete_order
-  @checkout.creditcard = Factory(:creditcard)
+  @checkout.payments = [Factory(:payment)]
   @checkout.state = "complete"
   @checkout.save
   @order.complete!
@@ -108,4 +101,11 @@ end
 def set_current_user
   @user = Factory(:user)
   @controller.stub!(:current_user, :return => @user)
+end
+
+def sort_list_hash(thing)
+  thing.map(&:sort).sort
+end
+def assert_equal_list_hash(alpha,beta)
+  assert_equal(sort_list_hash(alpha), sort_list_hash(beta))
 end

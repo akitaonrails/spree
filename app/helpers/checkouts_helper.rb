@@ -1,7 +1,8 @@
 module CheckoutsHelper
 
   def checkout_progress
-    steps = Checkout.state_names.map do |state|
+    steps = Checkout.state_names.reject { |n| n == "complete" }.map do |state|
+      next if state == "confirm" and not Gateway.current.payment_profiles_supported?
       text = t("checkout_steps.#{state}")
 
       css_classes = []
@@ -9,7 +10,7 @@ module CheckoutsHelper
       state_index = Checkout.state_names.index(state)
 
       if state_index < current_index
-        css_classes <<'completed'
+        css_classes << 'completed'
         text = link_to text, edit_order_checkout_url(@order, :step => state)
       end
       
@@ -24,4 +25,12 @@ module CheckoutsHelper
     content_tag('ol', steps.join("\n"), :class => 'progress-steps', :id => "checkout-step-#{@checkout.state}") + '<br clear="left" />'
   end
   
+  def billing_firstname
+    @checkout.bill_address.firstname  rescue ''
+  end
+
+  def billing_lastname
+    @checkout.bill_address.lastname  rescue ''
+  end
+
 end

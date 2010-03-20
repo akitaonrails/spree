@@ -39,7 +39,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :countries, :has_many => :states, :only => :index
   map.resources :states, :only => :index
   map.resources :users
-  map.resources :products, :member => {:change_image => :post}
+  map.resources :products
   map.resources :orders, :member => {:address_info => :get}, :has_many => [:line_items, :creditcards, :creditcard_payments]
   map.resources :orders, :member => {:fatal_shipping => :get} do |order|
     order.resources :shipments, :member => {:shipping_method => :get}
@@ -85,15 +85,12 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource :mail_settings
     admin.resource :inventory_settings
     admin.resources :google_analytics
-    admin.resources :orders, :has_many => [:adjustments, :creditcards, :line_items], :has_one => :checkout, :member => {:fire => :put, :resend => :post, :history => :get} do |order|
+    admin.resources :orders, :has_many => [:adjustments, :line_items], :has_one => :checkout, :member => {:fire => :put, :resend => :post, :history => :get} do |order|
       order.resources :shipments, :member => {:fire => :put}
       order.resources :return_authorizations, :member => {:fire => :put}
     end
     admin.resources :orders do |order|
-      order.resources :payments
-      order.resources :creditcards do |creditcards|
-        creditcards.resources :creditcard_txns, :member => {:capture => :post, :void => :post, :refund => [:get,:post]}
-      end
+      order.resources :payments, :member => {:fire => :put, :finalize => :put}
     end
     admin.resource :general_settings
     admin.resources :taxonomies, :member => { :get_children => :get } do |taxonomy|
@@ -108,9 +105,9 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :tax_rates
     admin.resource  :tax_settings
     admin.resources :calculators
-    admin.resources :product_groups
-    admin.resources :billing_integrations    
+    admin.resources :product_groups, :has_many => :product_scopes
     admin.resources :trackers
+    admin.resources :payment_methods
   end
 
   map.connect ':controller/:action/:id.:format'
