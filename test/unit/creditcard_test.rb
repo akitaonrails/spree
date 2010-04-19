@@ -1,12 +1,14 @@
 require 'test_helper'
 
 class CreditcardTest < ActiveSupport::TestCase
-  fixtures :payment_methods
   
   context Creditcard do
     # NOTE: We want to test a real creditcard so we can't use the factory directly since it uses a hacked model to make 
     # testing easier.
-    setup { @creditcard = Creditcard.new(Factory.attributes_for(:creditcard)) }
+    setup do
+      Gateway.stub!(:current, :return => Gateway::Bogus.new) 
+      @creditcard = Creditcard.new(Factory.attributes_for(:creditcard))
+    end
   
     context "save when configured to store credit card info" do
       setup do 
@@ -44,11 +46,12 @@ class CreditcardTest < ActiveSupport::TestCase
   
   context "authorization success" do
     setup do
-      create_complete_order
-      @payment = Factory(:payment)
-      @creditcard = @payment.source
-      @order.checkout.payments << @payment
+      @order = Order.create!
+      @order.line_items << Factory(:line_item,:order=>@order,:price=>100, :quantity=>1)
+      @order.update_totals
+      @payment = Factory(:payment, :payable=>@order, :amount=>100)
 
+      @creditcard = @payment.source
       @creditcard.authorize(100, @payment)
       @authorization = @creditcard.authorization(@payment)
     end
@@ -99,10 +102,13 @@ class CreditcardTest < ActiveSupport::TestCase
   
   context "purchase success" do
     setup do
-      create_complete_order
-      @payment = Factory(:payment)
+      @order = Order.create!
+      @order.line_items << Factory(:line_item,:order=>@order,:price=>100, :quantity=>1)
+      @order.checkout.shipping_method = Factory(:shipping_method)
+      @order.save!
+
+      @payment = Factory(:payment, :payable=>@order, :amount=>100)
       @creditcard = @payment.source
-      @order.checkout.payments << @payment
       @creditcard.purchase(100, @payment)
     end
     should_change("CreditcardTxn.count", :by => 1) { CreditcardTxn.count }

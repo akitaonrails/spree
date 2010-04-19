@@ -24,7 +24,7 @@
           <% if inventory_unit.shipment == @shipment %>
             <%= t('included_in_this_shipment') %>
           <% elsif !inventory_unit.shipment_id.nil? %>
-            <%= t('included_in_other_shipment') %> - <%= link_to inventory_unit.shipment.number, edit_admin_order_shipment_url(inventory_unit.order, inventory_unit.shipment_id) %>
+            <%= t('included_in_other_shipment') %> - <%= link_to inventory_unit.shipment.number, edit_admin_order_shipment_url(inventory_unit.order, inventory_unit.shipment) %>
           <% end %>
         </td>
       </tr>
@@ -34,7 +34,7 @@
 
 <% hook :admin_shipment_form_address, locals do %>
   <% shipment_form.fields_for 'address' do |sa_form|  %>
-    <%= render :partial => 'admin/shared/address_form', :locals => {:f => sa_form, :name => t("shipping_address")} %>
+    <%= render :partial => 'admin/shared/address_form', :locals => {:f => sa_form, :name => t("shipping_address"), :use_billing => false} %>
   <% end %>
 <% end %>
 
