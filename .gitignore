@@ -3,6 +3,7 @@
 *~
 .#*
 .DS_Store
+.bundle
 .dotest
 .idea
 .loadpath
@@ -25,11 +26,8 @@ pkg
 public/assets
 public/attachments
 public/blank_iframe.html
-public/images
-public/javascripts
-public/stylesheets
 public/ckeditora
-spree.gemspec
+sandbox
 spree_dev
 spree_test
 tmp
@@ -42,3 +40,6 @@ var
 TAGS
 nbproject
 vendor/extensions/theme_default/app/stylesheets/*.css
+tags
+*.swp
+rerun.txt

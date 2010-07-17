@@ -1,0 +1,6 @@
+jQuery('#rules').append('<%= escape_javascript( render(:partial => 'admin/promotions/promotion_rule', :object => object) ) %>');
+jQuery('#<%= dom_id object %>').hide();
+jQuery('#<%= dom_id object %>').fadeIn();
+initProductRuleSourceField();
+jQuery('#<%= dom_id object %> .tokeninput.products').productPicker();
+jQuery('#<%= dom_id object %> .tokeninput.users').userPicker();
